@@ -1,4 +1,4 @@
-@prefix dqvp:    <https://w3id.org/odrl/profile/dataquality#> .
+@prefix dqvp:    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl#> .
 @prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
 @prefix dqv:     <http://www.w3.org/ns/dqv#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
@@ -14,7 +14,7 @@
 
 # ==============================================================================
 # ODRL Data Quality Validation Profile (DQVP)
-# IRI: https://w3id.org/odrl/profile/dataquality
+# IRI: https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl
 #
 # An ODRL 2.2 profile for expressing data quality constraints in data space
 # policies. Dimension taxonomy follows ISO/IEC 25012; metric grounding follows
@@ -23,9 +23,9 @@
 
 # Ontology declaration and SKOS Collection of profile concepts.
 
-<https://w3id.org/odrl/profile/dataquality>
+<https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl>
     a                   owl:Ontology, skos:Collection ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "ODRL Data Quality Validation Profile (DQVP)"@en ;
     dct:title           "ODRL Data Quality Validation Profile (DQVP)"@en ;
     dct:description     "An ODRL profile that introduces vocabulary for expressing data quality validation constraints in data space policies. Enables unambiguous compilation of quality policies to executable validation plans."@en ;
@@ -34,8 +34,6 @@
     owl:versionInfo     "0.1" ;
     skos:member         dqvp:QualityPolicy,
                         dqvp:DQConstraint,
-                        dqvp:QualityDuty,
-                        dqvp:allChecks,
                         dqvp:targetAttribute,
                         dqvp:targetAttributes,
                         dqvp:referenceStandard,
@@ -62,7 +60,7 @@
 
 # W3C Profile Vocabulary (PROF) declaration. DQVP is a profile of ODRL Core.
 
-<https://w3id.org/odrl/profile/dataquality/profile>
+<https://github.com/feed-upc/DQVP-position>
     a                   prof:Profile ;
     dct:title           "ODRL Data Quality Validation Profile (DQVP)"@en ;
     dct:description     "An ODRL profile for contractual data quality constraints in data spaces."@en ;
@@ -70,7 +68,7 @@
     prof:hasResource    [
         a prof:ResourceDescriptor ;
         dct:title    "DQVP OWL ontology (Turtle)"@en ;
-        prof:hasArtifact <https://w3id.org/odrl/profile/dataquality> ;
+        prof:hasArtifact <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
         prof:hasRole role:vocabulary ;
         dct:format   "text/turtle"
     ] ;
@@ -89,7 +87,7 @@
 
 dqvp:QualityPolicy
     a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:subClassOf     dqv:QualityPolicy ;
     rdfs:label          "Quality Policy"@en ;
     skos:definition     "A categorisation marking a policy as carrying data-quality constraints. Specialises dqv:QualityPolicy with prescriptive enforcement semantics. Intended to be co-typed with an ODRL policy subclass (Offer, Agreement, Request) so that quality terms are negotiated and ratified alongside access and usage terms." ;
@@ -103,58 +101,46 @@ dqvp:QualityPolicy
 
 dqvp:DQConstraint
     a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:subClassOf     odrl:Constraint ;
     rdfs:label          "Data Quality Constraint"@en ;
     skos:definition     "An odrl:Constraint that asserts a data-quality predicate over the content of a data asset (as opposed to its access/usage context). Specialises odrl:Constraint with the four DQVP constraint properties (targetAttribute, referenceStandard, conditionAttribute, conditionValues) and other metric-specific parameters." ;
     skos:note           "A DQConstraint MUST carry one odrl:leftOperand (a dqvp leftOperand term), one odrl:operator, and one odrl:rightOperand, in addition to the dqvp constraint properties required by its leftOperand." .
 
 
-# Duty subclass. Anchors the dqvp:allChecks grouping property.
-
-dqvp:QualityDuty
-    a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
-    rdfs:subClassOf     odrl:Duty ;
-    owl:disjointWith    odrl:Permission, odrl:Prohibition ;
-    rdfs:label          "Quality Duty"@en ;
-    skos:definition     "An odrl:Duty whose action is dqvp:validate and whose constraints are data-quality predicates. Carries a dqvp:allChecks group, the list of DQConstraints that must ALL pass for the duty to be discharged." ;
-    skos:note           "Use as: odrl:obligation [ a dqvp:QualityDuty ; odrl:action dqvp:validate ; dqvp:allChecks ( [...] [...] ) ]." .
-
-
 # ISO/IEC 25012 dimension instances, linked to leftOperands via dqv:inDimension.
 
 dqvp:Completeness
     a               dqv:Dimension, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label      "Completeness" ;
     skos:definition "ISO/IEC 25012 §4.2: The degree to which subject data has values for all expected attributes and related entity instances in a specific context of use." ;
     rdfs:seeAlso    iso25012: .
 
 dqvp:Compliance
     a               dqv:Dimension, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label      "Compliance" ;
     skos:definition "ISO/IEC 25012 §4.13: The degree to which data has attributes that adhere to standards, conventions or regulations in force and similar rules relating to data quality in a specific context of use." ;
     rdfs:seeAlso    iso25012: .
 
 dqvp:Consistency
     a               dqv:Dimension, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label      "Consistency" ;
     skos:definition "ISO/IEC 25012 §4.8: The degree to which data has attributes that are free from contradiction and are coherent with other data in a specific context of use." ;
     rdfs:seeAlso    iso25012: .
 
 dqvp:Accuracy
     a               dqv:Dimension, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label      "Accuracy" ;
     skos:definition "ISO/IEC 25012 §4.3: The degree to which data has attributes that correctly represent the true value of the intended attribute of a concept or event in a specific context of use." ;
     rdfs:seeAlso    iso25012: .
 
 dqvp:Currentness
     a               dqv:Dimension, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label      "Currentness" ;
     skos:definition "ISO/IEC 25012 §4.7: The degree to which data has attributes that are of the right age in a specific context of use." ;
     rdfs:seeAlso    iso25012: .
@@ -168,126 +154,140 @@ dqvp:Currentness
 
 dqvp:NonNullRate
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Non-Null Rate" ;
     skos:definition     "The percentage of non-null (non-missing) values for a target attribute. Computed as (1 - null_count / total_count) * 100." ;
     skos:note           "Requires dqvp:targetAttribute. rightOperand is a percentage (xsd:decimal, 0–100). ISO/IEC 25012: Completeness. Papastergios f-19." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Completeness .
 
 dqvp:RowCount
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Row Count" ;
     skos:definition     "The total number of rows (records) in a dataset or partition." ;
     skos:note           "No targetAttribute required (operates at table level). rightOperand is an integer count. ISO/IEC 25012: Completeness. Papastergios f-15." ;
+    dqv:expectedDataType  xsd:integer ;
     dqv:inDimension     dqvp:Completeness .
 
 dqvp:UniquenessRate
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Uniqueness Rate" ;
     skos:definition     "The percentage of rows where the value(s) of the target attribute(s) are unique across the dataset. Composite uniqueness is supported via dqvp:targetAttributes." ;
     skos:note           "Use dqvp:targetAttribute for single-column uniqueness; dqvp:targetAttributes (rdf:List) for composite keys. rightOperand is a percentage. ISO/IEC 25012: Completeness, Accuracy. Papastergios f-17." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Completeness .
 
 dqvp:DistinctCount
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Distinct Count" ;
     skos:definition     "The number of distinct (unique) values in a target attribute column." ;
     skos:note           "Requires dqvp:targetAttribute. rightOperand is an integer. ISO/IEC 25012: Completeness. Papastergios f-16." ;
+    dqv:expectedDataType  xsd:integer ;
     dqv:inDimension     dqvp:Completeness .
 
 # Accuracy / Compliance
 
 dqvp:ReferenceConformance
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Reference Conformance" ;
     skos:definition     "The percentage of values in a target attribute that conform to a specified reference standard or controlled vocabulary (e.g., ISO 3166 country codes, SNOMED CT)." ;
     skos:note           "Requires dqvp:targetAttribute and dqvp:referenceStandard (e.g., iso:3166-1 for country codes). rightOperand is a percentage. ISO/IEC 25012: Compliance, Accuracy. Papastergios f-01c." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Compliance .
 
 dqvp:PatternConformance
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Pattern Conformance" ;
     skos:definition     "The percentage of values in a target attribute that match a specified regular expression pattern." ;
     skos:note           "Requires dqvp:targetAttribute and dqvp:pattern. rightOperand is a percentage. ISO/IEC 25012: Accuracy, Compliance. Papastergios f-03." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 dqvp:RangeConformance
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Range Conformance" ;
     skos:definition     "The percentage of values in a target attribute that fall within a specified numeric range or allowed value set." ;
     skos:note           "Requires dqvp:targetAttribute. Use dqvp:lowerBound and dqvp:upperBound for ranges, or dqvp:allowedValues for sets. rightOperand is a percentage. ISO/IEC 25012: Accuracy. Papastergios f-01a, f-01c." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 # Currentness
 
 dqvp:Freshness
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Freshness" ;
     skos:definition     "The time elapsed (in minutes) since the most recent timestamp value in a target attribute, measured against the current system time." ;
     skos:note           "Requires dqvp:targetAttribute (must be a timestamp column). rightOperand is a duration in minutes (xsd:decimal). ISO/IEC 25012: Currentness. Papastergios f-04a." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Currentness .
 
 # Accuracy / Consistency (column-level)
 
 dqvp:DescriptiveStat
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Descriptive Statistic" ;
     skos:definition     "A descriptive statistical measure computed over a target attribute column. Supported statistics are specified via dqvp:statistic." ;
     skos:note           "Requires dqvp:targetAttribute and dqvp:statistic (one of: min, max, mean, median, std, variance, sum). rightOperand is a numeric threshold. ISO/IEC 25012: Accuracy, Consistency. Papastergios f-07." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 dqvp:DistributionDeviation
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Distribution Deviation" ;
     skos:definition     "The maximum percentage deviation of any category's observed frequency from the expected uniform distribution in a target attribute. A value of 0 indicates perfect uniformity." ;
     skos:note           "Requires dqvp:targetAttribute (categorical column). rightOperand is a percentage (maximum acceptable deviation). ISO/IEC 25012: Accuracy, Consistency. Papastergios f-13. Used for fairness checks." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 dqvp:Quantile
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Quantile" ;
     skos:definition     "The value at a specified quantile level of a target attribute's distribution." ;
     skos:note           "Requires dqvp:targetAttribute and dqvp:quantileLevel (xsd:decimal, 0.0–1.0). rightOperand is the expected quantile value. ISO/IEC 25012: Accuracy, Consistency. Papastergios f-14." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 # Consistency (row-level conditional)
 
 dqvp:NullRate
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Null Rate" ;
     skos:definition     "The percentage of null (missing) values for a target attribute, optionally over a subset of rows filtered by a condition. Enables conditional consistency checks (e.g., 'when gender=male, pregnancyHistory must be 100% null')." ;
     skos:note           "Requires dqvp:targetAttribute. For conditional checks: dqvp:conditionAttribute and dqvp:conditionValues. rightOperand is a percentage (xsd:decimal, 0-100). Replaces the use of a string literal 'NULL' as rightOperand. ISO/IEC 25012: Consistency. Papastergios f-05, f-06." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Consistency .
 
 # Accuracy (cross-dataset)
 
 dqvp:TableMatchRate
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Table Match Rate" ;
     skos:definition     "The fraction of values in a target attribute that match corresponding values in a reference dataset. Quantifies referential alignment between source and target tables." ;
     skos:note           "Requires dqvp:targetAttribute and dqvp:referenceDataset. Optionally dqvp:secondaryAttribute for column mapping. rightOperand is a fraction (0.0–1.0) or percentage. ISO/IEC 25012: Accuracy, Completeness. Papastergios f-11." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 # Accuracy (binary / relational)
 
 dqvp:Correlation
     a                   odrl:LeftOperand, owl:NamedIndividual, skos:Concept, dqv:Metric ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "Correlation" ;
     skos:definition     "The Pearson correlation coefficient between two numeric attributes in a dataset." ;
     skos:note           "Requires dqvp:targetAttribute (primary column) and dqvp:secondaryAttribute (secondary column). rightOperand is a correlation threshold (xsd:decimal, -1.0 to 1.0). ISO/IEC 25012: Accuracy, Consistency. Papastergios f-21." ;
+    dqv:expectedDataType  xsd:decimal ;
     dqv:inDimension     dqvp:Accuracy .
 
 
@@ -305,7 +305,7 @@ dqvp:Correlation
 
 dqvp:targetAttribute
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "target attribute" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdfs:Resource ;
@@ -314,7 +314,7 @@ dqvp:targetAttribute
 
 dqvp:targetAttributes
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "target attributes" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdf:List ;
@@ -323,7 +323,7 @@ dqvp:targetAttributes
 
 dqvp:referenceStandard
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "reference standard" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdfs:Resource ;
@@ -332,7 +332,7 @@ dqvp:referenceStandard
 
 dqvp:pattern
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "pattern" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:string ;
@@ -341,7 +341,7 @@ dqvp:pattern
 
 dqvp:statistic
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "statistic" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:string ;
@@ -350,7 +350,7 @@ dqvp:statistic
 
 dqvp:quantileLevel
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "quantile level" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:decimal ;
@@ -359,7 +359,7 @@ dqvp:quantileLevel
 
 dqvp:conditionAttribute
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "condition attribute" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdfs:Resource ;
@@ -368,7 +368,7 @@ dqvp:conditionAttribute
 
 dqvp:conditionValues
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "condition values" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:string ;
@@ -377,7 +377,7 @@ dqvp:conditionValues
 
 dqvp:secondaryAttribute
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "secondary attribute" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdfs:Resource ;
@@ -386,7 +386,7 @@ dqvp:secondaryAttribute
 
 dqvp:referenceDataset
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "reference dataset" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdfs:Resource ;
@@ -395,7 +395,7 @@ dqvp:referenceDataset
 
 dqvp:lowerBound
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "lower bound" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:decimal ;
@@ -403,7 +403,7 @@ dqvp:lowerBound
 
 dqvp:upperBound
     a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "upper bound" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          xsd:decimal ;
@@ -411,25 +411,11 @@ dqvp:upperBound
 
 dqvp:allowedValues
     a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     rdfs:label          "allowed values" ;
     rdfs:domain         dqvp:DQConstraint ;
     rdfs:range          rdf:List ;
     skos:definition     "An explicit list of allowed values for dqvp:RangeConformance (set-based variant)." .
-
-
-# ==============================================================================
-# Logical operator for multi-check composition
-# ==============================================================================
-
-dqvp:allChecks
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
-    rdfs:label          "all checks"@en ;
-    rdfs:domain         dqvp:QualityDuty ;
-    rdfs:range          rdf:List ;
-    skos:definition     "Groups multiple dqvp:DQConstraint instances that must ALL pass. Each item of the list is treated as if asserted via odrl:constraint on the parent QualityDuty, while the list shape lets a conformant planner share a single data-load across the group." ;
-    skos:note           "Range is rdf:List (head of an RDF collection of dqvp:DQConstraint instances), which is why this property is NOT declared rdfs:subPropertyOf odrl:constraint (whose range is odrl:Constraint, not rdf:List). A conformant DQVP processor MUST evaluate items reachable via dqvp:allChecks as equivalent to multiple odrl:constraint triples on the same QualityDuty." .
 
 
 # ==============================================================================
@@ -438,7 +424,7 @@ dqvp:allChecks
 
 dqvp:validate
     a                   odrl:Action, owl:NamedIndividual, skos:Concept ;
-    rdfs:isDefinedBy    <https://w3id.org/odrl/profile/dataquality> ;
+    rdfs:isDefinedBy    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     odrl:includedIn     odrl:transfer ;
     rdfs:label          "validate"@en ;
     skos:definition     "The action of evaluating an asset against the data-quality constraints carried by a Rule. Used as the odrl:action of a provider-side odrl:Duty, asserting that the assigning party must ensure the asset meets the contracted quality terms before the asset is offered to a consumer." ;

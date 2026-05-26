@@ -1,5 +1,5 @@
 @prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
-@prefix dqvp:  <https://w3id.org/odrl/profile/dataquality#> .
+@prefix dqvp:  <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl#> .
 @prefix tb:    <http://www.semanticweb.org/acraf/ontologies/2024/healthmesh/tbox#> .
 @prefix ab:    <http://www.semanticweb.org/acraf/ontologies/2024/healthmesh/abox#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .

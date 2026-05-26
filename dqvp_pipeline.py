@@ -11,14 +11,13 @@ from pathlib import Path
 from typing import Optional
 
 from rdflib import BNode, Graph, Literal, Namespace, RDF, URIRef
-from rdflib.collection import Collection
 
 logger = logging.getLogger(__name__)
 
 TB   = Namespace("http://www.semanticweb.org/acraf/ontologies/2024/healthmesh/tbox#")
 AB   = Namespace("http://www.semanticweb.org/acraf/ontologies/2024/healthmesh/abox#")
 ODRL = Namespace("http://www.w3.org/ns/odrl/2/")
-DQVP = Namespace("https://w3id.org/odrl/profile/dataquality#")
+DQVP = Namespace("https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl#")
 
 _ODRL_OP_MAP = {
     "at least": "odrl:gteq", "≥": "odrl:gteq", ">=": "odrl:gteq",
@@ -85,7 +84,7 @@ def build_dqvp_turtle(requirement: dict, template: dict = {}) -> str:
     right_turtle = f'"{right_val}"^^{right_type}' if right_type else f'"{right_val}"'
 
     lines = [
-        f"            [ a             dqvp:DQConstraint, odrl:Constraint ;",
+        f"            [ a dqvp:DQConstraint, odrl:Constraint ;",
         f"              odrl:leftOperand  {spec['leftOperand']} ;",
     ]
 
@@ -116,7 +115,7 @@ def build_dqvp_turtle(requirement: dict, template: dict = {}) -> str:
 
     return f"""\
 @prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
-@prefix dqvp:    <https://w3id.org/odrl/profile/dataquality#> .
+@prefix dqvp:    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix ab:      <https://w3id.org/ehds/patsum/attr/> .
 @prefix dp:      <https://w3id.org/ehds/patsum/asset/> .
@@ -128,21 +127,20 @@ dp:{dataset}      a odrl:Asset .
 ex:{req_id}-offer
     a dqvp:QualityPolicy, odrl:Offer ;
     odrl:uid      ex:{req_id}-offer ;
-    odrl:profile  <https://w3id.org/odrl/profile/dataquality> ;
+    odrl:profile  <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     odrl:assigner ex:EHDSAuthority ;
     odrl:obligation [
-        a             dqvp:QualityDuty, odrl:Duty ;
-        odrl:target   dp:{dataset} ;
-        odrl:action   dqvp:validate ;
-        dqvp:allChecks (
+        a            odrl:Duty ;
+        odrl:target  dp:{dataset} ;
+        odrl:action  dqvp:validate ;
+        odrl:constraint
 {constraint_block}
-        )
     ] .
 """
 
 
 def build_combined_dqvp_turtle(requirements: list, policy_id: str = "ps-dq-offer-01") -> str:
-    """Build a single dqvp:QualityPolicy with all DQRs in one dqvp:allChecks group."""
+    """Build a single dqvp:QualityPolicy with all DQRs as conjunctive odrl:constraint triples."""
     all_constraint_blocks = []
     dataset = "PatientSummary"
 
@@ -165,7 +163,7 @@ def build_combined_dqvp_turtle(requirements: list, policy_id: str = "ps-dq-offer
         right_turtle = f'"{right_val}"^^{right_type}' if right_type else f'"{right_val}"'
 
         lines = [
-            f"          [ a             dqvp:DQConstraint, odrl:Constraint ;",
+            f"          [ a dqvp:DQConstraint, odrl:Constraint ;",
             f"            odrl:leftOperand  {spec['leftOperand']} ;",
         ]
 
@@ -193,11 +191,12 @@ def build_combined_dqvp_turtle(requirements: list, policy_id: str = "ps-dq-offer
         ]
         all_constraint_blocks.append("\n".join(lines))
 
-    constraints = "\n".join(all_constraint_blocks)
+    # Comma-separates the bracketed constraint blocks for a single odrl:constraint property
+    constraints = " ,\n".join(all_constraint_blocks)
 
     return f"""\
 @prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
-@prefix dqvp:    <https://w3id.org/odrl/profile/dataquality#> .
+@prefix dqvp:    <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix ab:      <https://w3id.org/ehds/patsum/attr/> .
 @prefix dp:      <https://w3id.org/ehds/patsum/asset/> .
@@ -209,15 +208,14 @@ dp:{dataset}      a odrl:Asset .
 ex:{policy_id}
     a dqvp:QualityPolicy, odrl:Offer ;
     odrl:uid      ex:{policy_id} ;
-    odrl:profile  <https://w3id.org/odrl/profile/dataquality> ;
+    odrl:profile  <https://github.com/feed-upc/DQVP-position/blob/main/dq-profile.ttl> ;
     odrl:assigner ex:EHDSAuthority ;
     odrl:obligation [
-        a             dqvp:QualityDuty, odrl:Duty ;
-        odrl:target   dp:{dataset} ;
-        odrl:action   dqvp:validate ;
-        dqvp:allChecks (
+        a            odrl:Duty ;
+        odrl:target  dp:{dataset} ;
+        odrl:action  dqvp:validate ;
+        odrl:constraint
 {constraints}
-        )
     ] .
 """
 
@@ -248,9 +246,10 @@ def plan_dqvp(ttl_path: str, data_path: str,
     """
     Compile a DQVP Turtle policy into a tbox:Operation plan graph.
 
-    Flattens dqvp:allChecks RDF lists, bootstraps one PolicyChecker + LoadData
-    per dqvp:QualityPolicy, then runs EYE with the N3 rules in rules_dir.
-    Returns a skolemized graph with tbox:Operation nodes.
+    Bootstraps one PolicyChecker + LoadData per dqvp:QualityPolicy, then runs
+    EYE with the N3 rules in rules_dir. The N3 rules match standard
+    odrl:constraint triples on the obligation. Returns a skolemized graph
+    with tbox:Operation nodes.
     """
     if rules_dir is None:
         rules_dir = Path(__file__).parent / "rules_n3_dqvp"
@@ -264,13 +263,6 @@ def plan_dqvp(ttl_path: str, data_path: str,
 
     policy = Graph()
     policy.parse(ttl_path, format="turtle")
-
-    for policy_uri in policy.subjects(RDF.type, DQVP.QualityPolicy):
-        for obligation in policy.objects(policy_uri, ODRL.obligation):
-            head = policy.value(obligation, DQVP.allChecks)
-            if head:
-                for constraint in Collection(policy, head):
-                    policy.add((obligation, ODRL.constraint, constraint))
 
     bootstrap = Graph()
     data_lit  = Literal(data_path)
