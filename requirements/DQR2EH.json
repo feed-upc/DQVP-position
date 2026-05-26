@@ -1,0 +1,29 @@
+{
+  "id": "DQR2EH",
+  "goal": "Ensures data adheres to required formats",
+  "description": "Values of an attribute must follow a specific format",
+  "qualityDimension": {
+    "dimension": "Compliance",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {"dimension": "Compliance", "source": "ISO/IEC 25012", "primary": true},
+    {"dimension": "Accuracy",   "source": "ISO/IEC 25012"}
+  ],
+  "measurementConcept": "Validity",
+  "pattern": {
+    "id": "DQRP3",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "PatientIdentification",
+    "datasetName": "PatientSummary",
+    "attributeName": "PatientSummary.PatientSummaryHeader.PatientIdentification.countryOfAffiliation",
+    "standardName": "ISO 3166",
+    "percentageValue": "99"
+  },
+  "statement": "In the PatientIdentification entity, the countryOfAffiliation attribute must follow the ISO 3166\u00a0standard",
+  "sourceEntity": "EHDS Governance Authority",
+  "supportingMaterials": "Dataspace Rulebook (page 44)",
+  "history": "Created 28/01/2026"
+}

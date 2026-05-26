@@ -1,0 +1,29 @@
+{
+  "id": "DQR1EH",
+  "goal": "Supporting a required percentage of non-empty values of an attribute in an entity",
+  "description": "Values of an attribute must be mandatory",
+  "qualityDimension": {
+    "dimension": "Completeness",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {"dimension": "Completeness", "source": "ISO/IEC 25012", "primary": true},
+    {"dimension": "Accuracy",     "source": "ISO/IEC 25012"},
+    {"dimension": "Consistency",  "source": "ISO/IEC 25012"}
+  ],
+  "pattern": {
+    "id": "DQRP2",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "PatientIdentification",
+    "datasetName": "PatientSummary",
+    "attributeName": "nationalHealthcarePatientID",
+    "operator": "at least",
+    "percentageValue": "99"
+  },
+  "statement": "In the PatientIdentification entity, the nationalHealthcarePatientID attribute must contain at least 99 percent non-empty values",
+  "sourceEntity": "EHDS Governance Authority",
+  "supportingMaterials": "Dataspace Rulebook (page 40)",
+  "history": "Created 28/01/2026"
+}
