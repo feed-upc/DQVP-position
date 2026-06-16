@@ -1,0 +1,4 @@
+@prefix dp: <https://w3id.org/ehds/patsum/asset/> .
+@prefix pc: <https://feed-upc.github.io/DQVP-position/pc#> .
+# Data-product descriptor (deployment metadata, not the contract): format + locator.
+dp:PatientSummary pc:format "csv" ; pc:locator "../data/Patient_Summary.csv" .

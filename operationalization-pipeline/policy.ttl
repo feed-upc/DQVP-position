@@ -1,0 +1,50 @@
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix dqvp: <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ab:   <https://w3id.org/ehds/patsum/attr/> .
+@prefix dp:   <https://w3id.org/ehds/patsum/asset/> .
+@prefix ex:   <https://example.org/ehds/> .
+
+# DQVP v0.2 policy (synced with the paper, June 2026):
+#  * the provider OFFERS the asset for use UNDER quality conditions -> the DQRs are
+#    odrl:constraint on an odrl:Permission (no duty, no "validate" action);
+#  * B2 uses the typed dqvp:referenceStandard (operational params live at the PC layer).
+
+ex:DataProvider   a odrl:Party .
+dp:PatientSummary a odrl:Asset .
+
+ex:ps-dq-offer-01
+    a dqvp:QualityPolicy, odrl:Offer ;
+    odrl:profile  <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    odrl:assigner ex:DataProvider ;
+    odrl:permission [
+        a            odrl:Permission ;
+        odrl:target  dp:PatientSummary ;
+        odrl:action  odrl:use ;
+        odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency
+    ] .
+
+ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;   # B1
+    odrl:leftOperand     dqvp:NonNullRate ;
+    dqvp:targetAttribute ab:nationalHealthcarePatientID ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "99"^^xsd:decimal .
+
+ex:c-compliance a dqvp:DQConstraint ; rdfs:label "c-compliance" ;       # B1 + B2
+    odrl:leftOperand       dqvp:ReferenceConformance ;
+    dqvp:targetAttribute   ab:countryOfAffiliation ;
+    dqvp:referenceStandard <https://www.iso.org/iso-3166-country-codes.html> ;
+    odrl:operator          odrl:gteq ;
+    odrl:rightOperand      "80"^^xsd:decimal .
+
+ex:c-consistency a dqvp:DQConstraint ; rdfs:label "c-consistency" ;     # B1 + B3
+    odrl:leftOperand     dqvp:NullRate ;
+    dqvp:targetAttribute ab:pregnancyHistory ;
+    dqvp:filter [ a dqvp:RowFilter ;
+                  dqvp:filterAttribute ab:gender ;
+                  dqvp:filterOperator  odrl:eq ;
+                  dqvp:filterValue     "male" ] ;
+    odrl:operator        odrl:eq ;
+    odrl:rightOperand    "100"^^xsd:decimal .

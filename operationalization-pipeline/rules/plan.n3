@@ -1,0 +1,105 @@
+@prefix odrl:   <http://www.w3.org/ns/odrl/2/> .
+@prefix dqvp:   <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
+@prefix dqv:    <http://www.w3.org/ns/dqv#> .
+@prefix pc:     <https://feed-upc.github.io/DQVP-position/pc#> .
+@prefix log:    <http://www.w3.org/2000/10/swap/log#> .
+@prefix math:   <http://www.w3.org/2000/10/swap/math#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+
+# =============================================================================
+# DQVP policy  ->  Policy Checker (technology-agnostic workflow).
+#  * the PolicyChecker is a DISTINCT resource, pc:accordingTo the policy (#1)
+#  * every operation/artifact has a stable skolem IRI minted via log:uri (#1)
+#  * ONE shared Load feeds parallel per-check branches (#6)
+#  * operations/artifacts are TYPED with pc: classes (#3)
+#  * the skeleton is selected by the metric's pc:shape (#4)
+#  * only NEUTRAL parameters live here — no engine syntax (#2)
+# =============================================================================
+
+# ---- local name of an IRI, or a plain string passed through -----------------
+{ ?c dqvp:targetAttribute ?t . ?t log:rawType log:Literal . } => { ?c pc:col ?t } .
+{ ?c dqvp:targetAttribute ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?c pc:col ?l } .
+{ ?f dqvp:filterAttribute ?t . ?t log:rawType log:Literal . } => { ?f pc:fcol ?t } .
+{ ?f dqvp:filterAttribute ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?f pc:fcol ?l } .
+{ ?c a dqvp:DQConstraint ; rdfs:label ?id . } => { ?c pc:checkId ?id } .
+
+# ---- P1  PolicyChecker + ONE shared Load (per policy) -----------------------
+#   The provider offers the asset for use UNDER quality conditions: the DQRs are
+#   odrl:constraint on an odrl:Permission (no duty, no validate action).
+{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:target ?asset .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker" )        string:concatenation ?cks . ?chk  log:uri ?cks .
+  ( ?ps "/checker/wf" )     string:concatenation ?wfs . ?wf   log:uri ?wfs .
+  ( ?ps "/checker/load" )   string:concatenation ?lds . ?load log:uri ?lds .
+  ( ?ps "/checker/source" ) string:concatenation ?sgs . ?src  log:uri ?sgs .
+  ( ?ps "/checker/table" )  string:concatenation ?tbs . ?tbl  log:uri ?tbs . }
+=> { ?chk a pc:PolicyChecker ; pc:accordingTo ?pol ; pc:onAsset ?asset ; pc:hasWorkflow ?wf .
+     ?wf a pc:Workflow ; pc:hasOp ?load .
+     ?load a pc:Load ; pc:order 1 ; pc:input ?src ; pc:output ?tbl .
+     ?src a pc:Dataset ; pc:ofAsset ?asset .
+     ?tbl a pc:Table . } .
+
+# ---- Data-format binding: copy the asset's format + locator onto the source --
+{ ?src a pc:Dataset ; pc:ofAsset ?asset . ?asset pc:format ?f ; pc:locator ?l . }
+=> { ?src pc:format ?f ; pc:locator ?l } .
+
+# ---- P2  SCALAR-COLUMN branch: Filter -> Measure -> Compare -> Report -------
+{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col . ?m pc:shape pc:ScalarColumnShape .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
+  ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
+  ( ?cu "/measure" )   string:concatenation ?ms  . ?meas log:uri ?ms  .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?flt, ?meas, ?cmp, ?rep .
+     ?flt  a pc:Filter  ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl  ; pc:output ?ftbl . ?ftbl a pc:Table .
+     ?meas a pc:Measure ; pc:order 3 ; pc:forCheck ?c ; pc:metric ?m ; pc:input ?ftbl ; pc:output ?mval ;
+           pc:parameter [ pc:name "column" ; pc:value ?col ] . ?mval a pc:MeasureValue .
+     ?cmp  a pc:Compare ; pc:order 4 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd . ?vd a pc:Verdict .
+     ?rep  a pc:Report  ; pc:order 5 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc . ?rdoc a pc:ReportDoc . } .
+
+# ---- Compare parameters (operator symbols from config) ----------------------
+{ ?cmp a pc:Compare ; pc:forCheck ?c . ?c odrl:operator ?o ; odrl:rightOperand ?thr .
+  ?o pc:sqlSymbol ?sql ; pc:pySymbol ?py . }
+=> { ?cmp pc:parameter [ pc:name "threshold" ; pc:value ?thr ] ,
+                       [ pc:name "sqlOp" ; pc:value ?sql ] ,
+                       [ pc:name "pyOp"  ; pc:value ?py  ] . } .
+
+# ---- Derived neutral render-values on the Measure op ------------------------
+#  B1: mostly is computed for EVERY gteq (incl. threshold = 100 -> mostly = 1.0).
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:operator odrl:gteq ; odrl:rightOperand ?thr .
+  ( ?thr 100 ) math:quotient ?mm . }
+=> { ?meas pc:parameter [ pc:name "mostly" ; pc:value ?mm ] } .
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:rightOperand ?thr . ( 100 ?thr ) math:difference ?d . }
+=> { ?meas pc:parameter [ pc:name "complement" ; pc:value ?d ] } .
+
+# ---- Reference resolution: Resolve -> CodeList feeds Measure ----------------
+#   keyed on the typed contractual qualifier dqvp:referenceStandard (B2).
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?wf pc:hasOp ?meas .
+  ?c dqvp:referenceStandard ?std .
+  ?c log:uri ?cu .
+  ( ?cu "/resolve" ) string:concatenation ?rss . ?res   log:uri ?rss .
+  ( ?cu "/codes" )   string:concatenation ?cls . ?codes log:uri ?cls . }
+=> { ?wf pc:hasOp ?res .
+     ?res a pc:Resolve ; pc:order 0 ; pc:forCheck ?c ; pc:output ?codes ;
+          pc:parameter [ pc:name "referenceStandard" ; pc:value ?std ] . ?codes a pc:CodeList .
+     ?meas pc:input ?codes ; pc:parameter [ pc:name "needsCodes" ; pc:value true ] . } .
+
+# ---- Filter parameters (NEUTRAL only — engine syntax lives in the binder) ----
+#  B4: one filterValue parameter per value (sets are supported).
+{ ?flt a pc:Filter ; pc:forCheck ?c . ?c dqvp:filter ?f . ?f pc:fcol ?fc ; dqvp:filterValue ?fv . }
+=> { ?flt pc:parameter [ pc:name "filterColumn" ; pc:value ?fc ] ,
+                       [ pc:name "filterValue"  ; pc:value ?fv ] . } .
+
+#  B2: propagate the filter operator (local name; defaults to eq in the binder).
+{ ?flt a pc:Filter ; pc:forCheck ?c . ?c dqvp:filter ?f . ?f dqvp:filterOperator ?fo .
+  ?fo log:uri ?ou . ( ?ou "^.*[/#]([^/#]+)$" ) string:scrape ?ol . }
+=> { ?flt pc:parameter [ pc:name "filterOp" ; pc:value ?ol ] } .

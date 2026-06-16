@@ -1,0 +1,20 @@
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix dqvp: <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
+@prefix dqv:  <http://www.w3.org/ns/dqv#> .
+@prefix pc:   <https://feed-upc.github.io/DQVP-position/pc#> .
+
+# Data-driven config consumed by the generic rules.
+
+# Operator -> symbolic forms (add an operator => add a row, not a rule).
+odrl:gteq pc:sqlSymbol ">=" ; pc:pySymbol ">=" .
+odrl:lteq pc:sqlSymbol "<=" ; pc:pySymbol "<=" .
+odrl:eq   pc:sqlSymbol "="  ; pc:pySymbol "==" .
+odrl:gt   pc:sqlSymbol ">"  ; pc:pySymbol ">"  .
+odrl:lt   pc:sqlSymbol "<"  ; pc:pySymbol "<"  .
+odrl:neq  pc:sqlSymbol "<>" ; pc:pySymbol "!=" .
+
+# Metric -> workflow shape (the skeleton rule keys on this; adding a metric of an
+# existing shape needs no rule, only a template).
+dqvp:NonNullRate          pc:shape pc:ScalarColumnShape .
+dqvp:NullRate             pc:shape pc:ScalarColumnShape .
+dqvp:ReferenceConformance pc:shape pc:ScalarColumnShape .

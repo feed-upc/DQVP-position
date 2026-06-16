@@ -20,9 +20,9 @@
     "datasetName": "PatientSummary",
     "attributeName": "PatientSummary.PatientSummaryHeader.PatientIdentification.countryOfAffiliation",
     "standardName": "ISO 3166",
-    "percentageValue": "99"
+    "percentageValue": "80"
   },
-  "statement": "In the PatientIdentification entity, the countryOfAffiliation attribute must follow the ISO 3166\u00a0standard",
+  "statement": "In the PatientIdentification entity, the countryOfAffiliation attribute must follow the ISO 3166 standard in at least 80 percent of records",
   "sourceEntity": "EHDS Governance Authority",
   "supportingMaterials": "Dataspace Rulebook (page 44)",
   "history": "Created 28/01/2026"

@@ -1,0 +1,53 @@
+@prefix pc:   <https://feed-upc.github.io/DQVP-position/pc#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+# Policy Checker vocabulary (TBox). A Policy Checker is a technology-agnostic
+# validation plan: a Workflow of typed Operations wired by typed Artifacts.
+
+pc:PolicyChecker a rdfs:Class ; rdfs:label "Policy Checker" .
+pc:Workflow      a rdfs:Class ; rdfs:label "Workflow" .
+
+pc:Operation a rdfs:Class ; rdfs:label "Operation" .
+pc:Load    rdfs:subClassOf pc:Operation .
+pc:Filter  rdfs:subClassOf pc:Operation .
+pc:Resolve rdfs:subClassOf pc:Operation .
+pc:Measure rdfs:subClassOf pc:Operation .
+pc:Compare rdfs:subClassOf pc:Operation .
+pc:Report  rdfs:subClassOf pc:Operation .
+
+pc:Artifact a rdfs:Class ; rdfs:label "Data artifact (port)" .
+pc:Dataset      rdfs:subClassOf pc:Artifact .
+pc:Table        rdfs:subClassOf pc:Artifact .
+pc:CodeList     rdfs:subClassOf pc:Artifact .
+pc:MeasureValue rdfs:subClassOf pc:Artifact .
+pc:Verdict      rdfs:subClassOf pc:Artifact .
+pc:ReportDoc    rdfs:subClassOf pc:Artifact .
+
+# Metric shapes drive which skeleton rule builds the workflow.
+pc:Shape a rdfs:Class .
+pc:ScalarColumnShape a pc:Shape ; rdfs:label "scalar metric over one column" .
+pc:TableShape        a pc:Shape ; rdfs:label "metric over a whole table" .
+
+# Properties
+pc:accordingTo a owl:ObjectProperty ; rdfs:domain pc:PolicyChecker .   # -> dqvp:QualityPolicy
+pc:onAsset     a owl:ObjectProperty .
+pc:hasWorkflow a owl:ObjectProperty ; rdfs:domain pc:PolicyChecker ; rdfs:range pc:Workflow .
+pc:hasOp       a owl:ObjectProperty ; rdfs:domain pc:Workflow ; rdfs:range pc:Operation .
+# Operation in/out shape (after Hmimou et al.: OP has inputs and outputs).
+pc:input       a owl:ObjectProperty ; rdfs:domain pc:Operation ; rdfs:range pc:Artifact .
+pc:output      a owl:ObjectProperty ; rdfs:domain pc:Operation ; rdfs:range pc:Artifact .
+pc:forCheck    a owl:ObjectProperty .                                  # op -> dqvp:DQConstraint
+pc:metric      a owl:ObjectProperty .                                  # measure op -> dqv:Metric
+pc:order       a owl:DatatypeProperty .
+pc:parameter   a owl:ObjectProperty ; rdfs:domain pc:Operation .
+pc:name        a owl:DatatypeProperty .
+pc:value       a rdf:Property .
+pc:shape       a owl:ObjectProperty .                                  # dqv:Metric -> pc:Shape
+# Data-format dimension (after Hmimou et al.'s forType / technology aspect): the
+# Dataset input of Load carries the format + locator, so the load code is selected
+# per (engine, format) while the check code stays format-agnostic.
+pc:ofAsset     a owl:ObjectProperty .                                  # Dataset -> odrl asset
+pc:format      a owl:DatatypeProperty .                                # csv | json | parquet
+pc:locator     a owl:DatatypeProperty .                                # where to read the data
