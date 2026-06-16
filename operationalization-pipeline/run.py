@@ -1,4 +1,4 @@
-"""v5 end-to-end: distinct PolicyChecker, shared-load workflow, shape-driven,
+"""End-to-end: distinct PolicyChecker, shared-load workflow, shape-driven,
 neutral plan, DQV measurements. Implements analysis items 1-6."""
 import warnings; warnings.filterwarnings("ignore")
 from pathlib import Path
@@ -36,7 +36,7 @@ print("\n  -> artifacts/plan.ttl")
 bar("STAGE 2  workflow + templates.ttl --[1 generic Jinja binder]--> code (4 engines)")
 code = C.generate(plan)
 for e in sorted(code): print(f"  {e:7s}: {sorted(code[e])}")
-print("\n  c-consistency (B3 filter rendered by template, not in plan):")
+print("\n  c-consistency (filter rendered by template, not in plan):")
 print("    gx :", code["gx"]["c-consistency"])
 
 # write artifacts

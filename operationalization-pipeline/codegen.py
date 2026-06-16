@@ -1,10 +1,10 @@
-"""v5 codegen + execution + DQV measurements.
+"""Codegen + execution + DQV measurements.
 
 ONE generic binder over the workflow graph + graph-stored Jinja templates.
 Context = the parameters of the operations that carry pc:forCheck <check>.
-The filter clause is built once per check (operator- and set-aware, B3) and
+The filter clause is built once per check (operator- and set-aware) and
 injected as gxFilter/sqlFilter/sodaFilter. Reference standards are resolved by
-IRI (B2). Execution records dqv:QualityMeasurement on the MeasureValue.
+IRI. Execution records dqv:QualityMeasurement on the MeasureValue.
 """
 from __future__ import annotations
 
@@ -45,7 +45,7 @@ def eye(inputs, rules) -> Graph:
     g = Graph(); g.parse(data=p.stdout, format="n3"); return g
 
 
-# ---- reference-standard resolution (B2) ------------------------------------
+# ---- reference-standard resolution -----------------------------------------
 
 @functools.lru_cache(maxsize=8)
 def resolve_codes(iri) -> tuple:
@@ -123,7 +123,7 @@ def ref_standard(plan, c):
 
 
 def context_of(plan, c) -> dict:
-    """Flatten parameters of the check's operations; repeated names -> list (B3)."""
+    """Flatten parameters of the check's operations; repeated names -> list."""
     ctx = {"checkId": local(c)}
     for op in plan.subjects(PC.forCheck, c):
         for p in plan.objects(op, PC.parameter):
@@ -135,7 +135,7 @@ def context_of(plan, c) -> dict:
     return ctx
 
 
-# ---- filter clause: operator- and set-aware, one place (B3) ----------------
+# ---- filter clause: operator- and set-aware, one place ---------------------
 
 def _vals(ctx):
     v = ctx.get("filterValue")
@@ -246,7 +246,7 @@ def measurements_graph(plan, results):
     return g
 
 
-# ---- GX live execution; CODE_LIST resolved per check (B2) ------------------
+# ---- GX live execution; CODE_LIST resolved per check -----------------------
 
 def run_gx(code_gx, plan):
     import contextlib, io

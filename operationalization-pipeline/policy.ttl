@@ -7,10 +7,9 @@
 @prefix dp:   <https://w3id.org/ehds/patsum/asset/> .
 @prefix ex:   <https://example.org/ehds/> .
 
-# DQVP v0.2 policy (synced with the paper, June 2026):
-#  * the provider OFFERS the asset for use UNDER quality conditions -> the DQRs are
-#    odrl:constraint on an odrl:Permission (no duty, no "validate" action);
-#  * B2 uses the typed dqvp:referenceStandard (operational params live at the PC layer).
+# Example DQVP policy: the provider offers the asset for use UNDER quality conditions,
+# so the DQRs are odrl:constraint on an odrl:Permission (no duty, no "validate" action).
+# The reference-standard check uses the typed dqvp:referenceStandard property.
 
 ex:DataProvider   a odrl:Party .
 dp:PatientSummary a odrl:Asset .
@@ -26,20 +25,20 @@ ex:ps-dq-offer-01
         odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency
     ] .
 
-ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;   # B1
+ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
     odrl:leftOperand     dqvp:NonNullRate ;
     dqvp:targetAttribute ab:nationalHealthcarePatientID ;
     odrl:operator        odrl:gteq ;
     odrl:rightOperand    "99"^^xsd:decimal .
 
-ex:c-compliance a dqvp:DQConstraint ; rdfs:label "c-compliance" ;       # B1 + B2
+ex:c-compliance a dqvp:DQConstraint ; rdfs:label "c-compliance" ;
     odrl:leftOperand       dqvp:ReferenceConformance ;
     dqvp:targetAttribute   ab:countryOfAffiliation ;
     dqvp:referenceStandard <https://www.iso.org/iso-3166-country-codes.html> ;
     odrl:operator          odrl:gteq ;
     odrl:rightOperand      "80"^^xsd:decimal .
 
-ex:c-consistency a dqvp:DQConstraint ; rdfs:label "c-consistency" ;     # B1 + B3
+ex:c-consistency a dqvp:DQConstraint ; rdfs:label "c-consistency" ;
     odrl:leftOperand     dqvp:NullRate ;
     dqvp:targetAttribute ab:pregnancyHistory ;
     dqvp:filter [ a dqvp:RowFilter ;

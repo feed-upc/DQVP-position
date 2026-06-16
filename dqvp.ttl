@@ -1,170 +1,195 @@
-@prefix dqvp:    <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
-@prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
-@prefix dqv:     <http://www.w3.org/ns/dqv#> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix dct:     <http://purl.org/dc/terms/> .
-@prefix prof:    <http://www.w3.org/ns/dx/prof/> .
-@prefix role:    <http://www.w3.org/ns/dx/prof/role/> .
+@prefix dqvp:     <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
+@prefix odrl:     <http://www.w3.org/ns/odrl/2/> .
+@prefix dqv:      <http://www.w3.org/ns/dqv#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix prof:     <http://www.w3.org/ns/dx/prof/> .
+@prefix role:     <http://www.w3.org/ns/dx/prof/role/> .
+@prefix vann:     <http://purl.org/vocab/vann/> .
+@prefix sw:       <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix iso25012: <https://www.iso.org/standard/35736.html#> .
 
-# ODRL Data Quality Validation Profile (DQVP) — v0.2
-# Three constructs resolve the three ODRL barriers to data-quality constraints:
-#   B1 column identity   -> dqvp:targetAttribute
-#   B2 parameter arity   -> dqvp:referenceStandard
-#   B3 conditional logic -> dqvp:filter / dqvp:RowFilter
-# Metrics (odrl:leftOperand, co-typed dqv:Metric) are an open class.
+# ------------ Ontology metadata ------------------ #
 
 <https://feed-upc.github.io/DQVP-position/dqvp.ttl>
-    a                   owl:Ontology, skos:Collection ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "ODRL Data Quality Validation Profile (DQVP)"@en ;
-    dct:title           "ODRL Data Quality Validation Profile (DQVP)"@en ;
-    dct:description     "A minimal ODRL 2.2 profile adding three tool-grounded constructs (targetAttribute, referenceStandard, filter) that resolve the column-identity, multi-parameter-arity and conditional-logic barriers, enabling data-quality constraints to be expressed in a conformant policy and compiled to executable validation across heterogeneous DQ engines."@en ;
-    dct:created         "2026-05-15"^^xsd:date ;
-    dct:modified        "2026-06-15"^^xsd:date ;
-    dct:creator         "Achraf Hmimou" ;
-    owl:versionInfo     "0.2" ;
-    skos:member         dqvp:QualityPolicy,
-                        dqvp:DQConstraint,
-                        dqvp:targetAttribute,
-                        dqvp:referenceStandard,
-                        dqvp:filter, dqvp:RowFilter,
-                        dqvp:filterAttribute, dqvp:filterOperator, dqvp:filterValue,
-                        dqvp:NonNullRate, dqvp:ReferenceConformance, dqvp:NullRate,
-                        dqvp:Completeness, dqvp:Compliance, dqvp:Consistency .
+    a                 owl:Ontology, prof:Profile ;
+    prof:isProfileOf  <http://www.w3.org/ns/odrl/2/core> ;
+    prof:hasResource  dqvp:dqvp-vocab ;
+    dcterms:title     "ODRL Profile for Data Quality Validation (DQVP)"@en ;
+    rdfs:label        "ODRL Profile for Data Quality Validation (DQVP)"@en ;
+    vann:preferredNamespacePrefix "dqvp" ;
+    vann:preferredNamespaceUri     "https://feed-upc.github.io/DQVP-position/dqvp.ttl#"^^xsd:string ;
+    owl:versionInfo   "0.2"^^xsd:string ;
+    owl:versionIRI    <https://feed-upc.github.io/DQVP-position/dqvp.ttl/0.2> ;
+    dcterms:created   "2026-05-15"^^xsd:date ;
+    dcterms:modified  "2026-06-16"^^xsd:date ;
+    dcterms:creator   "Achraf Hmimou" ;
+    dcterms:publisher "Universitat Politècnica de Catalunya" ;
+    dcterms:description "A minimal extension of ODRL 2.2 for expressing data-quality constraints inside a conformant policy. A Data Quality Constraint reuses the ODRL leftOperand/operator/rightOperand triple and adds three properties: targetAttribute (the column a metric applies to), referenceStandard (an external standard to validate against) and filter (a row-selection predicate). Quality metrics are an open class grounded in ISO/IEC 25012 dimensions via DQV."@en ;
+    rdfs:comment      "RDF vocabulary for the ODRL Profile for Data Quality Validation (DQVP)."@en ;
+    dcterms:source    <http://www.w3.org/ns/odrl/2/>, <http://www.w3.org/ns/dqv#> ;
+    dcterms:license   <https://creativecommons.org/licenses/by/4.0/> ;
+    sw:term_status    "unstable"@en .
 
-<https://feed-upc.github.io/DQVP-position/dqvp.ttl#profile>
-    a                   prof:Profile ;
-    dct:title           "ODRL Data Quality Validation Profile (DQVP)"@en ;
-    prof:isProfileOf    <http://www.w3.org/ns/odrl/2/core> ;
-    prof:hasResource    [
-        a prof:ResourceDescriptor ;
-        dct:title    "DQVP OWL ontology (Turtle)"@en ;
-        prof:hasArtifact <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-        prof:hasRole role:vocabulary ;
-        dct:format   "text/turtle"
-    ] ;
-    dct:publisher       "Universitat Politècnica de Catalunya" ;
-    owl:versionInfo     "0.2" .
+dqvp:dqvp-vocab a prof:ResourceDescriptor ;
+    prof:hasRole       role:vocabulary ;
+    prof:hasArtifact   <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dcterms:title      "DQVP Turtle vocabulary"@en ;
+    dcterms:format     <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dcterms:conformsTo <https://www.w3.org/TR/turtle/> .
 
+<https://feed-upc.github.io/DQVP-position/dqvp.ttl#>
+    a              skos:Collection ;
+    skos:prefLabel "DQVP profile concepts"@en ;
+    skos:member    dqvp:QualityPolicy, dqvp:DQConstraint,
+                   dqvp:targetAttribute, dqvp:referenceStandard,
+                   dqvp:filter, dqvp:RowFilter,
+                   dqvp:filterAttribute, dqvp:filterOperator, dqvp:filterValue,
+                   dqvp:NonNullRate, dqvp:ReferenceConformance, dqvp:NullRate,
+                   dqvp:Completeness, dqvp:Compliance, dqvp:Consistency .
 
-# --- Structural anchors ---
+# ------------ Policy and constraint classes ------------------ #
 
-dqvp:QualityPolicy
-    a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:subClassOf     dqv:QualityPolicy ;
-    rdfs:label          "Quality Policy"@en ;
-    skos:definition     "A categorisation marking a policy as carrying data-quality constraints. Specialises dqv:QualityPolicy with prescriptive enforcement semantics. Co-typed with an ODRL policy subclass (Offer, Agreement, Request) — not rdfs:subClassOf odrl:Policy, whose subclasses are mutually disjoint — so quality terms are negotiated alongside access and usage terms." .
+dqvp:QualityPolicy a rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:subClassOf  dqv:QualityPolicy ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Quality Policy"@en ;
+    rdfs:comment     "A policy that carries data-quality constraints on an asset."@en ;
+    skos:definition  "A policy that carries data-quality constraints on an asset."@en ;
+    skos:note        "Co-typed with an ODRL policy subclass (e.g. odrl:Offer or odrl:Agreement) on the same resource, rather than declared rdfs:subClassOf odrl:Policy whose subclasses are mutually disjoint. It specialises dqv:QualityPolicy so that quality terms are negotiated alongside access and usage terms."@en .
 
-dqvp:DQConstraint
-    a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:subClassOf     odrl:Constraint ;
-    rdfs:label          "Data Quality Constraint"@en ;
-    skos:definition     "An odrl:Constraint that asserts a data-quality predicate over the content of a data asset." ;
-    skos:note           "Reuses the native ODRL triple — odrl:leftOperand (the quality metric, a dqv:Metric), odrl:operator and odrl:rightOperand (the comparator and threshold on the measured value) — and adds the three DQVP constructs as needed: dqvp:targetAttribute (B1), dqvp:referenceStandard (B2), dqvp:filter (B3), all optional. Placed as odrl:constraint on a rule (typically a Permission to use the asset); checking it is a system task, not a contract action. DQVP defines no 'validate' action." .
+dqvp:DQConstraint a rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:subClassOf  odrl:Constraint ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Data Quality Constraint"@en ;
+    rdfs:comment     "An odrl:Constraint that asserts a data-quality predicate over the content of an asset."@en ;
+    skos:definition  "An odrl:Constraint that asserts a data-quality predicate over the content of an asset."@en ;
+    skos:note        "Reuses the native odrl:leftOperand (a quality metric, typed dqv:Metric), odrl:operator and odrl:rightOperand (the threshold on the measured value), and adds dqvp:targetAttribute, dqvp:referenceStandard and dqvp:filter as required by the metric. It is placed as an odrl:constraint on a rule; evaluating it is the task of an ODRL processor, not a contractual action."@en ;
+    skos:example '''<https://example.org/c1> a dqvp:DQConstraint ;
+    odrl:leftOperand     dqvp:NonNullRate ;
+    dqvp:targetAttribute <https://example.org/attr/patientId> ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "99"^^xsd:decimal .'''@en .
 
+# ------------ Constraint properties ------------------ #
 
-# --- Constraint constructs (B1–B3) ---
+dqvp:targetAttribute a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:label       "target attribute"@en ;
+    rdfs:comment     "The attribute (column) of the target asset that a metric is computed over."@en ;
+    skos:definition  "The attribute (column) of the target asset that a metric is computed over."@en ;
+    skos:note        "An IRI or a column-name string literal. It MAY be stated more than once for multi-column metrics, and is omitted for table-level metrics such as a row count."@en .
 
-dqvp:targetAttribute
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "target attribute" ;
-    rdfs:domain         dqvp:DQConstraint ;
-    rdfs:range          rdfs:Resource ;
-    skos:definition     "An attribute (column) of the target asset that the quality metric is computed over, as an IRI or column-name string. Repeatable for composite or multi-column metrics; omitted for table-level metrics." ;
-    skos:note           "Resolves B1. Generalises the per-column slot in GX (column), dbt (column-scoped tests), SodaCL (metric(column)), Deequ (.hasX) and pandera (Column)." .
+dqvp:referenceStandard a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:label       "reference standard"@en ;
+    rdfs:comment     "An external standard or controlled vocabulary that the target attribute's values are validated against."@en ;
+    skos:definition  "An external standard or controlled vocabulary that the target attribute's values are validated against."@en ;
+    skos:note        "Identified by an IRI, for example ISO 3166 country codes or SNOMED CT. It is used with dqvp:ReferenceConformance, where odrl:rightOperand carries the conformance threshold."@en .
 
-dqvp:referenceStandard
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "reference standard" ;
-    rdfs:domain         dqvp:DQConstraint ;
-    rdfs:range          rdfs:Resource ;
-    skos:definition     "The IRI of an external standard or controlled vocabulary the target attribute's values are validated against (e.g., ISO 3166 country codes, SNOMED CT)." ;
-    skos:note           "Resolves B2 for conformance checks; required by dqvp:ReferenceConformance. odrl:rightOperand stays the threshold. Generalises the reference value-set slot of GX (value_set), dbt (accepted_values), SodaCL (valid values) and Deequ (isContainedIn)." .
+dqvp:filter a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:range       dqvp:RowFilter ;
+    rdfs:label       "filter"@en ;
+    rdfs:comment     "A row-selection predicate applied before the metric is computed."@en ;
+    skos:definition  "A row-selection predicate applied before the metric is computed."@en ;
+    skos:note        "Comparable to a SQL WHERE clause. A constraint MAY carry several filters, which are conjunctive."@en ;
+    skos:example '''<https://example.org/c3> a dqvp:DQConstraint ;
+    odrl:leftOperand     dqvp:NullRate ;
+    dqvp:targetAttribute <https://example.org/attr/pregnancyHistory> ;
+    dqvp:filter [ a dqvp:RowFilter ;
+                  dqvp:filterAttribute <https://example.org/attr/gender> ;
+                  dqvp:filterOperator  odrl:eq ;
+                  dqvp:filterValue     "male" ] ;
+    odrl:operator        odrl:eq ;
+    odrl:rightOperand    "100"^^xsd:decimal .'''@en .
 
-dqvp:filter
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "filter" ;
-    rdfs:domain         dqvp:DQConstraint ;
-    rdfs:range          dqvp:RowFilter ;
-    skos:definition     "A row-selection predicate applied before the metric is computed (a SQL WHERE). Repeatable; multiple filters conjoin." ;
-    skos:note           "Resolves B3. Generalises the pre-check row filter in GX (row_condition), dbt (where:), SodaCL (filter:) and Deequ (.where())." .
+dqvp:RowFilter a rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Row Filter"@en ;
+    rdfs:comment     "A predicate over one attribute that restricts the rows a check runs on."@en ;
+    skos:definition  "A predicate over one attribute that restricts the rows a check runs on, carrying its own attribute, operator and value(s)."@en .
 
-dqvp:RowFilter
-    a                   rdfs:Class, owl:Class, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "Row Filter" ;
-    skos:definition     "A predicate over one attribute that restricts the rows a check runs on, carrying its own attribute, operator and value(s)." .
+dqvp:filterAttribute a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:RowFilter ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:label       "filter attribute"@en ;
+    rdfs:comment     "The attribute (column) the filter tests."@en ;
+    skos:definition  "The attribute (column) the filter tests."@en .
 
-dqvp:filterAttribute
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "filter attribute" ;
-    rdfs:domain         dqvp:RowFilter ;
-    rdfs:range          rdfs:Resource ;
-    skos:definition     "The attribute (column) the filter tests." .
+dqvp:filterOperator a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:RowFilter ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:label       "filter operator"@en ;
+    rdfs:comment     "The comparator the filter applies, an odrl:Operator."@en ;
+    skos:definition  "The comparator the filter applies, an odrl:Operator (e.g. odrl:eq, odrl:isAnyOf, odrl:gt)."@en ;
+    skos:note        "Defaults to odrl:eq when omitted."@en .
 
-dqvp:filterOperator
-    a                   rdf:Property, owl:ObjectProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "filter operator" ;
-    rdfs:domain         dqvp:RowFilter ;
-    rdfs:range          rdfs:Resource ;
-    skos:definition     "The comparator the filter applies (an odrl:Operator, e.g., odrl:eq, odrl:isAnyOf, odrl:gt). Defaults to odrl:eq." .
+dqvp:filterValue a rdf:Property, owl:DatatypeProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:RowFilter ;
+    rdfs:range       xsd:string ;
+    rdfs:label       "filter value"@en ;
+    rdfs:comment     "A value the filter attribute is compared against."@en ;
+    skos:definition  "A value the filter attribute is compared against."@en ;
+    skos:note        "It MAY be repeated for set-membership filters."@en .
 
-dqvp:filterValue
-    a                   rdf:Property, owl:DatatypeProperty, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "filter value" ;
-    rdfs:domain         dqvp:RowFilter ;
-    rdfs:range          xsd:string ;
-    skos:definition     "A value the filter attribute is compared against. Repeatable for set-membership filters." .
+# ------------ Quality metrics (open class) ------------------ #
 
+dqvp:NonNullRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Completeness ;
+    rdfs:label       "Non-Null Rate"@en ;
+    rdfs:comment     "Percentage of non-null values for the target attribute."@en ;
+    skos:definition  "Percentage of non-null values for the target attribute, in the range 0 to 100."@en ;
+    skos:note        "Used as an odrl:leftOperand; odrl:rightOperand is a percentage threshold."@en .
 
-# --- Metrics (open class) and ISO/IEC 25012 dimensions ---
+dqvp:ReferenceConformance a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Compliance ;
+    rdfs:label       "Reference Conformance"@en ;
+    rdfs:comment     "Percentage of values in the target attribute that conform to a reference standard."@en ;
+    skos:definition  "Percentage of values in the target attribute that conform to an external reference standard, in the range 0 to 100."@en ;
+    skos:note        "Requires dqvp:referenceStandard; odrl:rightOperand is a percentage threshold."@en .
+
+dqvp:NullRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Null Rate"@en ;
+    rdfs:comment     "Percentage of null values for the target attribute."@en ;
+    skos:definition  "Percentage of null values for the target attribute, optionally over a filtered subset of rows, in the range 0 to 100."@en ;
+    skos:note        "The numeric complement of dqvp:NonNullRate; defined separately because it is grounded in the Consistency dimension and expresses 'must be absent' checks. odrl:rightOperand is a percentage threshold."@en .
+
+# ------------ ISO/IEC 25012 dimensions ------------------ #
 
 dqvp:Completeness a dqv:Dimension, skos:Concept ;
-    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ; rdfs:label "Completeness" ;
-    skos:definition "ISO/IEC 25012: degree to which subject data has values for all expected attributes and related entity instances in a specific context of use." ;
-    rdfs:seeAlso iso25012: .
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Completeness"@en ;
+    rdfs:comment     "ISO/IEC 25012 Completeness dimension."@en ;
+    skos:definition  "ISO/IEC 25012: degree to which subject data has values for all expected attributes and related entity instances in a specific context of use."@en ;
+    rdfs:seeAlso     iso25012: .
+
 dqvp:Compliance a dqv:Dimension, skos:Concept ;
-    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ; rdfs:label "Compliance" ;
-    skos:definition "ISO/IEC 25012: degree to which data has attributes that adhere to standards, conventions or regulations in force in a specific context of use." ;
-    rdfs:seeAlso iso25012: .
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Compliance"@en ;
+    rdfs:comment     "ISO/IEC 25012 Compliance dimension."@en ;
+    skos:definition  "ISO/IEC 25012: degree to which data has attributes that adhere to standards, conventions or regulations in force in a specific context of use."@en ;
+    rdfs:seeAlso     iso25012: .
+
 dqvp:Consistency a dqv:Dimension, skos:Concept ;
-    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ; rdfs:label "Consistency" ;
-    skos:definition "ISO/IEC 25012: degree to which data has attributes that are free from contradiction and are coherent with other data in a specific context of use." ;
-    rdfs:seeAlso iso25012: .
-
-dqvp:NonNullRate
-    a                   odrl:LeftOperand, dqv:Metric, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "Non-Null Rate" ;
-    skos:definition     "Percentage of non-null values for the target attribute. rightOperand is a percentage threshold (0–100)." ;
-    skos:note           "Uses B1. ISO/IEC 25012: Completeness. Papastergios f-19." ;
-    dqv:inDimension     dqvp:Completeness .
-
-dqvp:ReferenceConformance
-    a                   odrl:LeftOperand, dqv:Metric, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "Reference Conformance" ;
-    skos:definition     "Percentage of values in the target attribute that conform to an external reference standard. rightOperand is a percentage threshold." ;
-    skos:note           "Uses B1 and B2 (dqvp:referenceStandard). ISO/IEC 25012: Compliance. Papastergios f-01." ;
-    dqv:inDimension     dqvp:Compliance .
-
-dqvp:NullRate
-    a                   odrl:LeftOperand, dqv:Metric, skos:Concept ;
-    rdfs:isDefinedBy    <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
-    rdfs:label          "Null Rate" ;
-    skos:definition     "Percentage of null values for the target attribute, optionally over a filtered subset of rows. rightOperand is a percentage threshold." ;
-    skos:note           "Uses B1 and, for conditional checks, B3 (filter). ISO/IEC 25012: Consistency. Papastergios f-19/f-05." ;
-    dqv:inDimension     dqvp:Consistency .
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Consistency"@en ;
+    rdfs:comment     "ISO/IEC 25012 Consistency dimension."@en ;
+    skos:definition  "ISO/IEC 25012: degree to which data has attributes that are free from contradiction and are coherent with other data in a specific context of use."@en ;
+    rdfs:seeAlso     iso25012: .

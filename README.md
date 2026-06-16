@@ -9,13 +9,13 @@ From Policy to Validation*.
 
 [`dqvp.ttl`](dqvp.ttl) — namespace `https://feed-upc.github.io/DQVP-position/dqvp.ttl#`.
 
-Three constructs, one per structural barrier to expressing DQ rules in plain ODRL:
+Three constructs added on top of an ODRL constraint:
 
-| Barrier | Construct |
+| Construct | Purpose |
 |---|---|
-| B1 — column identity | `dqvp:targetAttribute` |
-| B2 — parameter arity | `dqvp:referenceStandard` |
-| B3 — conditional logic | `dqvp:filter` / `dqvp:RowFilter` |
+| `dqvp:targetAttribute` | the column a metric applies to |
+| `dqvp:referenceStandard` | an external standard to validate against |
+| `dqvp:filter` / `dqvp:RowFilter` | a row-selection predicate |
 
 Metrics (`odrl:leftOperand`, co-typed `dqv:Metric`, grounded in ISO/IEC 25012 dimensions)
 are an open class.

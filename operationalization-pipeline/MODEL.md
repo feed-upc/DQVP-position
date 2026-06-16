@@ -89,7 +89,7 @@ Mapping rules (all generic — none names a metric or engine):
 | `odrl:operator` (via `config.ttl`) | Compare-params | `sqlOp`,`pyOp` on `Compare` |
 | rate + `gteq`, `<100` | derived | `mostly = threshold/100` on `Measure` |
 | any threshold | derived | `complement = 100 − threshold` on `Measure` |
-| `dqvp:referenceStandard` (B2) | Resolve | `Resolve`→`CodeList`, `Measure input CodeList` |
+| `dqvp:referenceStandard` | Resolve | `Resolve`→`CodeList`, `Measure input CodeList` |
 | `dqvp:filter` | Filter-params | neutral `filterColumn`/`filterValue` on `Filter` |
 
 ## 4. Code generation (Jinja bind = graph transformation)
@@ -158,7 +158,7 @@ flowchart LR
   M -- "pc:metric" --> MET["dqvp:NonNullRate (dqv:Metric)"]
 ```
 
-## 6. Why it scales
+## 6. Extensibility
 
 | Change | What you edit | Rules touched |
 |---|---|---|

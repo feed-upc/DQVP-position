@@ -3,7 +3,7 @@
 
 # Code templates as graph data (Jinja). The plan stays technology-agnostic;
 # templates own engine syntax. The filter clause is computed once by the binder
-# (honouring operator + value sets, B3) and injected as {{gxFilter}} /
+# (honouring operator + value sets) and injected as {{gxFilter}} /
 # {{sqlFilter}} / {{sodaFilter}}. One generic binder renders any (engine, metric).
 
 #### Great Expectations ####
