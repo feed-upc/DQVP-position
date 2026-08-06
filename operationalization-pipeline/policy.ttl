@@ -6,13 +6,15 @@
 @prefix ab:   <https://w3id.org/ehds/patsum/attr/> .
 @prefix dp:   <https://w3id.org/ehds/patsum/asset/> .
 @prefix ex:   <https://example.org/ehds/> .
+@prefix enc:  <https://w3id.org/ehds/encounter/attr/> .
 
 # Example DQVP policy: the provider offers the asset for use UNDER quality conditions,
 # so the DQRs are odrl:constraint on an odrl:Permission (no duty, no "validate" action).
 # The reference-standard check uses the typed dqvp:referenceStandard property.
 
 ex:DataProvider   a odrl:Party .
-dp:PatientSummary a odrl:Asset .
+dp:PatientSummary   a odrl:Asset .
+dp:EncounterSummary a odrl:Asset .
 
 ex:ps-dq-offer-01
     a dqvp:QualityPolicy, odrl:Offer ;
@@ -24,6 +26,15 @@ ex:ps-dq-offer-01
         odrl:action  odrl:use ;
         odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency,
                         ex:c-uniqueness, ex:c-volume, ex:c-crossborder, ex:c-percountry
+    ] ;
+    # A second rule, on a second asset, expressed as a DUTY: the provider is
+    # OBLIGED to keep encounter records complete, rather than being permitted to
+    # share them if they are. Same compilation path, different deontic force.
+    odrl:duty [
+        a            odrl:Duty ;
+        odrl:target  dp:EncounterSummary ;
+        odrl:action  odrl:use ;
+        odrl:constraint ex:c-enc-discharge, ex:c-enc-id
     ] .
 
 ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
@@ -86,3 +97,19 @@ ex:c-percountry a dqvp:DQConstraint ; rdfs:label "c-percountry" ;
     dqvp:groupBy         ab:countryOfAffiliation ;
     odrl:operator        odrl:gteq ;
     odrl:rightOperand    "95"^^xsd:decimal .
+
+# =============================================================================
+# Encounter Summary — a second asset, reached through an odrl:Duty.
+# =============================================================================
+
+ex:c-enc-discharge a dqvp:DQConstraint ; rdfs:label "c-enc-discharge" ;
+    odrl:leftOperand     dqvp:NonNullRate ;
+    dqvp:targetAttribute enc:dischargeDate ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "99"^^xsd:decimal .
+
+ex:c-enc-id a dqvp:DQConstraint ; rdfs:label "c-enc-id" ;
+    odrl:leftOperand     dqvp:UniqueRate ;
+    dqvp:targetAttribute enc:encounterId ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "100"^^xsd:decimal .

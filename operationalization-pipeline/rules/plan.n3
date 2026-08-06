@@ -28,18 +28,45 @@
 { ?c dqvp:groupBy ?t . ?t log:rawType log:Literal . } => { ?c pc:gcol ?t } .
 { ?c dqvp:groupBy ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?c pc:gcol ?l } .
 
-# ---- P1  PolicyChecker + ONE shared Load (per policy) -----------------------
-#   The provider offers the asset for use UNDER quality conditions: the DQRs are
-#   odrl:constraint on an odrl:Permission (no duty, no validate action).
-{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:target ?asset .
+# ---- Rule-type abstraction --------------------------------------------------
+#   Quality conditions can be attached to any deontic rule, not only a
+#   permission. A duty ("the provider is obliged to maintain 99% completeness")
+#   is the framing that makes ODRL worth using over a schema file, so the
+#   skeletons key on pc:hasRule rather than on odrl:permission.
+{ ?pol a dqvp:QualityPolicy ; odrl:permission ?r . } => { ?pol pc:hasRule ?r . ?r pc:ruleType odrl:Permission } .
+{ ?pol a dqvp:QualityPolicy ; odrl:duty ?r . }       => { ?pol pc:hasRule ?r . ?r pc:ruleType odrl:Duty } .
+{ ?pol a dqvp:QualityPolicy ; odrl:obligation ?r . } => { ?pol pc:hasRule ?r . ?r pc:ruleType odrl:Obligation } .
+
+#   Prohibitions are deliberately NOT compiled. A DQ constraint on a permission
+#   or duty asserts a condition that must hold; on a prohibition the intended
+#   polarity is ambiguous - "this metric must not exceed X" is already
+#   expressible by inverting the operator, so a prohibition would either
+#   duplicate that or mean the constraint must be VIOLATED. Flag it in the plan
+#   rather than dropping it silently.
+{ ?pol a dqvp:QualityPolicy ; odrl:prohibition ?r . ?r odrl:constraint ?c .
+  ?c a dqvp:DQConstraint . }
+=> { ?c pc:unsupportedRuleType odrl:Prohibition } .
+
+# ---- Asset local name, used to mint one workflow per asset ------------------
+{ ?r odrl:target ?asset . ?asset log:uri ?au .
+  ( ?au "^.*[/#]([^/#]+)$" ) string:scrape ?al . }
+=> { ?asset pc:localName ?al } .
+
+# ---- P1  ONE PolicyChecker per policy, ONE Workflow per asset ---------------
+#   The checker is the compiled form of the agreement and carries
+#   pc:accordingTo. The workflow is the executable unit: it has a single Load
+#   and a single Table, so it cannot span assets, and it is the artifact that
+#   gets dispatched to wherever the asset lives.
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset .
+  ?asset pc:localName ?al .
   ?pol log:uri ?ps .
-  ( ?ps "/checker" )        string:concatenation ?cks . ?chk  log:uri ?cks .
-  ( ?ps "/checker/wf" )     string:concatenation ?wfs . ?wf   log:uri ?wfs .
-  ( ?ps "/checker/load" )   string:concatenation ?lds . ?load log:uri ?lds .
-  ( ?ps "/checker/source" ) string:concatenation ?sgs . ?src  log:uri ?sgs .
-  ( ?ps "/checker/table" )  string:concatenation ?tbs . ?tbl  log:uri ?tbs . }
-=> { ?chk a pc:PolicyChecker ; pc:accordingTo ?pol ; pc:onAsset ?asset ; pc:hasWorkflow ?wf .
-     ?wf a pc:Workflow ; pc:hasOp ?load .
+  ( ?ps "/checker" )         string:concatenation ?cks . ?chk  log:uri ?cks .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf   log:uri ?wfs .
+  ( ?wfs "/load" )           string:concatenation ?lds . ?load log:uri ?lds .
+  ( ?wfs "/source" )         string:concatenation ?sgs . ?src  log:uri ?sgs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl  log:uri ?tbs . }
+=> { ?chk a pc:PolicyChecker ; pc:accordingTo ?pol ; pc:hasWorkflow ?wf .
+     ?wf a pc:Workflow ; pc:onAsset ?asset ; pc:hasOp ?load .
      ?load a pc:Load ; pc:order 1 ; pc:input ?src ; pc:output ?tbl .
      ?src a pc:Dataset ; pc:ofAsset ?asset .
      ?tbl a pc:Table . } .
@@ -49,11 +76,12 @@
 => { ?src pc:format ?f ; pc:locator ?l } .
 
 # ---- P2  SCALAR-COLUMN branch: Filter -> Measure -> Compare -> Report -------
-{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
   ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col . ?m pc:shape pc:ScalarColumnShape .
   ?pol log:uri ?ps .
-  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
-  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
   ?c log:uri ?cu .
   ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
   ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
@@ -117,11 +145,12 @@
 # ---- P3  TABLE branch: Filter -> Measure(no column) -> Compare -> Report ----
 #  A table-level metric has no dqvp:targetAttribute: it is a property of the
 #  dataset, not of a column. Same skeleton as P2 minus the "column" parameter.
-{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
   ?c a dqvp:DQConstraint ; odrl:leftOperand ?m . ?m pc:shape pc:TableShape .
   ?pol log:uri ?ps .
-  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
-  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
   ?c log:uri ?cu .
   ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
   ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
@@ -141,12 +170,13 @@
 # ---- P4  PAIR-COLUMN branch: same skeleton, two column parameters ----------
 #  Resolves the multi-attribute arity barrier: the Measure carries both the
 #  target column and the compared column, so the engine template can relate them.
-{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
   ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col ; pc:col2 ?col2 .
   ?m pc:shape pc:PairColumnShape .
   ?pol log:uri ?ps .
-  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
-  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
   ?c log:uri ?cu .
   ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
   ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .

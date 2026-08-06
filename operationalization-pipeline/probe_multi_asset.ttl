@@ -1,0 +1,41 @@
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix dqvp: <https://feed-upc.github.io/DQVP-position/dqvp.ttl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ab:   <https://w3id.org/ehds/patsum/attr/> .
+@prefix dp:   <https://w3id.org/ehds/patsum/asset/> .
+@prefix ex:   <https://example.org/probe/> .
+
+dp:AssetOne a odrl:Asset .
+dp:AssetTwo a odrl:Asset .
+
+ex:multi a dqvp:QualityPolicy ;
+    odrl:permission ex:permA, ex:permB ;
+    odrl:duty        ex:dutyA ;
+    odrl:prohibition ex:prohA .
+
+# two DQ constraints on ONE asset  (multi-constraint within a rule)
+ex:permA a odrl:Permission ; odrl:target dp:AssetOne ; odrl:action odrl:use ;
+    odrl:constraint ex:k1, ex:k2 .
+# a SECOND rule on a DIFFERENT asset
+ex:permB a odrl:Permission ; odrl:target dp:AssetTwo ; odrl:action odrl:use ;
+    odrl:constraint ex:k3 .
+# non-permission rule types
+ex:dutyA a odrl:Duty ; odrl:target dp:AssetOne ; odrl:constraint ex:k4 .
+ex:prohA a odrl:Prohibition ; odrl:target dp:AssetOne ; odrl:constraint ex:k5 .
+
+ex:k1 a dqvp:DQConstraint ; rdfs:label "k1-permA-assetOne" ;
+    odrl:leftOperand dqvp:NonNullRate ; dqvp:targetAttribute ab:a1 ;
+    odrl:operator odrl:gteq ; odrl:rightOperand "99"^^xsd:decimal .
+ex:k2 a dqvp:DQConstraint ; rdfs:label "k2-permA-assetOne" ;
+    odrl:leftOperand dqvp:UniqueRate ; dqvp:targetAttribute ab:a2 ;
+    odrl:operator odrl:gteq ; odrl:rightOperand "100"^^xsd:decimal .
+ex:k3 a dqvp:DQConstraint ; rdfs:label "k3-permB-assetTWO" ;
+    odrl:leftOperand dqvp:NonNullRate ; dqvp:targetAttribute ab:a3 ;
+    odrl:operator odrl:gteq ; odrl:rightOperand "95"^^xsd:decimal .
+ex:k4 a dqvp:DQConstraint ; rdfs:label "k4-DUTY" ;
+    odrl:leftOperand dqvp:NonNullRate ; dqvp:targetAttribute ab:a4 ;
+    odrl:operator odrl:gteq ; odrl:rightOperand "90"^^xsd:decimal .
+ex:k5 a dqvp:DQConstraint ; rdfs:label "k5-PROHIBITION" ;
+    odrl:leftOperand dqvp:NullRate ; dqvp:targetAttribute ab:a5 ;
+    odrl:operator odrl:eq ; odrl:rightOperand "100"^^xsd:decimal .

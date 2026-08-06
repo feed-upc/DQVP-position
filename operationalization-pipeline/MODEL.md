@@ -1,8 +1,19 @@
 # DQVP → Policy Checker → Code: the model
 
 This documents the refactored pipeline (analysis items 1–6): a distinct, technology-agnostic
-**Policy Checker** modelled as a typed dataflow **workflow** with stable IRIs, a single shared
-`Load` feeding parallel per-check branches, shape-driven skeletons, and DQV provenance of results.
+**Policy Checker** modelled as typed dataflow **workflows** with stable IRIs, shape-driven
+skeletons, and DQV provenance of results.
+
+Three levels, because two different things were previously conflated:
+
+| Level | Cardinality | Why |
+|---|---|---|
+| `pc:PolicyChecker` | one per **policy** | the compiled form of an agreement; carries `pc:accordingTo`, and is what an aggregate verdict reports on |
+| `pc:Workflow` | one per **asset** | the executable unit: a single `Load` and a single `Table`, so it cannot span assets, and it is dispatchable to wherever the asset lives |
+| branch | one per **constraint** | `Filter → Measure → Compare → Report` |
+
+The asset partitions the dataflow, not the contract. Anything that reads bytes belongs to a
+workflow; anything negotiated, versioned or reported on belongs to the checker.
 
 ## 1. Architecture (layers)
 
@@ -28,11 +39,15 @@ flowchart LR
 Semantics live in N3 (`policy → plan`). Code generation is data: graph-stored Jinja templates
 bound by one generic binder. Only mechanical steps (resolve code list, assemble, execute) are Python.
 
-## 2. The Policy Checker graph (one shared Load, parallel branches)
+## 2. The Policy Checker graph (one workflow per asset, parallel branches within each)
 
 `pc:PolicyChecker` is a **distinct** resource `pc:accordingTo` the policy; every operation and
 artifact has a **stable skolem IRI**; operations are **typed** (`pc:Load`/`Filter`/…); artifacts
 are typed ports wired by `pc:input`/`pc:output` (the OP input→output shape, after Hmimou et al.). The Load operation has a `Dataset` input carrying `pc:format` + `pc:locator`.
+
+Workflow IRIs are minted per asset (`…/checker/wf/<AssetLocalName>`) and `pc:onAsset` sits on
+the **workflow**, not the checker. A policy whose rules address several assets therefore yields
+one checker with several workflows, each loading only its own data.
 
 ```mermaid
 flowchart TD
@@ -84,7 +99,7 @@ Mapping rules (all generic — none names a metric or engine):
 
 | Contract element | Rule | Plan result |
 |---|---|---|
-| `dqvp:QualityPolicy` + permission target | P1 | `pc:PolicyChecker` + shared `Load`→`Table` |
+| `dqvp:QualityPolicy` + any rule's target | P1 | `pc:PolicyChecker` + one `Workflow` per asset, each with `Load`→`Table` |
 | `DQConstraint`, metric `pc:shape ScalarColumnShape` | P2 | `Filter→Measure→Compare→Report` branch (skolem IRIs) |
 | `odrl:operator` (via `config.ttl`) | Compare-params | `sqlOp`,`pyOp` on `Compare` |
 | rate + `gteq`, `<100` | derived | `mostly = threshold/100` on `Measure` |
@@ -175,5 +190,16 @@ artifacts are written to `artifacts/plan.ttl` and `artifacts/measurements.ttl`.
 
 - PyDeequ has no native row filter, so the conditional check (`c-consistency`) carries an
   explicit note rather than emitting a silently-wrong constraint.
-- The plan assumes a single permission/asset and carries parameters as strings.
+- Quality conditions are read from `odrl:permission`, `odrl:duty` and `odrl:obligation`. A duty is
+  the framing that makes ODRL worth using over a schema file — the provider is *obliged* to hold a
+  quality level, rather than merely *permitted* to share data that meets it.
+- **Prohibitions are deliberately not compiled.** On a permission or duty a DQ constraint asserts a
+  condition that must hold; on a prohibition the polarity is ambiguous — "this metric must not
+  exceed X" is already expressible by inverting the operator, so compiling one would either
+  duplicate that or mean the constraint must be *violated*. Constraints reached only through a
+  prohibition are marked `pc:unsupportedRuleType` in the plan and reported by `run.py`, rather than
+  silently dropped.
+- A constraint IRI is assumed to belong to one rule: branch IRIs are minted from the constraint, so
+  sharing one constraint across rules targeting different assets would collide.
+- The plan carries parameters as strings.
 - SQL identifiers are not escaped; reference-standard resolution is wired for ISO 3166 only.

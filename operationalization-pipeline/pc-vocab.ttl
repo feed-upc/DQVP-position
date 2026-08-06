@@ -55,3 +55,13 @@ pc:locator     a owl:DatatypeProperty .                                # where t
 # v0.3: a metric relating two columns of the same record.
 pc:PairColumnShape a pc:Shape ; rdfs:label "scalar metric over a pair of columns" .
 pc:isPercentage a owl:DatatypeProperty ; rdfs:domain pc:Shape .   # metric -> boolean
+
+# v0.4: a PolicyChecker is the compiled form of one policy - the contractual
+# unit. Its Workflows are the executable units, one per asset, because a
+# dataflow has a single Table and an asset must be dispatchable to where it
+# physically lives. pc:onAsset therefore belongs to the Workflow, not the
+# checker; pc:hasWorkflow was always unconstrained in cardinality.
+pc:hasRule  a owl:ObjectProperty ; rdfs:domain pc:PolicyChecker .  # policy -> any ODRL rule
+pc:ruleType a owl:ObjectProperty .                                 # rule -> odrl:Permission | odrl:Duty | odrl:Obligation
+pc:localName a owl:DatatypeProperty .                              # asset -> IRI local name, used to mint per-asset IRIs
+pc:unsupportedRuleType a owl:ObjectProperty .                      # constraint -> rule type the planner will not compile

@@ -2,3 +2,4 @@
 @prefix pc: <https://feed-upc.github.io/DQVP-position/pc#> .
 # Data-product descriptor (deployment metadata, not the contract): format + locator.
 dp:PatientSummary pc:format "csv" ; pc:locator "../data/Patient_Summary.csv" .
+dp:EncounterSummary pc:format "csv" ; pc:locator "../data/Encounter_Summary.csv" .

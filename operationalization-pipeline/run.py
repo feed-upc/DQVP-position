@@ -17,21 +17,26 @@ bar("STAGE 1  policy --[EYE plan.n3 + vocab + config]--> Policy Checker (one wor
 plan = C.build_plan()
 plan.serialize(destination=str(ART / "plan.ttl"), format="turtle")
 chk = next(plan.subjects(RDF.type, PC.PolicyChecker))
-wf  = plan.value(chk, PC.hasWorkflow)
 print(f"  PolicyChecker {C.local(chk)}  accordingTo {C.local(plan.value(chk, PC.accordingTo))}")
-print(f"  shared Load -> Table, then per-check branches:\n")
+print(f"  one Workflow per asset; within each, a shared Load feeds parallel branches:\n")
 def _branch(op):
     c = plan.value(op, PC.forCheck)
     return C.local(c) if c else "·shared"
 def _opkind(op):
     return C.local(next(x for x in plan.objects(op, RDF.type) if x != PC.Operation))
-ops = sorted(plan.objects(wf, PC.hasOp),
-             key=lambda o: (_branch(o), int(plan.value(o, PC.order))))
-for op in ops:
-    cons = [C.local(x) for x in plan.objects(op, PC.input)]
-    prod = [C.local(x) for x in plan.objects(op, PC.output)]
-    print(f"    {_branch(op):16s} {_opkind(op):8s} {cons} -> {prod}")
-print("\n  -> artifacts/plan.ttl")
+for wf, asset in C.workflows(plan):
+    print(f"    Workflow on {C.local(asset)}")
+    ops = sorted(plan.objects(wf, PC.hasOp),
+                 key=lambda o: (_branch(o), int(plan.value(o, PC.order))))
+    for op in ops:
+        cons = [C.local(x) for x in plan.objects(op, PC.input)]
+        prod = [C.local(x) for x in plan.objects(op, PC.output)]
+        print(f"      {_branch(op):16s} {_opkind(op):8s} {cons} -> {prod}")
+    print()
+skipped = [C.local(c) for c in plan.subjects(PC.unsupportedRuleType, None)]
+if skipped:
+    print(f"    not compiled (unsupported rule type): {', '.join(sorted(skipped))}\n")
+print("  -> artifacts/plan.ttl")
 
 bar("STAGE 2  workflow + templates.ttl --[1 generic Jinja binder]--> code (4 engines)")
 code = C.generate(plan)
@@ -41,23 +46,31 @@ print("    gx :", code["gx"]["c-consistency"])
 
 # write artifacts
 import contextlib
-(ART / "checks_sodacl.yml").write_text(C.assemble_sodacl(code["sodacl"]))
+(ART / "checks_sodacl.yml").write_text(C.assemble_sodacl(code["sodacl"], plan))
 for cid, sql in code["dbt"].items(): (ART / f"dbt_{cid}.sql").write_text(sql + "\n")
 
 bar("STAGE 3  execute + record dqv:QualityMeasurement (provenance, #5)")
 results = C.execute(plan)
 meas = C.measurements_graph(plan, results)
 meas.serialize(destination=str(ART / "measurements.ttl"), format="turtle")
-gx_res = C.run_gx(code["gx"], plan)
-print(f"  {'check':16s} {'measured':>10s}  {'verdict':8s} {'GX':6s} agree?")
-print("  " + "-" * 52)
+try:                                  # cross-check against a second engine
+    gx_res = C.run_gx(code["gx"], plan)
+except NotImplementedError as e:      # e.g. an incompatible great_expectations
+    gx_res = None
+    print(f"  GX cross-check skipped — {e}\n")
+
+hdr = f"  {'check':16s} {'measured':>10s}  {'verdict':8s}"
+print(hdr + (f" {'GX':6s} agree?" if gx_res else ""))
+print("  " + "-" * (len(hdr) + (14 if gx_res else 0)))
 for cid in sorted(results):
     v, ok = results[cid]
     verd = "—" if ok is None else ("SAT" if ok else "VIOL")
-    g = "PASS" if gx_res[cid] else "FAIL"
-    agree = "yes" if (ok is None or ok == gx_res[cid]) else "NO!"
     mv = "—" if v is None else f"{v:10.4f}"
-    print(f"  {cid:16s} {mv}  {verd:8s} {g:6s} {agree}")
+    tail = ""
+    if gx_res:
+        g = "PASS" if gx_res[cid] else "FAIL"
+        tail = f" {g:6s} " + ("yes" if (ok is None or ok == gx_res[cid]) else "NO!")
+    print(f"  {cid:16s} {mv}  {verd:8s}{tail}")
 print("\n  measurements -> artifacts/measurements.ttl")
 print("  artifacts:", ", ".join(p.name for p in sorted(ART.iterdir())))
 print("done.")

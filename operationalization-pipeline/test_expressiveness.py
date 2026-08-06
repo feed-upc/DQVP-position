@@ -51,29 +51,43 @@ def build_plan():
 
     pol = EX["ps-dq-offer-01"]
     base = str(pol)
-    chk, wf = URIRef(f"{base}/checker"), URIRef(f"{base}/checker/wf")
-    load, src_, tbl = (URIRef(f"{base}/checker/load"), URIRef(f"{base}/checker/source"),
-                       URIRef(f"{base}/checker/table"))
-
-    asset = g.value(g.value(pol, ODRL.permission), ODRL.target)
+    chk = URIRef(f"{base}/checker")
     g.add((chk, RDF.type, PC.PolicyChecker))
     g.add((chk, PC.accordingTo, pol))
-    g.add((chk, PC.onAsset, asset))
-    g.add((chk, PC.hasWorkflow, wf))
-    g.add((wf, RDF.type, PC.Workflow))
-    g.add((wf, PC.hasOp, load))
-    g.add((load, RDF.type, PC.Load))
-    g.add((load, PC.input, src_))
-    g.add((load, PC.output, tbl))
-    g.add((src_, RDF.type, PC.Dataset))
-    g.add((tbl, RDF.type, PC.Table))
-    # data-format binding: copy the asset's format + locator onto the source
-    for p in (PC["format"], PC.locator):
-        v = g.value(asset, p)
-        if v is not None:
-            g.add((src_, p, v))
+
+    # One rule may be a permission, a duty or an obligation; each names its own
+    # asset, and each asset gets its own workflow with its own Load and Table.
+    rules = [r for prop in (ODRL.permission, ODRL.duty, ODRL.obligation)
+             for r in g.objects(pol, prop)]
+    tbl_of, constraint_asset = {}, {}
+    for r in rules:
+        asset = g.value(r, ODRL.target)
+        al = C.local(asset)
+        wf = URIRef(f"{base}/checker/wf/{al}")
+        load, src_, tbl = (URIRef(f"{wf}/load"), URIRef(f"{wf}/source"), URIRef(f"{wf}/table"))
+        g.add((chk, PC.hasWorkflow, wf))
+        g.add((wf, RDF.type, PC.Workflow))
+        g.add((wf, PC.onAsset, asset))
+        g.add((wf, PC.hasOp, load))
+        g.add((load, RDF.type, PC.Load))
+        g.add((load, PC.input, src_))
+        g.add((load, PC.output, tbl))
+        g.add((src_, RDF.type, PC.Dataset))
+        g.add((src_, PC.ofAsset, asset))
+        g.add((tbl, RDF.type, PC.Table))
+        for prop in (PC["format"], PC.locator):
+            v = g.value(asset, prop)
+            if v is not None:
+                g.add((src_, prop, v))
+        tbl_of[wf] = tbl
+        for c in g.objects(r, ODRL.constraint):
+            constraint_asset[c] = wf
 
     for c in g.subjects(RDF.type, DQVP.DQConstraint):
+        wf = constraint_asset.get(c)
+        if wf is None:            # e.g. carried by a prohibition
+            continue
+        tbl = tbl_of[wf]
         cu = str(c)
         metric = g.value(c, ODRL.leftOperand)
         shape = g.value(metric, PC.shape)
@@ -153,7 +167,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all seven constraints produced a branch", len(ids), 7)
+check("all nine constraints produced a branch", len(ids), 9)
 
 print()
 print("=" * 74)
@@ -194,6 +208,18 @@ for cid in ["c-uniqueness", "c-volume", "c-crossborder", "c-percountry"]:
         body = code[e].get(cid)
         print(f"    {e:7s}: {body.splitlines()[0] if body else '(no template)'}"
               if body else f"    {e:7s}: (no template)")
+
+check("both assets got their own workflow", len(C.workflows(plan)), 2)
+check("patient check routed to patient_summary",
+      C.sql_table(C.asset_of_check(plan, EX["c-completeness"])), "patient_summary")
+check("encounter check routed to encounter_summary",
+      C.sql_table(C.asset_of_check(plan, EX["c-enc-discharge"])), "encounter_summary")
+check("dbt addresses the encounter relation",
+      "encounter_summary" in code["dbt"]["c-enc-discharge"], True)
+check("dbt addresses the patient relation",
+      "patient_summary" in code["dbt"]["c-completeness"], True)
+check("a duty-borne constraint compiles",
+      res["c-enc-discharge"][1] is not None, True)
 
 check("uniqueness generated for all 4 engines", len([e for e in code if "c-uniqueness" in code[e]]), 4)
 check("row count generated for all 4 engines", len([e for e in code if "c-volume" in code[e]]), 4)

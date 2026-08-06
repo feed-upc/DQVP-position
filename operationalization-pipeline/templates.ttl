@@ -16,11 +16,11 @@ tmpl:gx_nr tmpl:engine "gx" ; tmpl:metric dqvp:NullRate ;
 
 #### dbt singular tests ({% raw %} guards dbt's own {{ source }}) ####
 tmpl:dbt_nn tmpl:engine "dbt" ; tmpl:metric dqvp:NonNullRate ;
-  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(\"{{column}}\")/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(\"{{column}}\")/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:dbt_rc tmpl:engine "dbt" ; tmpl:metric dqvp:ReferenceConformance ;
-  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where \"{{column}}\" in (select code from codes))/nullif(count(\"{{column}}\"),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where \"{{column}}\" in (select code from codes))/nullif(count(\"{{column}}\"),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:dbt_nr tmpl:engine "dbt" ; tmpl:metric dqvp:NullRate ;
-  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*(count(*)-count(\"{{column}}\"))/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*(count(*)-count(\"{{column}}\"))/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 
 #### Soda / SodaCL ####
 tmpl:soda_nn tmpl:engine "sodacl" ; tmpl:metric dqvp:NonNullRate ;
@@ -67,7 +67,7 @@ tmpl:load_dbt_parquet tmpl:loadEngine "dbt" ; tmpl:loadFormat "parquet" ; tmpl:l
 tmpl:gx_uq tmpl:engine "gx" ; tmpl:metric dqvp:UniqueRate ;
   tmpl:body "validator.expect_column_values_to_be_unique(column=\"{{column}}\", mostly={{mostly}}{{gxFilter}})" .
 tmpl:dbt_uq tmpl:engine "dbt" ; tmpl:metric dqvp:UniqueRate ;
-  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(distinct \"{{column}}\")/nullif(count(\"{{column}}\"),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(distinct \"{{column}}\")/nullif(count(\"{{column}}\"),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_uq tmpl:engine "sodacl" ; tmpl:metric dqvp:UniqueRate ;
   tmpl:body "  - duplicate_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}{{sodaFilter}}" .
 tmpl:deequ_uq tmpl:engine "deequ" ; tmpl:metric dqvp:UniqueRate ;
@@ -77,7 +77,7 @@ tmpl:deequ_uq tmpl:engine "deequ" ; tmpl:metric dqvp:UniqueRate ;
 tmpl:gx_rc2 tmpl:engine "gx" ; tmpl:metric dqvp:RowCount ;
   tmpl:body "validator.expect_table_row_count_to_be_between(min_value={{threshold}})" .
 tmpl:dbt_rc2 tmpl:engine "dbt" ; tmpl:metric dqvp:RowCount ;
-  tmpl:body "-- {{checkId}}\nwith m as (select count(*) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select count(*) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_rc2 tmpl:engine "sodacl" ; tmpl:metric dqvp:RowCount ;
   tmpl:body "  - row_count {{sqlOp}} {{threshold}}:\n      name: {{checkId}}{{sodaFilter}}" .
 tmpl:deequ_rc2 tmpl:engine "deequ" ; tmpl:metric dqvp:RowCount ;
@@ -87,8 +87,8 @@ tmpl:deequ_rc2 tmpl:engine "deequ" ; tmpl:metric dqvp:RowCount ;
 tmpl:gx_ag tmpl:engine "gx" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "validator.expect_column_pair_values_to_be_equal(column_A=\"{{column}}\", column_B=\"{{column2}}\", mostly={{mostly}}{{gxFilter}})" .
 tmpl:dbt_ag tmpl:engine "dbt" ; tmpl:metric dqvp:AttributeAgreementRate ;
-  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" = \"{{column2}}\")/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" = \"{{column2}}\")/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_ag tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeAgreementRate ;
-  tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM patient_summary" .
+  tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM {{sourceTable}}" .
 tmpl:deequ_ag tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "    .satisfies(\"{{column}} = {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .

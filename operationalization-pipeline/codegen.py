@@ -9,6 +9,7 @@ IRI. Execution records dqv:QualityMeasurement on the MeasureValue.
 from __future__ import annotations
 
 import functools
+import re
 import subprocess
 from pathlib import Path
 
@@ -72,9 +73,32 @@ def build_plan(dataset="dataset_csv.ttl", policy=None) -> Graph:
 
 # ---- data-format dimension: Load's Dataset input -> format + locator -------
 
-def dataset_of(plan):
-    """(format, absolute locator) from the workflow's Load -> Dataset input."""
-    for op in plan.subjects(RDF.type, PC.Load):
+def workflows(plan):
+    """(workflow, asset) pairs. One workflow per asset: a dataflow has a single
+    Table, so it cannot span assets."""
+    return sorted(((wf, plan.value(wf, PC.onAsset))
+                   for wf in plan.subjects(RDF.type, PC.Workflow)),
+                  key=lambda t: str(t[1]))
+
+
+def workflow_of_check(plan, c):
+    """The workflow whose Table feeds this check's branch."""
+    for op in plan.subjects(PC.forCheck, c):
+        for wf in plan.subjects(PC.hasOp, op):
+            return wf
+    return None
+
+
+def asset_of_check(plan, c):
+    wf = workflow_of_check(plan, c)
+    return plan.value(wf, PC.onAsset) if wf else None
+
+
+def dataset_of(plan, wf):
+    """(format, absolute locator) from this workflow's Load -> Dataset input."""
+    for op in plan.objects(wf, PC.hasOp):
+        if (op, RDF.type, PC.Load) not in plan:
+            continue
         ds = plan.value(op, PC.input)
         fmt, loc = plan.value(ds, PC["format"]), plan.value(ds, PC.locator)  # PC.format == str.format!
         if fmt is None or loc is None:
@@ -84,6 +108,11 @@ def dataset_of(plan):
     return None, None
 
 
+def sql_table(asset):
+    """The relation name an engine addresses this asset by."""
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", local(asset)).lower()
+
+
 @functools.lru_cache(maxsize=1)
 def _load_templates():
     g = Graph().parse(HERE / "templates.ttl", format="turtle")
@@ -91,9 +120,9 @@ def _load_templates():
             str(g.value(t, TMPL.loadBody)) for t in g.subjects(TMPL.loadBody, None)}
 
 
-def load_code(plan, engine):
-    """Format-specific data-access code for an engine (rendered from a graph template)."""
-    fmt, loc = dataset_of(plan)
+def load_code(plan, engine, wf):
+    """Format-specific data-access code for one workflow's asset."""
+    fmt, loc = dataset_of(plan, wf)
     body = _load_templates().get((engine, fmt))
     if body is None:
         raise NotImplementedError(f"no load template for engine={engine} format={fmt}")
@@ -188,6 +217,13 @@ def generate(plan):
         ctx["sqlFilter"]  = filter_clause("sql", ctx)
         ctx["sodaFilter"] = filter_clause("soda", ctx)
         ctx["deequNote"]  = deequ_note(ctx)
+        asset = asset_of_check(plan, c)
+        if asset is None:                    # flagged as an unsupported rule type
+            continue
+        ctx["sourceTable"] = sql_table(asset)
+        # dbt's own {{ source() }} is built here rather than guarded with
+        # {% raw %} in every template, so the relation follows the asset.
+        ctx["dbtSource"] = "{{ source('ehds','" + ctx["sourceTable"] + "') }}"
         m = plan.value(measure_op(plan, c), PC.metric)
         for e in engines:
             body = tpl.get((e, m))
@@ -235,11 +271,11 @@ def _measure_expr(plan, c, ctx):
 _GROUP_AGG = {"gteq": "min", "gt": "min", "lteq": "max", "lt": "max"}
 
 
-def _measure_sql(plan, c, ctx):
+def _measure_sql(plan, c, ctx, table):
     where, expr = filter_clause("sql", ctx), _measure_expr(plan, c, ctx)
     gcol = ctx.get("groupColumn")
     if not gcol:
-        return f"select {expr} from data{where}"
+        return f'select {expr} from "{table}"{where}'
     op = local(plan.value(c, ODRL.operator))
     agg = _GROUP_AGG.get(op)
     if agg is None:
@@ -247,18 +283,26 @@ def _measure_sql(plan, c, ctx):
             f"dqvp:groupBy with odrl:operator {op}: universal quantification over "
             f"partitions has no worst-case aggregate for this operator"
         )
-    return (f'select {agg}(r) from (select {expr} as r from data{where} '
+    return (f'select {agg}(r) from (select {expr} as r from "{table}"{where} '
             f'group by "{gcol}")')
 
 
 def execute(plan):
+    """One relation per asset - each check runs against its own workflow's table."""
     import duckdb
     con = duckdb.connect()
-    con.execute(f"CREATE TABLE data AS SELECT * FROM {load_code(plan, 'duckdb')}")  # format-aware
+    tables = {}
+    for wf, asset in workflows(plan):
+        t = sql_table(asset)
+        con.execute(f'CREATE TABLE "{t}" AS SELECT * FROM {load_code(plan, "duckdb", wf)}')
+        tables[wf] = t
     out = {}
     for c in checks(plan):
+        wf = workflow_of_check(plan, c)
+        if wf is None:                      # e.g. flagged as an unsupported rule type
+            continue
         ctx = context_of(plan, c)
-        v = con.execute(_measure_sql(plan, c, ctx)).fetchone()[0]
+        v = con.execute(_measure_sql(plan, c, ctx, tables[wf])).fetchone()[0]
         v = None if v is None else round(float(v), 4)
         op = local(plan.value(c, ODRL.operator))
         ok = None if v is None else eval(f"{v} {OPSYM[op][1]} {float(ctx['threshold'])}")
@@ -298,18 +342,38 @@ def run_gx(code_gx, plan):
             f"the 1.x gx.expectations.* classes and update this function."
         )
 
-    df = eval(load_code(plan, "gx"), {"pd": pd})        # run the generated load code
     id2c = {local(c): c for c in checks(plan)}
     out = {}
     with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
-        v = gx.get_context().sources.add_pandas("s").read_dataframe(df, asset_name="a")
+        ctxt = gx.get_context()
+        validators = {}
+        for wf, asset in workflows(plan):
+            df = eval(load_code(plan, "gx", wf), {"pd": pd})   # generated load code
+            validators[wf] = (ctxt.sources.add_pandas(local(asset))
+                                  .read_dataframe(df, asset_name=local(asset)))
         for cid, expr in code_gx.items():
-            std = ref_standard(plan, id2c[cid])
-            ns = {"validator": v, "CODE_LIST": list(resolve_codes(std)) if std else []}
+            c = id2c[cid]
+            wf = workflow_of_check(plan, c)
+            if wf is None:
+                continue
+            std = ref_standard(plan, c)
+            ns = {"validator": validators[wf],
+                  "CODE_LIST": list(resolve_codes(std)) if std else []}
             out[cid] = bool(eval(expr, ns).success)
     return out
 
 
-def assemble_sodacl(frags):
-    return ("checks for patient_summary:\n"
-            + "\n".join(frags[k] for k in sorted(frags)) + "\n")
+def assemble_sodacl(frags, plan):
+    """SodaCL groups checks under the dataset they apply to, so emit one block
+    per asset rather than assuming a single relation."""
+    by_table = {}
+    for c in checks(plan):
+        cid = local(c)
+        if cid not in frags:
+            continue
+        asset = asset_of_check(plan, c)
+        if asset is None:
+            continue
+        by_table.setdefault(sql_table(asset), []).append(frags[cid])
+    return "\n".join(f"checks for {t}:\n" + "\n".join(v)
+                     for t, v in sorted(by_table.items())) + "\n"
