@@ -193,3 +193,65 @@ dqvp:Consistency a dqv:Dimension, skos:Concept ;
     rdfs:comment     "ISO/IEC 25012 Consistency dimension."@en ;
     skos:definition  "ISO/IEC 25012: degree to which data has attributes that are free from contradiction and are coherent with other data in a specific context of use."@en ;
     rdfs:seeAlso     iso25012: .
+
+# =============================================================================
+# v0.3 — constructs required by the expressiveness ladder (see EXPRESSIVENESS.md)
+#
+# The three original constructs (targetAttribute, referenceStandard, filter)
+# resolve the barriers B1-B3 identified in the position paper. Working through
+# progressively harder requirements surfaced two further barriers, each of which
+# needs exactly one property.
+# =============================================================================
+
+# ------------ Additional properties ------------------ #
+
+dqvp:comparedAttribute a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "compared attribute"@en ;
+    rdfs:comment     "A second attribute that the target attribute is compared against, record by record."@en ;
+    skos:definition  "The attribute against which dqvp:targetAttribute is compared within the same record, for metrics that relate two columns."@en ;
+    skos:note        "Resolves the multi-attribute arity barrier. dqvp:targetAttribute names a single column, so an intra-record comparison between two columns - 'the treating hospital's country must match the patient's country of affiliation' - cannot otherwise be stated. Distinct from dqvp:filter, which selects rows rather than relating columns."@en .
+
+dqvp:groupBy a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "group by"@en ;
+    rdfs:comment     "An attribute whose distinct values partition the records; the constraint must hold for every partition."@en ;
+    skos:definition  "An attribute whose distinct values partition the dataset. The constraint is evaluated once per partition and is satisfied only if it holds for all of them."@en ;
+    skos:note        "Resolves the group quantification barrier. Without it a threshold is only ever evaluated over the dataset as a whole, so a requirement that must hold per country, per hospital or per cohort cannot be stated - and an aggregate can satisfy a threshold while individual partitions violate it. Semantics are universal quantification: a single violating partition violates the constraint."@en .
+
+# ------------ Additional metrics ------------------ #
+
+dqvp:UniqueRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Uniqueness ;
+    rdfs:label       "Unique Rate"@en ;
+    rdfs:comment     "Percentage of non-null values of the target attribute that occur exactly once."@en ;
+    skos:definition  "Percentage of the non-null values of the target attribute that are distinct, in the range 0 to 100."@en ;
+    skos:note        "Used as an odrl:leftOperand; odrl:rightOperand is a percentage threshold. Nulls are excluded from both numerator and denominator, so uniqueness and completeness stay independently expressible."@en .
+
+dqvp:RowCount a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Completeness ;
+    rdfs:label       "Row Count"@en ;
+    rdfs:comment     "Number of records in the dataset."@en ;
+    skos:definition  "The count of records in the dataset, optionally over a filtered subset of rows. An absolute count, not a percentage."@en ;
+    skos:note        "Takes NO dqvp:targetAttribute: it is a property of the dataset rather than of a column, and odrl:rightOperand is an absolute count rather than a percentage. Consumers deriving percentage-shaped render values from the threshold must not do so for this metric."@en .
+
+dqvp:AttributeAgreementRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Attribute Agreement Rate"@en ;
+    rdfs:comment     "Percentage of records in which the target attribute equals the compared attribute."@en ;
+    skos:definition  "Percentage of records in which dqvp:targetAttribute and dqvp:comparedAttribute hold equal values, counted over records where both are non-null, in the range 0 to 100."@en ;
+    skos:note        "Requires dqvp:comparedAttribute. Grounded in Consistency: it expresses freedom from contradiction between two attributes of the same record."@en .
+
+# ------------ Additional dimension ------------------ #
+
+dqvp:Uniqueness a dqv:Dimension, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Uniqueness"@en ;
+    rdfs:comment     "DAMA-DMBOK Uniqueness dimension."@en ;
+    skos:definition  "DAMA-DMBOK: no entity instance is recorded more than once, and each real-world entity is represented by exactly one record."@en ;
+    skos:note        "Sourced from DAMA-DMBOK rather than ISO/IEC 25012, which has no distinct uniqueness dimension. The catalogue already grounds Validity in DAMA-DMBOK, so metrics are not restricted to a single reference framework."@en .

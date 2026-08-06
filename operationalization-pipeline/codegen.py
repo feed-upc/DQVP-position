@@ -203,19 +203,52 @@ def generate(plan):
 
 # ---- reference executor (mechanical) — value SQL reuses filter_clause -------
 
-def _measure_sql(plan, c, ctx):
-    col = ctx.get("column"); where = filter_clause("sql", ctx)
+def _measure_expr(plan, c, ctx):
+    """The metric's SQL expression, before any grouping is applied."""
+    col = ctx.get("column")
     m = local(plan.value(measure_op(plan, c), PC.metric))
     if m == "NonNullRate":
-        return f'select 100.0*count("{col}")/nullif(count(*),0) from data{where}'
+        return f'100.0*count("{col}")/nullif(count(*),0)'
     if m == "NullRate":
-        return f'select 100.0*(count(*)-count("{col}"))/nullif(count(*),0) from data{where}'
+        return f'100.0*(count(*)-count("{col}"))/nullif(count(*),0)'
     if m == "ReferenceConformance":
         codes = resolve_codes(ref_standard(plan, c))
         inlist = ", ".join(f"'{x}'" for x in codes)
-        return (f'select 100.0*count(*) filter (where "{col}" in ({inlist}))'
-                f'/nullif(count("{col}"),0) from data{where}')
+        return (f'100.0*count(*) filter (where "{col}" in ({inlist}))'
+                f'/nullif(count("{col}"),0)')
+    if m == "UniqueRate":
+        return f'100.0*count(distinct "{col}")/nullif(count("{col}"),0)'
+    if m == "RowCount":
+        return "count(*)"
+    if m == "AttributeAgreementRate":
+        col2 = ctx.get("column2")
+        return (f'100.0*count(*) filter (where "{col}" = "{col2}")'
+                f'/nullif(count(*) filter (where "{col}" is not null'
+                f' and "{col2}" is not null),0)')
     raise NotImplementedError(m)
+
+
+#  Universal quantification collapses to the worst partition: for a lower-bound
+#  operator every group clears the threshold iff the minimum does, and likewise
+#  the maximum for an upper bound. Operators with no worst case (eq, neq) cannot
+#  be reduced this way and are refused rather than silently evaluated globally.
+_GROUP_AGG = {"gteq": "min", "gt": "min", "lteq": "max", "lt": "max"}
+
+
+def _measure_sql(plan, c, ctx):
+    where, expr = filter_clause("sql", ctx), _measure_expr(plan, c, ctx)
+    gcol = ctx.get("groupColumn")
+    if not gcol:
+        return f"select {expr} from data{where}"
+    op = local(plan.value(c, ODRL.operator))
+    agg = _GROUP_AGG.get(op)
+    if agg is None:
+        raise NotImplementedError(
+            f"dqvp:groupBy with odrl:operator {op}: universal quantification over "
+            f"partitions has no worst-case aggregate for this operator"
+        )
+    return (f'select {agg}(r) from (select {expr} as r from data{where} '
+            f'group by "{gcol}")')
 
 
 def execute(plan):
@@ -252,6 +285,19 @@ def run_gx(code_gx, plan):
     import contextlib, io
     import great_expectations as gx
     import pandas as pd
+
+    # The generated expectations use the fluent Validator API
+    # (validator.expect_column_values_to_*), which Great Expectations removed in
+    # 1.0 along with context.sources. Fail here with something actionable rather
+    # than an AttributeError from inside the harness.
+    if not hasattr(gx.get_context(), "sources"):
+        raise NotImplementedError(
+            f"great_expectations {gx.__version__} is installed, but the generated "
+            f"expectations and this harness target the 0.18 fluent API. Either pin "
+            f"'great_expectations<1.0', or port the gx templates in templates.ttl to "
+            f"the 1.x gx.expectations.* classes and update this function."
+        )
+
     df = eval(load_code(plan, "gx"), {"pd": pd})        # run the generated load code
     id2c = {local(c): c for c in checks(plan)}
     out = {}

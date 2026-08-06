@@ -23,6 +23,10 @@
 { ?f dqvp:filterAttribute ?t . ?t log:rawType log:Literal . } => { ?f pc:fcol ?t } .
 { ?f dqvp:filterAttribute ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?f pc:fcol ?l } .
 { ?c a dqvp:DQConstraint ; rdfs:label ?id . } => { ?c pc:checkId ?id } .
+{ ?c dqvp:comparedAttribute ?t . ?t log:rawType log:Literal . } => { ?c pc:col2 ?t } .
+{ ?c dqvp:comparedAttribute ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?c pc:col2 ?l } .
+{ ?c dqvp:groupBy ?t . ?t log:rawType log:Literal . } => { ?c pc:gcol ?t } .
+{ ?c dqvp:groupBy ?t . ?t log:uri ?u . ( ?u "^.*[/#]([^/#]+)$" ) string:scrape ?l . } => { ?c pc:gcol ?l } .
 
 # ---- P1  PolicyChecker + ONE shared Load (per policy) -----------------------
 #   The provider offers the asset for use UNDER quality conditions: the DQRs are
@@ -75,10 +79,16 @@
 
 # ---- Derived neutral render-values on the Measure op ------------------------
 #  mostly is computed for EVERY gteq (incl. threshold = 100 -> mostly = 1.0).
-{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:operator odrl:gteq ; odrl:rightOperand ?thr .
+#  Guarded on pc:isPercentage: these render-values divide by or subtract from 100,
+#  which is only meaningful for a metric whose value space IS a percentage. An
+#  absolute metric such as dqvp:RowCount would otherwise acquire mostly = 4.0
+#  from a threshold of 400.
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:operator odrl:gteq ; odrl:rightOperand ?thr ;
+    odrl:leftOperand ?m . ?m pc:isPercentage true .
   ( ?thr 100 ) math:quotient ?mm . }
 => { ?meas pc:parameter [ pc:name "mostly" ; pc:value ?mm ] } .
-{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:rightOperand ?thr . ( 100 ?thr ) math:difference ?d . }
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:rightOperand ?thr ; odrl:leftOperand ?m .
+  ?m pc:isPercentage true . ( 100 ?thr ) math:difference ?d . }
 => { ?meas pc:parameter [ pc:name "complement" ; pc:value ?d ] } .
 
 # ---- Reference resolution: Resolve -> CodeList feeds Measure ----------------
@@ -103,3 +113,58 @@
 { ?flt a pc:Filter ; pc:forCheck ?c . ?c dqvp:filter ?f . ?f dqvp:filterOperator ?fo .
   ?fo log:uri ?ou . ( ?ou "^.*[/#]([^/#]+)$" ) string:scrape ?ol . }
 => { ?flt pc:parameter [ pc:name "filterOp" ; pc:value ?ol ] } .
+
+# ---- P3  TABLE branch: Filter -> Measure(no column) -> Compare -> Report ----
+#  A table-level metric has no dqvp:targetAttribute: it is a property of the
+#  dataset, not of a column. Same skeleton as P2 minus the "column" parameter.
+{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m . ?m pc:shape pc:TableShape .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
+  ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
+  ( ?cu "/measure" )   string:concatenation ?ms  . ?meas log:uri ?ms  .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?flt, ?meas, ?cmp, ?rep .
+     ?flt  a pc:Filter  ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl  ; pc:output ?ftbl . ?ftbl a pc:Table .
+     ?meas a pc:Measure ; pc:order 3 ; pc:forCheck ?c ; pc:metric ?m ; pc:input ?ftbl ; pc:output ?mval .
+     ?mval a pc:MeasureValue .
+     ?cmp  a pc:Compare ; pc:order 4 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd . ?vd a pc:Verdict .
+     ?rep  a pc:Report  ; pc:order 5 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc . ?rdoc a pc:ReportDoc . } .
+
+# ---- P4  PAIR-COLUMN branch: same skeleton, two column parameters ----------
+#  Resolves the multi-attribute arity barrier: the Measure carries both the
+#  target column and the compared column, so the engine template can relate them.
+{ ?pol a dqvp:QualityPolicy ; odrl:permission ?perm . ?perm odrl:constraint ?c .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col ; pc:col2 ?col2 .
+  ?m pc:shape pc:PairColumnShape .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf" )    string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?ps "/checker/table" ) string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
+  ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
+  ( ?cu "/measure" )   string:concatenation ?ms  . ?meas log:uri ?ms  .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?flt, ?meas, ?cmp, ?rep .
+     ?flt  a pc:Filter  ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl  ; pc:output ?ftbl . ?ftbl a pc:Table .
+     ?meas a pc:Measure ; pc:order 3 ; pc:forCheck ?c ; pc:metric ?m ; pc:input ?ftbl ; pc:output ?mval ;
+           pc:parameter [ pc:name "column"  ; pc:value ?col  ] ,
+                        [ pc:name "column2" ; pc:value ?col2 ] . ?mval a pc:MeasureValue .
+     ?cmp  a pc:Compare ; pc:order 4 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd . ?vd a pc:Verdict .
+     ?rep  a pc:Report  ; pc:order 5 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc . ?rdoc a pc:ReportDoc . } .
+
+# ---- Grouping parameter (orthogonal to shape, like the row filter) ---------
+#  Universal quantification over the partitions induced by dqvp:groupBy.
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c pc:gcol ?gc . }
+=> { ?meas pc:parameter [ pc:name "groupColumn" ; pc:value ?gc ] } .

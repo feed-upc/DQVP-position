@@ -8,7 +8,7 @@
 
 #### Great Expectations ####
 tmpl:gx_nn tmpl:engine "gx" ; tmpl:metric dqvp:NonNullRate ;
-  tmpl:body "validator.expect_column_values_to_not_be_null(column=\"{{column}}\", mostly={{mostly}}{{gxFilter}})" .
+  tmpl:body "validator.expect_column_values_to_not_be_null(column=\"{{column}}\", mostly={{mostly}}{{gxFilter}}){% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 tmpl:gx_rc tmpl:engine "gx" ; tmpl:metric dqvp:ReferenceConformance ;
   tmpl:body "validator.expect_column_values_to_be_in_set(column=\"{{column}}\", value_set=CODE_LIST, mostly={{mostly}}{{gxFilter}})" .
 tmpl:gx_nr tmpl:engine "gx" ; tmpl:metric dqvp:NullRate ;
@@ -16,7 +16,7 @@ tmpl:gx_nr tmpl:engine "gx" ; tmpl:metric dqvp:NullRate ;
 
 #### dbt singular tests ({% raw %} guards dbt's own {{ source }}) ####
 tmpl:dbt_nn tmpl:engine "dbt" ; tmpl:metric dqvp:NonNullRate ;
-  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(\"{{column}}\")/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(\"{{column}}\")/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:dbt_rc tmpl:engine "dbt" ; tmpl:metric dqvp:ReferenceConformance ;
   tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where \"{{column}}\" in (select code from codes))/nullif(count(\"{{column}}\"),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:dbt_nr tmpl:engine "dbt" ; tmpl:metric dqvp:NullRate ;
@@ -24,7 +24,7 @@ tmpl:dbt_nr tmpl:engine "dbt" ; tmpl:metric dqvp:NullRate ;
 
 #### Soda / SodaCL ####
 tmpl:soda_nn tmpl:engine "sodacl" ; tmpl:metric dqvp:NonNullRate ;
-  tmpl:body "  - missing_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}{{sodaFilter}}" .
+  tmpl:body "  - missing_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}{{sodaFilter}}{% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 tmpl:soda_rc tmpl:engine "sodacl" ; tmpl:metric dqvp:ReferenceConformance ;
   tmpl:body "  - invalid_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}\n      valid values: __CODES__{{sodaFilter}}" .
 tmpl:soda_nr tmpl:engine "sodacl" ; tmpl:metric dqvp:NullRate ;
@@ -32,7 +32,7 @@ tmpl:soda_nr tmpl:engine "sodacl" ; tmpl:metric dqvp:NullRate ;
 
 #### PyDeequ (illustrative) ####
 tmpl:deequ_nn tmpl:engine "deequ" ; tmpl:metric dqvp:NonNullRate ;
-  tmpl:body "    .hasCompleteness(\"{{column}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+  tmpl:body "    .hasCompleteness(\"{{column}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}{% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 tmpl:deequ_rc tmpl:engine "deequ" ; tmpl:metric dqvp:ReferenceConformance ;
   tmpl:body "    .isContainedIn(\"{{column}}\", CODE_LIST)  # {{checkId}}{{deequNote}}" .
 tmpl:deequ_nr tmpl:engine "deequ" ; tmpl:metric dqvp:NullRate ;
@@ -55,3 +55,40 @@ tmpl:load_duck_parquet tmpl:loadEngine "duckdb" ; tmpl:loadFormat "parquet" ; tm
 tmpl:load_dbt_csv  tmpl:loadEngine "dbt" ; tmpl:loadFormat "csv"  ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_csv_auto('{{locator}}')" .
 tmpl:load_dbt_json tmpl:loadEngine "dbt" ; tmpl:loadFormat "json" ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_json_auto('{{locator}}')" .
 tmpl:load_dbt_parquet tmpl:loadEngine "dbt" ; tmpl:loadFormat "parquet" ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_parquet('{{locator}}')" .
+
+# =============================================================================
+# v0.3 metrics. Grouping ({{groupColumn}}) is handled inside the template with a
+# Jinja conditional rather than by a new binder function, so support for it is
+# per-(engine, metric) data. Engines with no native per-group evaluation emit an
+# explicit note rather than silently checking the aggregate instead.
+# =============================================================================
+
+#### UniqueRate ####
+tmpl:gx_uq tmpl:engine "gx" ; tmpl:metric dqvp:UniqueRate ;
+  tmpl:body "validator.expect_column_values_to_be_unique(column=\"{{column}}\", mostly={{mostly}}{{gxFilter}})" .
+tmpl:dbt_uq tmpl:engine "dbt" ; tmpl:metric dqvp:UniqueRate ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(distinct \"{{column}}\")/nullif(count(\"{{column}}\"),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_uq tmpl:engine "sodacl" ; tmpl:metric dqvp:UniqueRate ;
+  tmpl:body "  - duplicate_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}{{sodaFilter}}" .
+tmpl:deequ_uq tmpl:engine "deequ" ; tmpl:metric dqvp:UniqueRate ;
+  tmpl:body "    .hasUniqueness(\"{{column}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+
+#### RowCount — table level, absolute threshold (no column, no percentage) ####
+tmpl:gx_rc2 tmpl:engine "gx" ; tmpl:metric dqvp:RowCount ;
+  tmpl:body "validator.expect_table_row_count_to_be_between(min_value={{threshold}})" .
+tmpl:dbt_rc2 tmpl:engine "dbt" ; tmpl:metric dqvp:RowCount ;
+  tmpl:body "-- {{checkId}}\nwith m as (select count(*) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_rc2 tmpl:engine "sodacl" ; tmpl:metric dqvp:RowCount ;
+  tmpl:body "  - row_count {{sqlOp}} {{threshold}}:\n      name: {{checkId}}{{sodaFilter}}" .
+tmpl:deequ_rc2 tmpl:engine "deequ" ; tmpl:metric dqvp:RowCount ;
+  tmpl:body "    .hasSize(lambda x: x {{pyOp}} {{threshold}})  # {{checkId}}{{deequNote}}" .
+
+#### AttributeAgreementRate — relates two columns of the same record ####
+tmpl:gx_ag tmpl:engine "gx" ; tmpl:metric dqvp:AttributeAgreementRate ;
+  tmpl:body "validator.expect_column_pair_values_to_be_equal(column_A=\"{{column}}\", column_B=\"{{column2}}\", mostly={{mostly}}{{gxFilter}})" .
+tmpl:dbt_ag tmpl:engine "dbt" ; tmpl:metric dqvp:AttributeAgreementRate ;
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" = \"{{column2}}\")/nullif(count(*),0) as r from {% raw %}{{ source('ehds','patient_summary') }}{% endraw %}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_ag tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeAgreementRate ;
+  tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM patient_summary" .
+tmpl:deequ_ag tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeAgreementRate ;
+  tmpl:body "    .satisfies(\"{{column}} = {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .

@@ -22,7 +22,8 @@ ex:ps-dq-offer-01
         a            odrl:Permission ;
         odrl:target  dp:PatientSummary ;
         odrl:action  odrl:use ;
-        odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency
+        odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency,
+                        ex:c-uniqueness, ex:c-volume, ex:c-crossborder, ex:c-percountry
     ] .
 
 ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
@@ -47,3 +48,41 @@ ex:c-consistency a dqvp:DQConstraint ; rdfs:label "c-consistency" ;
                   dqvp:filterValue     "male" ] ;
     odrl:operator        odrl:eq ;
     odrl:rightOperand    "100"^^xsd:decimal .
+
+# =============================================================================
+# The expressiveness ladder. Each constraint below needs strictly more of the
+# profile than the one before it. See EXPRESSIVENESS.md for the cost of each.
+# =============================================================================
+
+# L1 — a new metric of an existing shape. No new profile construct, no new rule.
+ex:c-uniqueness a dqvp:DQConstraint ; rdfs:label "c-uniqueness" ;
+    odrl:leftOperand     dqvp:UniqueRate ;
+    dqvp:targetAttribute ab:nationalHealthcarePatientID ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "100"^^xsd:decimal .
+
+# L2 — a table-level metric. No targetAttribute, and the threshold is an
+# absolute count rather than a percentage. Needs a new shape and one new rule.
+ex:c-volume a dqvp:DQConstraint ; rdfs:label "c-volume" ;
+    odrl:leftOperand  dqvp:RowCount ;
+    odrl:operator     odrl:gteq ;
+    odrl:rightOperand "400"^^xsd:decimal .
+
+# L3 — relates two columns of the same record. Needs dqvp:comparedAttribute:
+# a constraint could previously name only one attribute.
+ex:c-crossborder a dqvp:DQConstraint ; rdfs:label "c-crossborder" ;
+    odrl:leftOperand       dqvp:AttributeAgreementRate ;
+    dqvp:targetAttribute   ab:hospitalCountry ;
+    dqvp:comparedAttribute ab:countryOfAffiliation ;
+    odrl:operator          odrl:gteq ;
+    odrl:rightOperand      "90"^^xsd:decimal .
+
+# L4 — must hold for EVERY partition, not for the dataset as a whole. Needs
+# dqvp:groupBy. The same 95% threshold is satisfied globally (98.0%) and
+# violated per country, which is precisely why the construct is needed.
+ex:c-percountry a dqvp:DQConstraint ; rdfs:label "c-percountry" ;
+    odrl:leftOperand     dqvp:NonNullRate ;
+    dqvp:targetAttribute ab:nationalHealthcarePatientID ;
+    dqvp:groupBy         ab:countryOfAffiliation ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "95"^^xsd:decimal .
