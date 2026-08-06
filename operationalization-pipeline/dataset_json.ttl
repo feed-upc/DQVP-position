@@ -1,3 +1,4 @@
 @prefix dp: <https://w3id.org/ehds/patsum/asset/> .
 @prefix pc: <https://feed-upc.github.io/DQVP-position/pc#> .
 dp:PatientSummary pc:format "json" ; pc:locator "../data/Patient_Summary.json" .
+dp:EncounterSummary pc:format "json" ; pc:locator "../data/Encounter_Summary.json" .
