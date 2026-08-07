@@ -375,3 +375,32 @@ dqvp:RelativeDeviation a owl:NamedIndividual, skos:Concept ;
     rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
     rdfs:label       "Relative Deviation"@en ;
     skos:definition  "The absolute difference between the measurement and its baseline, as a percentage of the baseline."@en .
+
+# =============================================================================
+# v0.7 — the reference asset. Every constraint so far is about one asset. A
+# referential requirement relates two, which is the first thing that changes the
+# shape of the plan rather than adding a parameter to it.
+# =============================================================================
+
+dqvp:referenceAsset a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "reference asset"@en ;
+    rdfs:comment     "A second asset whose values the target attribute is checked against."@en ;
+    skos:definition  "An odrl:Asset, distinct from the rule's odrl:target, that the constraint reads in order to evaluate the target asset."@en ;
+    skos:note        "Resolves the cross-asset barrier. The rule's odrl:target remains the asset being validated - the one the requirement is about, and where the check is deployed - while this names what that check must additionally be able to reach. Keeping the two distinct is what preserves the workflow as a deployable unit."@en .
+
+dqvp:referenceAttribute a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "reference attribute"@en ;
+    rdfs:comment     "The attribute of the reference asset that the target attribute is matched against."@en ;
+    skos:definition  "The attribute within dqvp:referenceAsset whose values dqvp:targetAttribute must be found among."@en .
+
+dqvp:ReferentialIntegrity a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Referential Integrity"@en ;
+    rdfs:comment     "Percentage of records whose target attribute value occurs in the reference asset."@en ;
+    skos:definition  "Percentage of records, among those where dqvp:targetAttribute is non-null, whose value occurs in dqvp:referenceAttribute of dqvp:referenceAsset. In the range 0 to 100."@en ;
+    skos:note        "Requires dqvp:referenceAsset and dqvp:referenceAttribute. Grounded in Consistency: coherence between data held in different places is exactly what ISO/IEC 25012 names there."@en .

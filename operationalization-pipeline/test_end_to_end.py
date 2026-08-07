@@ -143,9 +143,16 @@ else:
               f"{len(branch)} checks: {', '.join(sorted(branch))}")
     check("exactly one PolicyChecker per policy", len(checkers), 1)
     check("one Workflow per asset", len(wfs), 2)
-    check("every workflow has exactly one Load",
-          all(len([o for o in plan.objects(wf, PC.hasOp)
-                   if (o, RDF.type, PC.Load) in plan]) == 1 for wf, _ in wfs))
+    # One Load per asset a workflow touches: its own, plus any it must look
+    # values up in. The subject asset stays single, which is what keeps the
+    # workflow deployable to one place.
+    check("every workflow loads exactly the assets it touches",
+          all(len(C.loads_of(plan, wf)) ==
+              1 + len(list(plan.objects(wf, PC.referencesAsset)))
+              for wf, _ in wfs))
+    check("a cross-asset workflow declares what it reaches for",
+          sorted(C.local(r) for wf, _ in wfs
+                 for r in plan.objects(wf, PC.referencesAsset)), ["PatientSummary"])
     check("every workflow names exactly one asset",
           all(len(list(plan.objects(wf, PC.onAsset))) == 1 for wf, _ in wfs))
     check("the checker links to the policy",
@@ -175,6 +182,12 @@ else:
     for cid, table in [("c-completeness", "patient_summary"),
                        ("c-enc-discharge", "encounter_summary")]:
         check(f"dbt addresses {table} for {cid}", table in code["dbt"][cid])
+    check("the cross-asset check names both relations",
+          all(t in code["dbt"]["c-enc-patient"]
+              for t in ("encounter_summary", "patient_summary")))
+    check("engines that cannot reach a second asset refuse",
+          sorted(e for e in code if "NOT EXPRESSIBLE" in code[e]["c-enc-patient"]),
+          ["deequ", "gx"])
     check("no template hardcodes a relation name",
           "patient_summary" not in (HERE / "templates.ttl").read_text())
 
@@ -205,6 +218,8 @@ else:
     check("checks ran against their own asset (encounter 98%, not patient 98%)",
           res["c-enc-discharge"][0], 98.0)
     check("c-uniqueness SATISFIED", res["c-uniqueness"][1], True)
+    check("referential integrity measures the seeded orphan rate",
+          res["c-enc-patient"][0], 96.0)
     check("c-crossborder VIOLATED", res["c-crossborder"][1], False)
     # the group-quantification argument
     check("global completeness would pass 95%", res["c-completeness"][0] >= 95)

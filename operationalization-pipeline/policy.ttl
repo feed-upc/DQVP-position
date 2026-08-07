@@ -35,7 +35,8 @@ ex:ps-dq-offer-01
         a            odrl:Duty ;
         odrl:target  dp:EncounterSummary ;
         odrl:action  odrl:use ;
-        odrl:constraint ex:c-enc-discharge, ex:c-enc-id, ex:c-enc-dates
+        odrl:constraint ex:c-enc-discharge, ex:c-enc-id, ex:c-enc-dates,
+                        ex:c-enc-patient
     ] .
 
 ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
@@ -153,3 +154,14 @@ ex:c-drift a dqvp:DQConstraint ; rdfs:label "c-drift" ;
     dqvp:deviation       dqvp:AbsoluteDeviation ;
     odrl:operator        odrl:lteq ;
     odrl:rightOperand    "2"^^xsd:decimal .
+
+# L8 — relates two assets. The rule's odrl:target is still EncounterSummary, the
+# asset being validated and where the check would be deployed; dqvp:referenceAsset
+# names what that check must additionally be able to read.
+ex:c-enc-patient a dqvp:DQConstraint ; rdfs:label "c-enc-patient" ;
+    odrl:leftOperand        dqvp:ReferentialIntegrity ;
+    dqvp:targetAttribute    enc:nationalHealthcarePatientID ;
+    dqvp:referenceAsset     dp:PatientSummary ;
+    dqvp:referenceAttribute ab:nationalHealthcarePatientID ;
+    odrl:operator           odrl:gteq ;
+    odrl:rightOperand       "99"^^xsd:decimal .

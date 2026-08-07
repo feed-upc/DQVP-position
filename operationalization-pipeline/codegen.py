@@ -94,12 +94,39 @@ def asset_of_check(plan, c):
     return plan.value(wf, PC.onAsset) if wf else None
 
 
-def dataset_of(plan, wf):
-    """(format, absolute locator) from this workflow's Load -> Dataset input."""
+def loads_of(plan, wf):
+    """(asset, format, locator) for every Load in a workflow.
+
+    A workflow normally has one, over the asset it validates. A cross-asset
+    constraint adds a second, over the asset it must look values up in.
+    """
+    out = []
     for op in plan.objects(wf, PC.hasOp):
         if (op, RDF.type, PC.Load) not in plan:
             continue
         ds = plan.value(op, PC.input)
+        asset = plan.value(ds, PC.ofAsset)
+        fmt, loc = plan.value(ds, PC["format"]), plan.value(ds, PC.locator)
+        if fmt is None or loc is None:
+            continue
+        loc = str(loc)
+        out.append((asset, str(fmt),
+                    loc if loc.startswith("/") else str((HERE / loc).resolve())))
+    return out
+
+
+def dataset_of(plan, wf, asset=None):
+    """(format, absolute locator) for a workflow's Load.
+
+    With no asset given, the one over the workflow's own subject asset.
+    """
+    want = asset if asset is not None else plan.value(wf, PC.onAsset)
+    for op in plan.objects(wf, PC.hasOp):
+        if (op, RDF.type, PC.Load) not in plan:
+            continue
+        ds = plan.value(op, PC.input)
+        if plan.value(ds, PC.ofAsset) != want:
+            continue
         fmt, loc = plan.value(ds, PC["format"]), plan.value(ds, PC.locator)  # PC.format == str.format!
         if fmt is None or loc is None:
             return None, None
@@ -120,9 +147,9 @@ def _load_templates():
             str(g.value(t, TMPL.loadBody)) for t in g.subjects(TMPL.loadBody, None)}
 
 
-def load_code(plan, engine, wf):
-    """Format-specific data-access code for one workflow's asset."""
-    fmt, loc = dataset_of(plan, wf)
+def load_code(plan, engine, wf, asset=None):
+    """Format-specific data-access code for one of a workflow's assets."""
+    fmt, loc = dataset_of(plan, wf, asset)
     body = _load_templates().get((engine, fmt))
     if body is None:
         raise NotImplementedError(f"no load template for engine={engine} format={fmt}")
@@ -236,6 +263,9 @@ def generate(plan):
             ctx["sqlColumnList"] = ", ".join(f"'{a}'" for a in want)
             ctx["sodaColumnList"] = "[" + ", ".join(want) + "]"
             ctx["expectedCount"] = len(want)
+        if ctx.get("referenceTable"):
+            ctx["refTable"] = sql_table(ctx["referenceTable"])
+            ctx["dbtRefSource"] = "{{ source('ehds','" + ctx["refTable"] + "') }}"
         if ctx.get("expectedDatatype"):
             ctx["sqlType"] = XSD_TO_SQL.get(ctx["expectedDatatype"], "")
         m = plan.value(measure_op(plan, c), PC.metric)
@@ -313,6 +343,11 @@ def _measure_expr(plan, c, ctx):
         return _aggregate(ctx, pred, defined)
     if m == "RowExpressionRate":
         return _aggregate(ctx, ctx.get("rowExpression"), None)
+    if m == "ReferentialIntegrity":
+        ref_t, ref_c = ctx.get("referenceTable"), ctx.get("referenceColumn")
+        return (f'100.0*count(*) filter (where "{col}" in '
+                f'(select "{ref_c}" from "{sql_table(ref_t)}"))'
+                f'/nullif(count(*) filter (where "{col}" is not null),0)')
     if m == "SchemaConformance":
         want = _expected(ctx)
         inlist = ", ".join(f"'{a}'" for a in want)
@@ -467,11 +502,15 @@ def execute(plan):
     """One relation per asset - each check runs against its own workflow's table."""
     import duckdb
     con = duckdb.connect()
-    tables = {}
+    tables, made = {}, set()
     for wf, asset in workflows(plan):
-        t = sql_table(asset)
-        con.execute(f'CREATE TABLE "{t}" AS SELECT * FROM {load_code(plan, "duckdb", wf)}')
-        tables[wf] = t
+        for a, _fmt, _loc in loads_of(plan, wf):
+            t = sql_table(a)
+            if t not in made:            # a reference asset may be loaded twice
+                con.execute(
+                    f'CREATE TABLE "{t}" AS SELECT * FROM {load_code(plan, "duckdb", wf, a)}')
+                made.add(t)
+        tables[wf] = sql_table(asset)
     out = {}
     for c in checks(plan):
         wf = workflow_of_check(plan, c)

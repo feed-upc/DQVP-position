@@ -334,3 +334,58 @@
 { ?dv a pc:Deviate ; pc:forCheck ?c . ?c dqvp:deviation ?d . ?d log:uri ?du .
   ( ?du "^.*[/#]([^/#]+)$" ) string:scrape ?dl . }
 => { ?dv pc:parameter [ pc:name "deviationKind" ; pc:value ?dl ] } .
+
+# ---- P7  CROSS-ASSET branch -------------------------------------------------
+#   Filter -> Measure(subject Table + reference Table) -> Compare -> Report
+#
+#   The first requirement whose plan is not a chain over one table. The workflow
+#   gains a SECOND Load, for the reference asset, and Measure takes both tables.
+#
+#   pc:onAsset still names the asset being validated, so the workflow remains
+#   deployable to where that asset lives; pc:referencesAsset declares what else
+#   it has to be able to read. Collapsing the two - letting a workflow simply
+#   "have" two assets - would lose the fact that one of them is the subject and
+#   the other is a lookup, and with it any idea of where to run the check.
+#
+#   No pc:Join operation: for this functionality the join IS the measurement, so
+#   an intermediate joined table would add a node without adding expressiveness.
+#   A Join earns its place when something needs the joined rows themselves.
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col ;
+     dqvp:referenceAsset ?ref .
+  ?m pc:shape pc:CrossAssetShape .
+  ?ref pc:localName ?rl .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/refload" )   string:concatenation ?rls . ?rload log:uri ?rls .
+  ( ?cu "/refsource" ) string:concatenation ?rss . ?rsrc  log:uri ?rss .
+  ( ?cu "/reftable" )  string:concatenation ?rts . ?rtbl  log:uri ?rts .
+  ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
+  ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
+  ( ?cu "/measure" )   string:concatenation ?ms  . ?meas log:uri ?ms  .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?rload, ?flt, ?meas, ?cmp, ?rep ; pc:referencesAsset ?ref .
+     ?rload a pc:Load ; pc:order 1 ; pc:forCheck ?c ; pc:input ?rsrc ; pc:output ?rtbl .
+     ?rsrc a pc:Dataset ; pc:ofAsset ?ref . ?rtbl a pc:Table .
+     ?flt  a pc:Filter  ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl ; pc:output ?ftbl .
+     ?ftbl a pc:Table .
+     ?meas a pc:Measure ; pc:order 3 ; pc:forCheck ?c ; pc:metric ?m ;
+           pc:input ?ftbl, ?rtbl ; pc:output ?mval ;
+           pc:parameter [ pc:name "column" ; pc:value ?col ] ,
+                        [ pc:name "referenceTable" ; pc:value ?rl ] .
+     ?mval a pc:MeasureValue .
+     ?cmp a pc:Compare ; pc:order 4 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd .
+     ?vd a pc:Verdict .
+     ?rep a pc:Report ; pc:order 5 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc .
+     ?rdoc a pc:ReportDoc . } .
+
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:referenceAttribute ?ra .
+  ?ra log:uri ?rau . ( ?rau "^.*[/#]([^/#]+)$" ) string:scrape ?ral . }
+=> { ?meas pc:parameter [ pc:name "referenceColumn" ; pc:value ?ral ] } .

@@ -169,3 +169,17 @@ tmpl:soda_drift tmpl:engine "sodacl" ; tmpl:metric dqvp:PriorMeasurement ;
   tmpl:body "  # NOT EXPRESSIBLE: SodaCL change-over-time checks need Soda Cloud; there is no self-contained form ({{checkId}})" .
 tmpl:dbt_drift tmpl:engine "dbt" ; tmpl:metric dqvp:PriorMeasurement ;
   tmpl:body "-- NOT EXPRESSIBLE: comparing against previous runs is a snapshot/incremental pipeline pattern in dbt, not a test ({{checkId}})" .
+
+# =============================================================================
+# v0.7 cross-asset. SodaCL has a first-class reference check and dbt is a
+# subquery; GX validates one batch and PyDeequ one DataFrame, so neither can
+# reach a second asset from inside a check.
+# =============================================================================
+tmpl:dbt_refint tmpl:engine "dbt" ; tmpl:metric dqvp:ReferentialIntegrity ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where \"{{column}}\" in (select \"{{referenceColumn}}\" from {{dbtRefSource}}))/nullif(count(*) filter (where \"{{column}}\" is not null),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_refint tmpl:engine "sodacl" ; tmpl:metric dqvp:ReferentialIntegrity ;
+  tmpl:body "  - values in ({{column}}) must exist in {{refTable}} ({{referenceColumn}}):\n      name: {{checkId}}" .
+tmpl:gx_refint tmpl:engine "gx" ; tmpl:metric dqvp:ReferentialIntegrity ;
+  tmpl:body "# NOT EXPRESSIBLE: a Great Expectations suite validates one batch; it cannot read {{refTable}}.{{referenceColumn}} from inside a check ({{checkId}})" .
+tmpl:deequ_refint tmpl:engine "deequ" ; tmpl:metric dqvp:ReferentialIntegrity ;
+  tmpl:body "    # NOT EXPRESSIBLE: PyDeequ constraints are scoped to one DataFrame; {{refTable}}.{{referenceColumn}} is outside it  # {{checkId}}" .

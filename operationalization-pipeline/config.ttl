@@ -48,3 +48,6 @@ dqvp:RowExpressionRate pc:shape pc:RowPredicateShape ; pc:aggregation "rate" ; p
 # they share the threshold machinery rather than needing boolean comparison.
 dqvp:SchemaConformance        pc:shape pc:SchemaShape ; pc:isPercentage true .
 dqvp:AttributeTypeConformance pc:shape pc:SchemaShape ; pc:isPercentage true .
+
+# ---- v0.7 cross-asset metric ------------------------------------------------
+dqvp:ReferentialIntegrity pc:shape pc:CrossAssetShape ; pc:isPercentage true .

@@ -216,6 +216,45 @@ requirement that three of four engines cannot state at all, expressed once in th
 policy and evaluated against a history the framework already had. Not a translation
 convenience — an expressiveness gain over every engine it targets.
 
+## Status: axis E is done
+
+The first requirement whose plan is not a chain over one table. The workflow gains a
+**second Load**, for the reference asset, and `Measure` takes both tables.
+
+```
+implemented (a metric exists, rendered by >=1 engine) :  9 / 25
+shape-covered (config + templates, no new rule)       :  8 / 25
+reachable without structural change                   : 17 / 25
+```
+
+`c-enc-patient` measures **96.0%** of encounter identifiers resolving into Patient
+Summary, against a 99% threshold — VIOLATED, and exactly the orphan rate the encounter
+data was seeded with.
+
+### What kept the three-level model intact
+
+The obvious move is to let a workflow simply *have* two assets. That would have
+dissolved the invariant that makes a workflow deployable, so instead:
+
+- `pc:onAsset` stays **single** — the asset being validated, and where the check runs
+- `pc:referencesAsset` declares **what else the check must be able to read**
+
+One of the two assets is the subject and the other is a lookup, and collapsing them
+loses that distinction along with any idea of where to run the thing. The suite now
+asserts `loads == 1 + |referencesAsset|` rather than `loads == 1`.
+
+**No `pc:Join` operation, contrary to the original sketch.** For this functionality the
+join *is* the measurement, so an intermediate joined table would add a node without
+adding expressiveness. A Join earns its place when something needs the joined rows
+themselves — comparing aggregates across two assets, say — and not before.
+
+### Engine split
+
+dbt renders a subquery; SodaCL has a first-class `values in (x) must exist in y (z)`
+check. **GX and PyDeequ both refuse**: a GX suite validates one batch and a PyDeequ
+constraint is scoped to one DataFrame, so neither can reach a second asset from inside
+a check.
+
 ## Proposed increment order
 
 Ordered by unlock per unit of work, not by ambition:
@@ -225,7 +264,7 @@ Ordered by unlock per unit of work, not by ambition:
 | ~~1~~ | ~~**B** row predicate + aggregate~~ | **done** — 9/25 → 12/25 | | |
 | ~~2~~ | ~~**D** schema subject~~ | **done** — 12/25 → 14/25 | | |
 | ~~3~~ | ~~**C** reference operands~~ | **done** — 14/25 → 16/25 | | |
-| 4 | **E** join | 1 (and B6) | plan skeleton, executor multi-table | medium-large |
+| ~~4~~ | ~~**E** join~~ | **done** — 16/25 → 17/25, and closes B6 | | |
 | 5 | **A** typed outputs | 6 | Compare dispatch across every engine | large |
 
 Doing 1–4 takes coverage from 9/25 to **19/25**; B and D are done, so 14/25 today. Axis A is the long tail and the one where

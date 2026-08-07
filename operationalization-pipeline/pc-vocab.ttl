@@ -101,3 +101,12 @@ pc:Baseline a owl:Class ; rdfs:subClassOf pc:Artifact ;
 pc:observedAt a owl:DatatypeProperty ; rdfs:label "when a measurement was taken" .
 pc:measureKey a owl:DatatypeProperty ;
     rdfs:label "what makes two measurements comparable over time: metric, asset, column, grouping" .
+
+# v0.7: a workflow that reads a second asset. pc:onAsset remains the asset being
+# validated - the workflow is still deployed where that asset lives - and
+# pc:referencesAsset declares what else it must reach. A Measure may take more
+# than one Table.
+pc:CrossAssetShape a pc:Shape ;
+    rdfs:label "metric relating the subject asset to a reference asset" .
+pc:referencesAsset a owl:ObjectProperty ; rdfs:domain pc:Workflow ;
+    rdfs:label "a second asset this workflow must be able to read" .

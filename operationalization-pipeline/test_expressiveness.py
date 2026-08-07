@@ -116,6 +116,27 @@ def build_plan():
         g.add((rep, PC.input, vd));          g.add((rep, PC.output, rdoc))
         g.add((rdoc, RDF.type, PC.ReportDoc))
 
+        # cross-asset shape: a second Load, and a Measure over both tables
+        if shape == PC.CrossAssetShape:
+            ref = g.value(c, DQVP.referenceAsset)
+            rl = C.local(ref)
+            rload = URIRef(f"{cu}/refload")
+            rsrc, rtbl = URIRef(f"{cu}/refsource"), URIRef(f"{cu}/reftable")
+            g.add((wf, PC.hasOp, rload)); g.add((wf, PC.referencesAsset, ref))
+            g.add((rload, RDF.type, PC.Load)); g.add((rload, PC.forCheck, c))
+            g.add((rload, PC.input, rsrc)); g.add((rload, PC.output, rtbl))
+            g.add((rsrc, RDF.type, PC.Dataset)); g.add((rsrc, PC.ofAsset, ref))
+            g.add((rtbl, RDF.type, PC.Table))
+            for prop in (PC["format"], PC.locator):
+                v = g.value(ref, prop)
+                if v is not None:
+                    g.add((rsrc, prop, v))
+            g.add((meas, PC.input, rtbl))
+            param(g, meas, "referenceTable", rl)
+            ra = g.value(c, DQVP.referenceAttribute)
+            if ra is not None:
+                param(g, meas, "referenceColumn", C.local(ra))
+
         # schema shape: the subject is the schema, so no row filter and the
         # expected attributes are the set being measured over
         if shape == PC.SchemaShape:
@@ -197,7 +218,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all thirteen constraints produced a branch", len(ids), 13)
+check("all fourteen constraints produced a branch", len(ids), 14)
 
 print()
 print("=" * 74)
@@ -240,6 +261,8 @@ for cid in ["c-uniqueness", "c-volume", "c-crossborder", "c-percountry"]:
               if body else f"    {e:7s}: (no template)")
 
 check("both assets got their own workflow", len(C.workflows(plan)), 2)
+check("referential integrity VIOLATED (96% of encounter IDs resolve, needs 99%)",
+      res["c-enc-patient"][1], False)
 check("schema conformance SATISFIED (all expected attributes declared)",
       res["c-schema"][1], True)
 check("datatype conformance SATISFIED (dateOfBirth is a date)",
