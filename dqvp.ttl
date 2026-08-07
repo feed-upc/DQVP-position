@@ -330,3 +330,48 @@ dqvp:AttributeTypeConformance a odrl:LeftOperand, dqv:Metric, owl:NamedIndividua
     rdfs:comment     "Whether the target attribute is declared with the expected datatype."@en ;
     skos:definition  "100 if dqvp:targetAttribute is declared as dqvp:expectedDatatype in the asset's schema, 0 otherwise."@en ;
     skos:note        "Expressed on the 0-100 scale rather than as a boolean so it shares the threshold machinery of every other metric; state it as odrl:gteq 100."@en .
+
+# =============================================================================
+# v0.6 — the baseline. Every constraint so far compares a measurement to a value
+# stated in the contract. Drift and anomaly requirements compare it to the
+# asset's own history, which makes the record of past measurements an input
+# rather than only an output.
+# =============================================================================
+
+dqvp:baseline a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "baseline"@en ;
+    rdfs:comment     "A reference the current measurement is compared against, drawn from the asset's measurement history."@en ;
+    skos:definition  "A specification of the reference value for a constraint: rather than the literal in odrl:rightOperand, the measurement is compared against previous measurements of the same metric on the same asset."@en ;
+    skos:note        "Composes with any scalar metric, in the way dqvp:groupBy does: a metric plus a baseline is a drift requirement. When present, odrl:rightOperand states a tolerance on the deviation rather than a bound on the measurement itself."@en .
+
+dqvp:PriorMeasurement a rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Prior Measurement"@en ;
+    rdfs:comment     "A baseline taken from previously recorded measurements of the same metric on the same asset."@en ;
+    skos:note        "With dqvp:window n the baseline is the mean of the n most recent measurements; without it, the single most recent."@en .
+
+dqvp:window a rdf:Property, owl:DatatypeProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:PriorMeasurement ;
+    rdfs:label       "window"@en ;
+    rdfs:comment     "How many recent measurements the baseline is drawn from."@en ;
+    skos:definition  "The number of most recent recorded measurements averaged to form the baseline."@en .
+
+dqvp:deviation a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "deviation"@en ;
+    rdfs:comment     "How the current measurement is compared against the baseline."@en ;
+    skos:definition  "The function applied to the measurement and its baseline to produce the value that odrl:operator and odrl:rightOperand then bound."@en .
+
+dqvp:AbsoluteDeviation a owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Absolute Deviation"@en ;
+    skos:definition  "The absolute difference between the measurement and its baseline, in the metric's own units."@en .
+
+dqvp:RelativeDeviation a owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Relative Deviation"@en ;
+    skos:definition  "The absolute difference between the measurement and its baseline, as a percentage of the baseline."@en .

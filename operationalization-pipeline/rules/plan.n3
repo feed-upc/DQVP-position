@@ -301,3 +301,36 @@
 { ?meas a pc:Measure ; pc:forCheck ?c . ?c a dqvp:DQConstraint ; pc:col ?col .
   ?c odrl:leftOperand ?m . ?m pc:shape pc:SchemaShape . }
 => { ?meas pc:parameter [ pc:name "column" ; pc:value ?col ] } .
+
+# ---- Baseline: Recall -> Deviate, spliced between Measure and Compare -------
+#   A constraint carrying dqvp:baseline is not bounded by the literal in
+#   odrl:rightOperand; it is bounded by how far it has moved from its own
+#   history. Recall has no data input - its input is the record of previous
+#   measurements - and Deviate takes two, the measurement and the baseline.
+#
+#   Modelled as a splice rather than a shape so it composes with any scalar
+#   metric: a metric plus a baseline is a drift requirement, whatever the metric.
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:constraint ?c .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; dqvp:baseline ?b .
+  ?op pc:metric ?m ; pc:forCheck ?c ; pc:output ?mval .
+  ?cmp a pc:Compare ; pc:forCheck ?c .
+  ?wf pc:hasOp ?op .
+  ?c log:uri ?cu .
+  ( ?cu "/recall" )    string:concatenation ?rcs . ?rc  log:uri ?rcs .
+  ( ?cu "/baseline" )  string:concatenation ?bls . ?bl  log:uri ?bls .
+  ( ?cu "/deviate" )   string:concatenation ?dvs . ?dv  log:uri ?dvs .
+  ( ?cu "/deviation" ) string:concatenation ?dns . ?dn  log:uri ?dns . }
+=> { ?wf pc:hasOp ?rc, ?dv .
+     ?rc a pc:Recall  ; pc:order 4 ; pc:forCheck ?c ; pc:output ?bl . ?bl a pc:Baseline .
+     ?dv a pc:Deviate ; pc:order 5 ; pc:forCheck ?c ; pc:input ?mval, ?bl ; pc:output ?dn .
+     ?dn a pc:MeasureValue .
+     ?cmp pc:input ?dn . } .
+
+{ ?rc a pc:Recall ; pc:forCheck ?c . ?c dqvp:baseline ?b . ?b dqvp:window ?w . }
+=> { ?rc pc:parameter [ pc:name "window" ; pc:value ?w ] } .
+{ ?rc a pc:Recall ; pc:forCheck ?c . ?c odrl:leftOperand ?m . ?m log:uri ?mu .
+  ( ?mu "^.*[/#]([^/#]+)$" ) string:scrape ?ml . }
+=> { ?rc pc:parameter [ pc:name "baselineMetric" ; pc:value ?ml ] } .
+{ ?dv a pc:Deviate ; pc:forCheck ?c . ?c dqvp:deviation ?d . ?d log:uri ?du .
+  ( ?du "^.*[/#]([^/#]+)$" ) string:scrape ?dl . }
+=> { ?dv pc:parameter [ pc:name "deviationKind" ; pc:value ?dl ] } .

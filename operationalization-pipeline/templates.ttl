@@ -150,3 +150,22 @@ tmpl:soda_dtype tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeTypeConformance
   tmpl:body "  - schema:\n      name: {{checkId}}\n      fail:\n        when wrong column type:\n          {{column}}: {{sqlType|lower}}" .
 tmpl:deequ_dtype tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeTypeConformance ;
   tmpl:body "    .hasDataType(\"{{column}}\", ConstrainableDataTypes.{% if expectedDatatype == 'string' %}String{% elif expectedDatatype in ['integer','int','long'] %}Integral{% elif expectedDatatype in ['decimal','double','float'] %}Fractional{% elif expectedDatatype == 'boolean' %}Boolean{% else %}String{% endif %})  # {{checkId}}" .
+
+# =============================================================================
+# v0.6 baselines. A drift requirement compares a measurement against the asset's
+# own history, which needs a metrics store the check can read. Only Deequ has
+# one; the other three have no way to express "compared with last time" as a
+# declarative check, so they say so.
+#
+# The reference executor CAN evaluate these, because it holds the provenance
+# graph. That asymmetry is the point: this is a class of requirement the
+# contract layer expresses and the engines below it mostly cannot.
+# =============================================================================
+tmpl:deequ_drift tmpl:engine "deequ" ; tmpl:metric dqvp:PriorMeasurement ;
+  tmpl:body "    # {{checkId}} — requires a configured MetricsRepository\n    VerificationSuite().onData(df).useRepository(repo).saveOrAppendResult(key)\n      .addAnomalyCheck(AbsoluteChangeStrategy(maxRateDecrease=-{{threshold}}, maxRateIncrease={{threshold}}),\n                       Completeness(\"{{column}}\"))" .
+tmpl:gx_drift tmpl:engine "gx" ; tmpl:metric dqvp:PriorMeasurement ;
+  tmpl:body "# NOT EXPRESSIBLE: Great Expectations evaluates a batch against declared bounds, not against this asset's previous measurements ({{checkId}})" .
+tmpl:soda_drift tmpl:engine "sodacl" ; tmpl:metric dqvp:PriorMeasurement ;
+  tmpl:body "  # NOT EXPRESSIBLE: SodaCL change-over-time checks need Soda Cloud; there is no self-contained form ({{checkId}})" .
+tmpl:dbt_drift tmpl:engine "dbt" ; tmpl:metric dqvp:PriorMeasurement ;
+  tmpl:body "-- NOT EXPRESSIBLE: comparing against previous runs is a snapshot/incremental pipeline pattern in dbt, not a test ({{checkId}})" .

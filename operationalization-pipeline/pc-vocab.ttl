@@ -88,3 +88,16 @@ pc:Schema a owl:Class ; rdfs:subClassOf pc:Artifact ;
     rdfs:label "the declared attributes and their datatypes" .
 pc:SchemaShape a pc:Shape ;
     rdfs:label "metric measured over a schema rather than over records" .
+
+# v0.6: the measurement history as an input. Recall reads it, Deviate compares
+# the current measurement against it. Composes with any scalar shape rather than
+# introducing one, in the way the grouping parameter does.
+pc:Recall a owl:Class ; rdfs:subClassOf pc:Operation ;
+    rdfs:label "reads prior measurements of this metric on this asset" .
+pc:Deviate a owl:Class ; rdfs:subClassOf pc:Operation ;
+    rdfs:label "compares a measurement against its baseline" .
+pc:Baseline a owl:Class ; rdfs:subClassOf pc:Artifact ;
+    rdfs:label "a reference value drawn from measurement history" .
+pc:observedAt a owl:DatatypeProperty ; rdfs:label "when a measurement was taken" .
+pc:measureKey a owl:DatatypeProperty ;
+    rdfs:label "what makes two measurements comparable over time: metric, asset, column, grouping" .

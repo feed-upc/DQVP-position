@@ -26,7 +26,7 @@ ex:ps-dq-offer-01
         odrl:action  odrl:use ;
         odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency,
                         ex:c-uniqueness, ex:c-volume, ex:c-crossborder, ex:c-percountry,
-                        ex:c-schema, ex:c-dtype
+                        ex:c-schema, ex:c-dtype, ex:c-drift
     ] ;
     # A second rule, on a second asset, expressed as a DUTY: the provider is
     # OBLIGED to keep encounter records complete, rather than being permitted to
@@ -142,3 +142,14 @@ ex:c-dtype a dqvp:DQConstraint ; rdfs:label "c-dtype" ;
     dqvp:expectedDatatype xsd:date ;
     odrl:operator         odrl:gteq ;
     odrl:rightOperand     "100"^^xsd:decimal .
+
+# L7 — bounded by its own history rather than by a literal. The measurement is
+# still the non-null rate; what odrl:rightOperand bounds is how far that rate has
+# moved from the mean of its last three recorded measurements.
+ex:c-drift a dqvp:DQConstraint ; rdfs:label "c-drift" ;
+    odrl:leftOperand     dqvp:NonNullRate ;
+    dqvp:targetAttribute ab:nationalHealthcarePatientID ;
+    dqvp:baseline        [ a dqvp:PriorMeasurement ; dqvp:window 3 ] ;
+    dqvp:deviation       dqvp:AbsoluteDeviation ;
+    odrl:operator        odrl:lteq ;
+    odrl:rightOperand    "2"^^xsd:decimal .

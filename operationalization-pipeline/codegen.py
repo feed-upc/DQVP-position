@@ -239,6 +239,11 @@ def generate(plan):
         if ctx.get("expectedDatatype"):
             ctx["sqlType"] = XSD_TO_SQL.get(ctx["expectedDatatype"], "")
         m = plan.value(measure_op(plan, c), PC.metric)
+        # A constraint with a baseline is a drift requirement: what an engine has
+        # to express is the comparison against history, not the base metric.
+        b = plan.value(c, DQVP.baseline)
+        if b is not None:
+            m = plan.value(b, RDF.type) or m
         for e in engines:
             body = tpl.get((e, m))
             if not body:
@@ -370,6 +375,94 @@ def _measure_sql(plan, c, ctx, table):
             f'group by "{gcol}")')
 
 
+HISTORY = HERE / "artifacts" / "history.ttl"
+
+
+def _history_graph():
+    g = Graph()
+    if HISTORY.exists():
+        g.parse(HISTORY, format="turtle")
+    return g
+
+
+def _measure_key(plan, c):
+    """What makes two measurements comparable over time.
+
+    Not the constraint - two constraints may measure the same thing - and not
+    the metric alone: c-completeness and c-percountry both measure NonNullRate
+    of the same column on the same asset, but one is global and the other is the
+    worst partition, so their histories must not mix.
+    """
+    ctx = context_of(plan, c)
+    return "|".join([
+        local(plan.value(measure_op(plan, c), PC.metric)),
+        local(asset_of_check(plan, c)),
+        str(ctx.get("column", "")),
+        str(ctx.get("groupColumn", "")),
+    ])
+
+
+def recall_baseline(plan, c, hist=None):
+    """The baseline for a check: the mean of its most recent recorded
+    measurements of the same metric on the same asset.
+
+    Returns None when there is no history to compare against - a drift
+    requirement on a first run has nothing to say, and saying nothing is the
+    honest answer.
+    """
+    ctx = context_of(plan, c)
+    key = _measure_key(plan, c)
+    window = int(float(ctx.get("window", 1)))
+    hist = _history_graph() if hist is None else hist
+
+    seen = []
+    for obs in hist.subjects(RDF.type, DQV.QualityMeasurement):
+        if str(hist.value(obs, PC.measureKey) or "") != key:
+            continue
+        at, val = hist.value(obs, PC.observedAt), hist.value(obs, DQV.value)
+        if at is not None and val is not None:
+            seen.append((str(at), float(val)))
+    if not seen:
+        return None
+    recent = [v for _, v in sorted(seen)[-window:]]
+    return sum(recent) / len(recent)
+
+
+def deviation(measured, baseline, kind):
+    """How far a measurement has moved from its baseline."""
+    if baseline is None or measured is None:
+        return None
+    if kind == "RelativeDeviation":
+        if baseline == 0:
+            return None
+        return abs(measured - baseline) / abs(baseline) * 100.0
+    return abs(measured - baseline)          # AbsoluteDeviation, in the metric's units
+
+
+def record_history(plan, results, path=None):
+    """Append this run's measurements so later runs have something to recall."""
+    import datetime
+    path = HISTORY if path is None else path
+    path.parent.mkdir(exist_ok=True)
+    g = _history_graph()
+    now = datetime.datetime.now().isoformat()
+    for c in checks(plan):
+        cid = local(c)
+        if cid not in results or results[cid][0] is None:
+            continue
+        if plan.value(c, DQVP.baseline) is not None:
+            continue                          # a deviation is not itself a measurement
+        obs = URIRef(f"{c}/observation/{now}")
+        g.add((obs, RDF.type, DQV.QualityMeasurement))
+        g.add((obs, DQV.isMeasurementOf, plan.value(measure_op(plan, c), PC.metric)))
+        g.add((obs, PC.onAsset, asset_of_check(plan, c)))
+        g.add((obs, PC.measureKey, Literal(_measure_key(plan, c))))
+        g.add((obs, PC.observedAt, Literal(now, datatype=XSD.dateTime)))
+        g.add((obs, DQV.value, Literal(results[cid][0], datatype=XSD.decimal)))
+    g.serialize(destination=str(path), format="turtle")
+    return g
+
+
 def execute(plan):
     """One relation per asset - each check runs against its own workflow's table."""
     import duckdb
@@ -387,6 +480,14 @@ def execute(plan):
         ctx = context_of(plan, c)
         v = con.execute(_measure_sql(plan, c, ctx, tables[wf])).fetchone()[0]
         v = None if v is None else round(float(v), 4)
+
+        # A constraint with a baseline is bounded by how far the measurement has
+        # moved, not by the measurement itself.
+        if plan.value(c, DQVP.baseline) is not None:
+            base = recall_baseline(plan, c)
+            v = deviation(v, base, ctx.get("deviationKind", "AbsoluteDeviation"))
+            v = None if v is None else round(v, 4)
+
         op = local(plan.value(c, ODRL.operator))
         ok = None if v is None else eval(f"{v} {OPSYM[op][1]} {float(ctx['threshold'])}")
         out[local(c)] = (v, ok)

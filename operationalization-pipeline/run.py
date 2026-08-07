@@ -53,6 +53,10 @@ bar("STAGE 3  execute + record dqv:QualityMeasurement (provenance, #5)")
 results = C.execute(plan)
 meas = C.measurements_graph(plan, results)
 meas.serialize(destination=str(ART / "measurements.ttl"), format="turtle")
+# Append to the measurement history, so a later run's baseline has something to
+# recall. A constraint carrying dqvp:baseline records nothing: a deviation is
+# not itself a measurement of the asset.
+C.record_history(plan, results)
 try:                                  # cross-check against a second engine
     gx_res = C.run_gx(code["gx"], plan)
 except NotImplementedError as e:      # e.g. an incompatible great_expectations

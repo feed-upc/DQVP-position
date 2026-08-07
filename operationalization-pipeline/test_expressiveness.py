@@ -197,7 +197,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all twelve constraints produced a branch", len(ids), 12)
+check("all thirteen constraints produced a branch", len(ids), 13)
 
 print()
 print("=" * 74)

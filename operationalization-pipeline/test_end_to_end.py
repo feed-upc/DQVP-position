@@ -192,8 +192,16 @@ else:
         v, ok = res[cid]
         print(f"  {cid:18s} {('—' if v is None else f'{v:10.4f}')}  "
               f"{'—' if ok is None else ('SATISFIED' if ok else 'VIOLATED')}")
-    check("every check produced a verdict",
-          all(ok is not None for _, ok in res.values()))
+    # A constraint bounded by its own history has nothing to say until there IS
+    # a history. Reporting no verdict is the correct answer on a first run, not
+    # a failure, so it is asserted rather than excused.
+    baselined = {C.local(c) for c in C.checks(plan)
+                 if plan.value(c, C.DQVP.baseline) is not None}
+    check("every check without a baseline produced a verdict",
+          all(ok is not None for cid, (_, ok) in res.items() if cid not in baselined))
+    if baselined and not C.HISTORY.exists():
+        check("a baseline check reports no verdict before any history exists",
+              all(res[cid][1] is None for cid in baselined if cid in res))
     check("checks ran against their own asset (encounter 98%, not patient 98%)",
           res["c-enc-discharge"][0], 98.0)
     check("c-uniqueness SATISFIED", res["c-uniqueness"][1], True)
@@ -211,7 +219,8 @@ else:
     meas = C.measurements_graph(plan, res)
     mvals = list(meas.subjects(RDF.type, DQV.QualityMeasurement))
     print(f"  {len(mvals)} dqv:QualityMeasurement nodes")
-    check("one measurement per executed check", len(mvals), len(res))
+    measured = [cid for cid, (v, _) in res.items() if v is not None]
+    check("one measurement per check that produced a value", len(mvals), len(measured))
     check("every measurement carries a value",
           all(meas.value(m, DQV.value) is not None for m in mvals))
     check("every measurement carries a verdict",

@@ -78,12 +78,13 @@ FUNCTIONALITIES = [
      "measured value is a matrix, or a scalar for one pair"),
     ("f-22", "mutual information checks", "axis:A", None,
      "measured value is a matrix"),
-    ("f-23", "anomaly detection", "axis:C", None,
-     "needs a baseline drawn from prior measurements"),
+    ("f-23", "anomaly detection", "shape", None,
+     "the baseline machinery is in place; a sigma-based deviation kind alongside "
+     "Absolute and Relative is a config addition, not a structural one"),
     ("f-24", "target labels/values do not conflict", "shape", None,
      "expressible per case as a row predicate; not a single reusable metric"),
-    ("f-25", "data drift detection", "axis:C", None,
-     "needs a reference distribution, declared or historical"),
+    ("f-25", "data drift detection", "implemented", "PriorMeasurement",
+     "axis C: Recall reads the measurement history, Deviate compares against it"),
 ]
 
 # The four engines this pipeline targets, all within the survey's seven.

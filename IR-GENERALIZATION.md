@@ -178,6 +178,44 @@ Deequ has no set-of-columns constraint, so `SchemaConformance` refuses there —
 independent `NOT EXPRESSIBLE`, alongside GX's missing column-pair inequality and the
 per-group evaluation gap.
 
+## Status: axis C is done
+
+`pc:Recall` reads the measurement history, `pc:Deviate` compares the current
+measurement against it, and the pair is **spliced between Measure and Compare** rather
+than being a shape — so it composes with any scalar metric, the way `groupBy` does. A
+metric plus a baseline is a drift requirement, whatever the metric.
+
+```
+implemented (a metric exists, rendered by >=1 engine) :  8 / 25
+shape-covered (config + templates, no new rule)       :  8 / 25
+reachable without structural change                   : 16 / 25
+```
+
+Demonstrated across three runs: no history → **no verdict** (a drift check on a first
+run has nothing to say, and saying nothing is the honest answer); unchanged data →
+deviation 0.0, SATISFIED; 6% of the identifiers blanked → deviation 6.0 against a
+tolerance of 2, VIOLATED.
+
+The history is keyed on **metric, asset, column and grouping** rather than on the
+metric alone — `c-completeness` and `c-percountry` both measure `NonNullRate` of the
+same column on the same asset, but one is global and the other the worst partition, and
+mixing their histories would silently corrupt both baselines.
+
+### The asymmetry worth noticing
+
+Of the four engines, only **Deequ** can express this, and only with a configured
+`MetricsRepository`. GX evaluates a batch against declared bounds. SodaCL's
+change-over-time checks need Soda Cloud. In dbt, comparing against previous runs is a
+snapshot or incremental *pipeline pattern*, not a test.
+
+The reference executor evaluates it without difficulty, because it holds the provenance
+graph — the measurements were always being written, nothing had ever read them back.
+
+**That is the strongest argument yet for the contract layer.** Here is a class of
+requirement that three of four engines cannot state at all, expressed once in the
+policy and evaluated against a history the framework already had. Not a translation
+convenience — an expressiveness gain over every engine it targets.
+
 ## Proposed increment order
 
 Ordered by unlock per unit of work, not by ambition:
@@ -186,7 +224,7 @@ Ordered by unlock per unit of work, not by ambition:
 |---|---|---|---|---|
 | ~~1~~ | ~~**B** row predicate + aggregate~~ | **done** — 9/25 → 12/25 | | |
 | ~~2~~ | ~~**D** schema subject~~ | **done** — 12/25 → 14/25 | | |
-| 3 | **C** reference operands | 2 | vocabulary + Resolve generalization + executor reads back measurements | medium |
+| ~~3~~ | ~~**C** reference operands~~ | **done** — 14/25 → 16/25 | | |
 | 4 | **E** join | 1 (and B6) | plan skeleton, executor multi-table | medium-large |
 | 5 | **A** typed outputs | 6 | Compare dispatch across every engine | large |
 
