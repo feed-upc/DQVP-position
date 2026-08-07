@@ -14,6 +14,8 @@ Each functionality carries a status:
   shape        the substrate covers it; adding it is a config row plus template
                rows, with no new reasoning rule
   axis:X       needs a named structural generalization (see IR-GENERALIZATION.md)
+  operand      the measurement is fine; the *right* operand is structured and the
+               profile has no way to carry it yet
   out          outside a relational, scalar-over-relations substrate
 
 Claims of `implemented` are verified against the profile and the templates rather
@@ -58,9 +60,10 @@ FUNCTIONALITIES = [
      "axis E: a second Load in the workflow, and a Measure over both tables"),
     ("f-12", "adjacent intervals do not overlap", "axis:B+", None,
      "record-level over an ordered window"),
-    ("f-13", "histogram checks", "axis:A", None,
+    ("f-13", "histogram checks", "operand", None,
      "the only one that genuinely resists reduction: comparing a whole "
-     "distribution needs a reference distribution as a structured operand"),
+     "distribution needs a reference distribution as a structured operand — "
+     "an operand problem (B2 at a larger scale), not a measured-value one"),
     ("f-14", "quantiles checks", "implemented", "Quantile",
      "a named quantile is a scalar; only the whole quantile vector is not, and no "
      "requirement is stated over the vector"),
@@ -140,14 +143,14 @@ def main():
 
     impl = counts.get("implemented", 0)
     shape = counts.get("shape", 0)
-    axes = {k: v for k, v in counts.items() if k.startswith("axis")}
+    rest = {k: v for k, v in counts.items() if k not in ("implemented", "shape")}
 
     print("\n  " + "-" * 88)
     print(f"  implemented (a metric exists, rendered by >=1 engine) : {impl:2d} / 25")
     print(f"  shape-covered (config + templates, no new rule)       : {shape:2d} / 25")
     print(f"  reachable without structural change                  : {impl + shape:2d} / 25")
-    for a in sorted(axes):
-        print(f"  needs {a:<15s}                                : {axes[a]:2d} / 25")
+    for a in sorted(rest):
+        print(f"  needs {a:<15s}                                : {rest[a]:2d} / 25")
 
     print("\n  engine coverage of the implemented metrics:")
     for fid, name, status, metric, _ in FUNCTIONALITIES:

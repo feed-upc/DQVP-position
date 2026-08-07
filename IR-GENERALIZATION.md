@@ -313,9 +313,19 @@ Ordered by unlock per unit of work, not by ambition:
 | ~~4~~ | ~~**E** join~~ | **done** — 16/25 → 17/25, and closes B6 | | |
 | ~~5~~ | ~~**A** typed outputs~~ | **dissolved** — 17/25 → 22/25 by summarising in the metric instead | | |
 
-Doing 1–4 takes coverage from 9/25 to **19/25**; B and D are done, so 14/25 today. Axis A is the long tail and the one where
-engine support genuinely diverges — which makes it the best source of `NOT EXPRESSIBLE`
-results rather than a failure to implement.
+All five are settled: four built, one dissolved. Coverage went **9/25 → 22/25**, and the
+last increment cost the least because it turned out to need no structure at all.
+
+What is left is three functionalities and two reasons:
+
+| Left | Why | Would need |
+|---|---|---|
+| f-13 histogram | the *reference distribution* is a structured operand | a way to carry a non-scalar right operand — B2 at a larger scale |
+| f-08 ordering, f-12 interval overlap | the predicate is over an ordered *window*, not one record | `RowPredicate` extended with an ordering and a lag — call it B+ |
+
+Neither is a gap in the measured-value model, which is what the axes were about. Engine
+support diverges most sharply here too, so these are the best remaining source of
+`NOT EXPRESSIBLE` results rather than a failure to implement.
 
 ## What this buys, as a claim
 
