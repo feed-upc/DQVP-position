@@ -259,3 +259,45 @@
   ?o pc:sqlSymbol ?s ; pc:pySymbol ?p . }
 => { ?rp pc:parameter [ pc:name "rowSqlOp" ; pc:value ?s ] ,
                       [ pc:name "rowPyOp"  ; pc:value ?p ] } .
+
+# ---- P6  SCHEMA branch: Describe -> Measure -> Compare -> Report -------------
+#   A schema metric measures the shape of the asset, not its records, so the
+#   branch has no Filter: a row predicate over a schema is meaningless. Describe
+#   makes the derivation explicit rather than letting Measure reach past the
+#   Table for something the plan never named.
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m . ?m pc:shape pc:SchemaShape .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/describe" )  string:concatenation ?ds  . ?desc log:uri ?ds  .
+  ( ?cu "/schema" )    string:concatenation ?scs . ?sch  log:uri ?scs .
+  ( ?cu "/measure" )   string:concatenation ?ms  . ?meas log:uri ?ms  .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?desc, ?meas, ?cmp, ?rep .
+     ?desc a pc:Describe ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl ; pc:output ?sch .
+     ?sch a pc:Schema .
+     ?meas a pc:Measure ; pc:order 3 ; pc:forCheck ?c ; pc:metric ?m ;
+           pc:input ?sch ; pc:output ?mval . ?mval a pc:MeasureValue .
+     ?cmp a pc:Compare ; pc:order 4 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd .
+     ?vd a pc:Verdict .
+     ?rep a pc:Report ; pc:order 5 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc .
+     ?rdoc a pc:ReportDoc . } .
+
+# ---- Schema-metric parameters ----------------------------------------------
+#  one expectedAttribute parameter per expected attribute (the set is the subject)
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:expectedAttribute ?a .
+  ?a log:uri ?au . ( ?au "^.*[/#]([^/#]+)$" ) string:scrape ?al . }
+=> { ?meas pc:parameter [ pc:name "expectedAttribute" ; pc:value ?al ] } .
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:expectedDatatype ?d .
+  ?d log:uri ?du . ( ?du "^.*[/#]([^/#]+)$" ) string:scrape ?dl . }
+=> { ?meas pc:parameter [ pc:name "expectedDatatype" ; pc:value ?dl ] } .
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c a dqvp:DQConstraint ; pc:col ?col .
+  ?c odrl:leftOperand ?m . ?m pc:shape pc:SchemaShape . }
+=> { ?meas pc:parameter [ pc:name "column" ; pc:value ?col ] } .

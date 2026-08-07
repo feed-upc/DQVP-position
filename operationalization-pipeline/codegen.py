@@ -230,6 +230,14 @@ def generate(plan):
         # dbt's own {{ source() }} is built here rather than guarded with
         # {% raw %} in every template, so the relation follows the asset.
         ctx["dbtSource"] = "{{ source('ehds','" + ctx["sourceTable"] + "') }}"
+        want = _expected(ctx)
+        if want:
+            ctx["gxColumnSet"] = "[" + ", ".join(f'"{a}"' for a in want) + "]"
+            ctx["sqlColumnList"] = ", ".join(f"'{a}'" for a in want)
+            ctx["sodaColumnList"] = "[" + ", ".join(want) + "]"
+            ctx["expectedCount"] = len(want)
+        if ctx.get("expectedDatatype"):
+            ctx["sqlType"] = XSD_TO_SQL.get(ctx["expectedDatatype"], "")
         m = plan.value(measure_op(plan, c), PC.metric)
         for e in engines:
             body = tpl.get((e, m))
@@ -244,6 +252,30 @@ def generate(plan):
 
 
 # ---- reference executor (mechanical) — value SQL reuses filter_clause -------
+
+SCHEMA_METRICS = {"SchemaConformance", "AttributeTypeConformance"}
+
+# XSD datatype -> a pattern matched against the engine's declared column type.
+# The contract carries the XSD IRI; each engine maps it, and one with no
+# corresponding type refuses rather than approximating.
+XSD_TO_SQL = {
+    "string": "VARCHAR", "date": "DATE", "dateTime": "TIMESTAMP",
+    "integer": "INT", "int": "INT", "long": "BIGINT",
+    "decimal": "DECIMAL", "double": "DOUBLE", "float": "FLOAT",
+    "boolean": "BOOLEAN",
+}
+
+
+def _expected(ctx):
+    v = ctx.get("expectedAttribute")
+    return [] if v is None else (v if isinstance(v, list) else [v])
+
+
+def _measure_source(plan, c, table):
+    """The relation a metric is measured over - the records, or the schema."""
+    m = local(plan.value(measure_op(plan, c), PC.metric))
+    return f'(describe "{table}")' if m in SCHEMA_METRICS else f'"{table}"'
+
 
 def _measure_expr(plan, c, ctx):
     """The metric's SQL expression, before any grouping is applied."""
@@ -276,6 +308,18 @@ def _measure_expr(plan, c, ctx):
         return _aggregate(ctx, pred, defined)
     if m == "RowExpressionRate":
         return _aggregate(ctx, ctx.get("rowExpression"), None)
+    if m == "SchemaConformance":
+        want = _expected(ctx)
+        inlist = ", ".join(f"'{a}'" for a in want)
+        return f"100.0*count(*) filter (where column_name in ({inlist}))/{len(want)}"
+    if m == "AttributeTypeConformance":
+        dt = ctx.get("expectedDatatype")
+        pat = XSD_TO_SQL.get(dt)
+        if pat is None:
+            raise NotImplementedError(
+                f"no SQL type for xsd:{dt}; known: {', '.join(sorted(XSD_TO_SQL))}")
+        return (f"100.0*count(*) filter (where column_name = '{col}'"
+                f" and upper(column_type) like '%{pat}%')")
     raise NotImplementedError(m)
 
 
@@ -308,10 +352,13 @@ _GROUP_AGG = {"gteq": "min", "gt": "min", "lteq": "max", "lt": "max"}
 
 
 def _measure_sql(plan, c, ctx, table):
-    where, expr = filter_clause("sql", ctx), _measure_expr(plan, c, ctx)
+    src = _measure_source(plan, c, table)
+    # A row filter over a schema is meaningless, so it is not applied there.
+    where = "" if src.startswith("(describe") else filter_clause("sql", ctx)
+    expr = _measure_expr(plan, c, ctx)
     gcol = ctx.get("groupColumn")
     if not gcol:
-        return f'select {expr} from "{table}"{where}'
+        return f"select {expr} from {src}{where}"
     op = local(plan.value(c, ODRL.operator))
     agg = _GROUP_AGG.get(op)
     if agg is None:
@@ -319,7 +366,7 @@ def _measure_sql(plan, c, ctx, table):
             f"dqvp:groupBy with odrl:operator {op}: universal quantification over "
             f"partitions has no worst-case aggregate for this operator"
         )
-    return (f'select {agg}(r) from (select {expr} as r from "{table}"{where} '
+    return (f"select {agg}(r) from (select {expr} as r from {src}{where} "
             f'group by "{gcol}")')
 
 

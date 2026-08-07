@@ -116,9 +116,20 @@ def build_plan():
         g.add((rep, PC.input, vd));          g.add((rep, PC.output, rdoc))
         g.add((rdoc, RDF.type, PC.ReportDoc))
 
+        # schema shape: the subject is the schema, so no row filter and the
+        # expected attributes are the set being measured over
+        if shape == PC.SchemaShape:
+            for a in g.objects(c, DQVP.expectedAttribute):
+                param(g, meas, "expectedAttribute", C.local(a))
+            dt = g.value(c, DQVP.expectedDatatype)
+            if dt is not None:
+                param(g, meas, "expectedDatatype", C.local(dt))
+
         # column parameters, per shape
         if shape != PC.TableShape:
-            param(g, meas, "column", C.local(g.value(c, DQVP.targetAttribute)))
+            ta = g.value(c, DQVP.targetAttribute)
+            if ta is not None:
+                param(g, meas, "column", C.local(ta))
         if shape == PC.PairColumnShape:
             param(g, meas, "column2", C.local(g.value(c, DQVP.comparedAttribute)))
 
@@ -186,7 +197,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all ten constraints produced a branch", len(ids), 10)
+check("all twelve constraints produced a branch", len(ids), 12)
 
 print()
 print("=" * 74)
@@ -229,6 +240,13 @@ for cid in ["c-uniqueness", "c-volume", "c-crossborder", "c-percountry"]:
               if body else f"    {e:7s}: (no template)")
 
 check("both assets got their own workflow", len(C.workflows(plan)), 2)
+check("schema conformance SATISFIED (all expected attributes declared)",
+      res["c-schema"][1], True)
+check("datatype conformance SATISFIED (dateOfBirth is a date)",
+      res["c-dtype"][1], True)
+check("schema metrics are measured over the schema, not the records",
+      "describe" in C._measure_sql(plan, EX["c-schema"],
+                                   C.context_of(plan, EX["c-schema"]), "t"), True)
 check("record-level comparison SATISFIED (dates ordered in 100% of encounters)",
       res["c-enc-dates"][1], True)
 check("the record operator is distinct from the threshold operator",

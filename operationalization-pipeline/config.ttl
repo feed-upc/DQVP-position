@@ -42,3 +42,9 @@ dqvp:RowExpressionRate pc:shape pc:RowPredicateShape ; pc:aggregation "rate" ; p
 
 # Record-level operators. Reusing the same symbol table as the threshold
 # comparison: an operator is an operator, whichever level it is applied at.
+
+# ---- v0.5 schema metrics ----------------------------------------------------
+# Measured over the schema, so no row filter applies. Both report on 0-100 so
+# they share the threshold machinery rather than needing boolean comparison.
+dqvp:SchemaConformance        pc:shape pc:SchemaShape ; pc:isPercentage true .
+dqvp:AttributeTypeConformance pc:shape pc:SchemaShape ; pc:isPercentage true .

@@ -231,10 +231,27 @@ else:
         p = C.build_plan(ds)
         per_format[fmt] = {k: v[1] for k, v in C.execute(p).items()}
         print(f"    {fmt:8s} {len(per_format[fmt])} checks executed")
+    # Record-level metrics must agree across serializations: only the Load
+    # differs, and the records are the same records.
+    #
+    # Schema metrics are a different case, and legitimately so. Their subject IS
+    # the thing that differs between formats, so they can and should disagree -
+    # here the parquet file declares dateOfBirth as VARCHAR while CSV and JSON
+    # inference give DATE. That is the check doing its job on a real
+    # inconsistency between three serializations of one dataset, not a defect.
+    schema_checks = {"c-schema", "c-dtype"}
     base = per_format["csv"]
     for fmt in ("json", "parquet"):
-        check(f"{fmt} yields identical verdicts to csv", per_format[fmt], base)
+        record_only = {k: v for k, v in per_format[fmt].items() if k not in schema_checks}
+        check(f"{fmt} agrees with csv on every record-level metric",
+              record_only, {k: v for k, v in base.items() if k not in schema_checks})
     note("only the Load operation changes; the check code is format-agnostic")
+    differing = [k for k in schema_checks
+                 if per_format["parquet"].get(k) != base.get(k)]
+    check("a schema metric detects the type difference in the parquet file",
+          differing, ["c-dtype"])
+    note("schema metrics are format-sensitive by nature - the schema is exactly")
+    note("what a serialization changes, so format-invariance cannot apply to them")
 
 
 # ------------------------------------------------------------ 10. rule coverage

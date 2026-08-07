@@ -292,3 +292,41 @@ dqvp:RowExpressionRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos
     rdfs:comment     "Percentage of records satisfying a boolean expression."@en ;
     skos:definition  "Percentage of records for which dqvp:rowExpression evaluates true, in the range 0 to 100."@en ;
     skos:note        "Requires dqvp:rowExpression, whose contents are engine syntax and therefore not portable across engines."@en .
+
+# =============================================================================
+# v0.5 — the schema as a subject of measurement. Everything so far measures
+# records; a requirement can also be about the shape of the data rather than its
+# contents.
+# =============================================================================
+
+dqvp:expectedAttribute a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "expected attribute"@en ;
+    rdfs:comment     "An attribute the dataset is required to carry."@en ;
+    skos:definition  "An attribute that must be present in the asset's schema. The property MAY be repeated; the measurement is over the set of expected attributes."@en ;
+    skos:note        "Distinct from dqvp:targetAttribute, which names the attribute a metric is computed over. This one names an attribute whose mere presence is the requirement."@en .
+
+dqvp:expectedDatatype a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "expected datatype"@en ;
+    rdfs:comment     "The datatype the target attribute is required to have."@en ;
+    skos:definition  "An XSD datatype that dqvp:targetAttribute must be declared as in the asset's schema."@en ;
+    skos:note        "Carried as an XSD IRI so the contract stays engine-neutral; each engine maps it to its own type names, and an engine with no matching type refuses rather than approximating."@en .
+
+dqvp:SchemaConformance a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Completeness ;
+    rdfs:label       "Schema Conformance"@en ;
+    rdfs:comment     "Percentage of the expected attributes that the asset's schema declares."@en ;
+    skos:definition  "Percentage of dqvp:expectedAttribute values present in the asset's schema, in the range 0 to 100."@en ;
+    skos:note        "Measured over the schema, not the records, so no row filter applies. Grounded in Completeness at the level of expected attributes rather than expected values."@en .
+
+dqvp:AttributeTypeConformance a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Compliance ;
+    rdfs:label       "Attribute Type Conformance"@en ;
+    rdfs:comment     "Whether the target attribute is declared with the expected datatype."@en ;
+    skos:definition  "100 if dqvp:targetAttribute is declared as dqvp:expectedDatatype in the asset's schema, 0 otherwise."@en ;
+    skos:note        "Expressed on the 0-100 scale rather than as a boolean so it shares the threshold machinery of every other metric; state it as odrl:gteq 100."@en .

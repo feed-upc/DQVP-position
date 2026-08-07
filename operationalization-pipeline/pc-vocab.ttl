@@ -79,3 +79,12 @@ pc:RowPredicateShape a pc:Shape ;
     rdfs:label "record-level predicate, then aggregation" .
 pc:aggregation a owl:DatatypeProperty ;
     rdfs:label "how a mask reduces to a scalar: rate | all | any | count" .
+
+# v0.5: the schema as a subject. Describe derives it from the loaded table, so a
+# workflow still has exactly one Load and the derivation stays visible in the plan.
+pc:Describe a owl:Class ; rdfs:subClassOf pc:Operation ;
+    rdfs:label "derives a schema from a table" .
+pc:Schema a owl:Class ; rdfs:subClassOf pc:Artifact ;
+    rdfs:label "the declared attributes and their datatypes" .
+pc:SchemaShape a pc:Shape ;
+    rdfs:label "metric measured over a schema rather than over records" .

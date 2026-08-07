@@ -146,6 +146,38 @@ the derived render-value rules were keyed on the `pc:Measure` *class* rather tha
 `complement`. Shapes multiply; keying on the property rather than the class is what
 keeps them from having to.
 
+## Status: axis D is done
+
+`pc:Describe` derives a `pc:Schema` from the loaded Table, and a `SchemaShape` branch
+measures it — no Filter, because a row predicate over a schema is meaningless.
+`dqvp:expectedAttribute` (repeatable) and `dqvp:expectedDatatype` (an XSD IRI, mapped
+per engine) carry the requirement.
+
+```
+implemented (a metric exists, rendered by >=1 engine) :  7 / 25
+shape-covered (config + templates, no new rule)       :  7 / 25
+reachable without structural change                   : 14 / 25
+```
+
+Verified to discriminate rather than trivially pass: 4-of-4 expected attributes gives
+100 and SATISFIED, 3-of-4 gives 75 and VIOLATED; `dateOfBirth` as `xsd:date` gives 100,
+as `xsd:integer` gives 0.
+
+**And it immediately found something.** Running the same policy over CSV, JSON and
+Parquet, the schema check reports 0 on Parquet: that file declares `dateOfBirth` as
+`VARCHAR` while CSV and JSON inference give `DATE`. A real inconsistency between three
+serializations of one dataset, caught by the check.
+
+That forces a qualification on the format-invariance claim, and a useful one.
+**Record-level metrics are format-invariant; schema metrics are not, and cannot be** —
+their subject is precisely what a serialization changes. The end-to-end suite now
+asserts invariance for record metrics and asserts the *divergence* for the schema
+metric, rather than pretending the two behave alike.
+
+Deequ has no set-of-columns constraint, so `SchemaConformance` refuses there — a third
+independent `NOT EXPRESSIBLE`, alongside GX's missing column-pair inequality and the
+per-group evaluation gap.
+
 ## Proposed increment order
 
 Ordered by unlock per unit of work, not by ambition:
@@ -153,12 +185,12 @@ Ordered by unlock per unit of work, not by ambition:
 | # | Axis | Unlocks | Touches | Rough size |
 |---|---|---|---|---|
 | ~~1~~ | ~~**B** row predicate + aggregate~~ | **done** — 9/25 → 12/25 | | |
-| 2 | **D** schema subject | 2 | 1 rule, 1 artifact type, 4 templates | small |
+| ~~2~~ | ~~**D** schema subject~~ | **done** — 12/25 → 14/25 | | |
 | 3 | **C** reference operands | 2 | vocabulary + Resolve generalization + executor reads back measurements | medium |
 | 4 | **E** join | 1 (and B6) | plan skeleton, executor multi-table | medium-large |
 | 5 | **A** typed outputs | 6 | Compare dispatch across every engine | large |
 
-Doing 1–4 takes coverage from **9/25 to 19/25**. Axis A is the long tail and the one where
+Doing 1–4 takes coverage from 9/25 to **19/25**; B and D are done, so 14/25 today. Axis A is the long tail and the one where
 engine support genuinely diverges — which makes it the best source of `NOT EXPRESSIBLE`
 results rather than a failure to implement.
 

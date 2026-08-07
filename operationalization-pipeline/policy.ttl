@@ -25,7 +25,8 @@ ex:ps-dq-offer-01
         odrl:target  dp:PatientSummary ;
         odrl:action  odrl:use ;
         odrl:constraint ex:c-completeness, ex:c-compliance, ex:c-consistency,
-                        ex:c-uniqueness, ex:c-volume, ex:c-crossborder, ex:c-percountry
+                        ex:c-uniqueness, ex:c-volume, ex:c-crossborder, ex:c-percountry,
+                        ex:c-schema, ex:c-dtype
     ] ;
     # A second rule, on a second asset, expressed as a DUTY: the provider is
     # OBLIGED to keep encounter records complete, rather than being permitted to
@@ -125,3 +126,19 @@ ex:c-enc-dates a dqvp:DQConstraint ; rdfs:label "c-enc-dates" ;
     dqvp:rowOperator       odrl:gteq ;
     odrl:operator          odrl:gteq ;
     odrl:rightOperand      "99"^^xsd:decimal .
+
+# L6 — measured over the schema rather than the records. No row filter applies;
+# the subject of measurement is the shape of the asset, not its contents.
+ex:c-schema a dqvp:DQConstraint ; rdfs:label "c-schema" ;
+    odrl:leftOperand       dqvp:SchemaConformance ;
+    dqvp:expectedAttribute ab:nationalHealthcarePatientID , ab:gender ,
+                           ab:countryOfAffiliation , ab:dateOfBirth ;
+    odrl:operator          odrl:gteq ;
+    odrl:rightOperand      "100"^^xsd:decimal .
+
+ex:c-dtype a dqvp:DQConstraint ; rdfs:label "c-dtype" ;
+    odrl:leftOperand      dqvp:AttributeTypeConformance ;
+    dqvp:targetAttribute  ab:dateOfBirth ;
+    dqvp:expectedDatatype xsd:date ;
+    odrl:operator         odrl:gteq ;
+    odrl:rightOperand     "100"^^xsd:decimal .

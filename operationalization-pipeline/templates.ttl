@@ -125,3 +125,28 @@ tmpl:deequ_rowexpr tmpl:engine "deequ" ; tmpl:metric dqvp:RowExpressionRate ;
   tmpl:body "    .satisfies(\"{{rowExpression}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
 tmpl:gx_rowexpr tmpl:engine "gx" ; tmpl:metric dqvp:RowExpressionRate ;
   tmpl:body "# NOT EXPRESSIBLE: Great Expectations has no free-form row-expression expectation ({{rowExpression}})" .
+
+# =============================================================================
+# v0.5 schema metrics. Measured over the schema, so no row filter is injected.
+# Deequ has no set-of-columns constraint, so it refuses rather than approximating.
+# =============================================================================
+
+#### SchemaConformance — the expected attributes are declared ####
+tmpl:gx_schema tmpl:engine "gx" ; tmpl:metric dqvp:SchemaConformance ;
+  tmpl:body "validator.expect_table_columns_to_match_set(column_set={{gxColumnSet}}, exact_match=False)" .
+tmpl:dbt_schema tmpl:engine "dbt" ; tmpl:metric dqvp:SchemaConformance ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*)/{{expectedCount}} as r from (describe {{dbtSource}}) where column_name in ({{sqlColumnList}}))\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_schema tmpl:engine "sodacl" ; tmpl:metric dqvp:SchemaConformance ;
+  tmpl:body "  - schema:\n      name: {{checkId}}\n      fail:\n        when required column missing: {{sodaColumnList}}" .
+tmpl:deequ_schema tmpl:engine "deequ" ; tmpl:metric dqvp:SchemaConformance ;
+  tmpl:body "    # NOT EXPRESSIBLE: PyDeequ has no set-of-columns constraint; expected {{sodaColumnList}}  # {{checkId}}" .
+
+#### AttributeTypeConformance — the target attribute has the expected datatype ####
+tmpl:gx_dtype tmpl:engine "gx" ; tmpl:metric dqvp:AttributeTypeConformance ;
+  tmpl:body "{% if expectedDatatype in ['string','date','dateTime','integer','int','long','decimal','double','float','boolean'] %}validator.expect_column_values_to_be_of_type(column=\"{{column}}\", type_=\"{% if expectedDatatype == 'string' %}str{% elif expectedDatatype in ['date','dateTime'] %}datetime64[ns]{% elif expectedDatatype in ['integer','int','long'] %}int64{% elif expectedDatatype in ['decimal','double','float'] %}float64{% else %}bool{% endif %}\"){% else %}# NOT EXPRESSIBLE: no Great Expectations type for xsd:{{expectedDatatype}}{% endif %}" .
+tmpl:dbt_dtype tmpl:engine "dbt" ; tmpl:metric dqvp:AttributeTypeConformance ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) as r from (describe {{dbtSource}}) where column_name = '{{column}}' and upper(column_type) like '%{{sqlType}}%')\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_dtype tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeTypeConformance ;
+  tmpl:body "  - schema:\n      name: {{checkId}}\n      fail:\n        when wrong column type:\n          {{column}}: {{sqlType|lower}}" .
+tmpl:deequ_dtype tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeTypeConformance ;
+  tmpl:body "    .hasDataType(\"{{column}}\", ConstrainableDataTypes.{% if expectedDatatype == 'string' %}String{% elif expectedDatatype in ['integer','int','long'] %}Integral{% elif expectedDatatype in ['decimal','double','float'] %}Fractional{% elif expectedDatatype == 'boolean' %}Boolean{% else %}String{% endif %})  # {{checkId}}" .
