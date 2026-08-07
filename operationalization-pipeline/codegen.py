@@ -263,6 +263,11 @@ def generate(plan):
             ctx["sqlColumnList"] = ", ".join(f"'{a}'" for a in want)
             ctx["sodaColumnList"] = "[" + ", ".join(want) + "]"
             ctx["expectedCount"] = len(want)
+        enc = ctx.get("missingEncoding")
+        if enc is not None:
+            enc = enc if isinstance(enc, list) else [enc]
+            ctx["sqlMissingList"] = ", ".join(f"'{e}'" for e in enc)
+            ctx["sodaMissingList"] = "[" + ", ".join(enc) + "]"
         if ctx.get("referenceTable"):
             ctx["refTable"] = sql_table(ctx["referenceTable"])
             ctx["dbtRefSource"] = "{{ source('ehds','" + ctx["refTable"] + "') }}"
@@ -287,6 +292,11 @@ def generate(plan):
 
 
 # ---- reference executor (mechanical) — value SQL reuses filter_clause -------
+
+class _NeedsOwnQuery(Exception):
+    """Raised by a metric whose SQL is not an aggregate over the source relation
+    and so cannot be slotted into the standard select-from shape."""
+
 
 SCHEMA_METRICS = {"SchemaConformance", "AttributeTypeConformance"}
 
@@ -343,6 +353,20 @@ def _measure_expr(plan, c, ctx):
         return _aggregate(ctx, pred, defined)
     if m == "RowExpressionRate":
         return _aggregate(ctx, ctx.get("rowExpression"), None)
+    if m == "Quantile":
+        q = float(ctx.get("quantile", 0.5))
+        return f'quantile_cont("{col}", {q})'
+    if m == "ModeShare":
+        raise _NeedsOwnQuery                      # see _measure_sql
+    if m == "ExplicitNullRate":
+        enc = ctx.get("missingEncoding")
+        enc = [] if enc is None else (enc if isinstance(enc, list) else [enc])
+        inlist = ", ".join(f"'{e}'" for e in enc)
+        return (f'100.0*count(*) filter (where "{col}" is null'
+                f' or "{col}" not in ({inlist}))/nullif(count(*),0)')
+    if m == "Correlation":
+        col2 = ctx.get("column2")
+        return f'corr(try_cast("{col}" as double), try_cast("{col2}" as double))'
     if m == "ReferentialIntegrity":
         ref_t, ref_c = ctx.get("referenceTable"), ctx.get("referenceColumn")
         return (f'100.0*count(*) filter (where "{col}" in '
@@ -393,6 +417,18 @@ _GROUP_AGG = {"gteq": "min", "gt": "min", "lteq": "max", "lt": "max"}
 
 def _measure_sql(plan, c, ctx, table):
     src = _measure_source(plan, c, table)
+    metric = local(plan.value(measure_op(plan, c), PC.metric))
+    if metric == "ModeShare":
+        # A group-then-take-the-largest, which is a nested query rather than an
+        # aggregate over the source relation.
+        col, where = ctx.get("column"), filter_clause("sql", ctx)
+        return (f'select 100.0*max(cnt)/nullif(sum(cnt),0) from '
+                f'(select count(*) as cnt from {src}{where} '
+                f'where "{col}" is not null group by "{col}")'
+                if not where else
+                f'select 100.0*max(cnt)/nullif(sum(cnt),0) from '
+                f'(select count(*) as cnt from {src}{where} '
+                f'and "{col}" is not null group by "{col}")')
     # A row filter over a schema is meaningless, so it is not applied there.
     where = "" if src.startswith("(describe") else filter_clause("sql", ctx)
     expr = _measure_expr(plan, c, ctx)

@@ -389,3 +389,9 @@
 { ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:referenceAttribute ?ra .
   ?ra log:uri ?rau . ( ?rau "^.*[/#]([^/#]+)$" ) string:scrape ?ral . }
 => { ?meas pc:parameter [ pc:name "referenceColumn" ; pc:value ?ral ] } .
+
+# ---- Parameters for the distribution-summary metrics ------------------------
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:quantile ?q . }
+=> { ?meas pc:parameter [ pc:name "quantile" ; pc:value ?q ] } .
+{ ?meas a pc:Measure ; pc:forCheck ?c . ?c dqvp:missingEncoding ?e . }
+=> { ?meas pc:parameter [ pc:name "missingEncoding" ; pc:value ?e ] } .

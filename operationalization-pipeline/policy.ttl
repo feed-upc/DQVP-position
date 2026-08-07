@@ -36,7 +36,8 @@ ex:ps-dq-offer-01
         odrl:target  dp:EncounterSummary ;
         odrl:action  odrl:use ;
         odrl:constraint ex:c-enc-discharge, ex:c-enc-id, ex:c-enc-dates,
-                        ex:c-enc-patient
+                        ex:c-enc-patient,
+                        ex:c-enc-los, ex:c-enc-unit, ex:c-enc-nulls, ex:c-enc-corr
     ] .
 
 ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
@@ -165,3 +166,39 @@ ex:c-enc-patient a dqvp:DQConstraint ; rdfs:label "c-enc-patient" ;
     dqvp:referenceAttribute ab:nationalHealthcarePatientID ;
     odrl:operator           odrl:gteq ;
     odrl:rightOperand       "99"^^xsd:decimal .
+
+# L9 — requirements about the SHAPE of a distribution. Each looks as though it
+# needs a vector, a ranked set or a histogram as the measured value. None does:
+# a requirement has to reach a verdict, and reaching one means summarising, so
+# the summary belongs in the metric.
+
+# f-14: a named quantile, reported in the attribute's own units
+ex:c-enc-los a dqvp:DQConstraint ; rdfs:label "c-enc-los" ;
+    odrl:leftOperand     dqvp:Quantile ;
+    dqvp:targetAttribute enc:lengthOfStayDays ;
+    dqvp:quantile        "0.5"^^xsd:decimal ;
+    odrl:operator        odrl:lteq ;
+    odrl:rightOperand    "10"^^xsd:decimal .
+
+# f-18: no single value may dominate the column
+ex:c-enc-unit a dqvp:DQConstraint ; rdfs:label "c-enc-unit" ;
+    odrl:leftOperand     dqvp:ModeShare ;
+    dqvp:targetAttribute enc:referringUnit ;
+    odrl:operator        odrl:lteq ;
+    odrl:rightOperand    "40"^^xsd:decimal .
+
+# f-20: absence must be represented once, as a null
+ex:c-enc-nulls a dqvp:DQConstraint ; rdfs:label "c-enc-nulls" ;
+    odrl:leftOperand     dqvp:ExplicitNullRate ;
+    dqvp:targetAttribute enc:referringUnit ;
+    dqvp:missingEncoding "N/A" , "" , "-1" , "unknown" ;
+    odrl:operator        odrl:gteq ;
+    odrl:rightOperand    "100"^^xsd:decimal .
+
+# f-21: two attributes that should move together
+ex:c-enc-corr a dqvp:DQConstraint ; rdfs:label "c-enc-corr" ;
+    odrl:leftOperand       dqvp:Correlation ;
+    dqvp:targetAttribute   enc:ageAtAdmission ;
+    dqvp:comparedAttribute enc:lengthOfStayDays ;
+    odrl:operator          odrl:gteq ;
+    odrl:rightOperand      "0.7"^^xsd:decimal .

@@ -5,7 +5,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2025-02-08",
     "dischargeDate":"2025-02-28",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":43,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00002",
@@ -13,7 +16,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2025-01-09",
     "dischargeDate":"2025-01-27",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":81,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00003",
@@ -21,7 +27,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2025-03-20",
     "dischargeDate":"2025-04-02",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":73,
+    "lengthOfStayDays":9,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00004",
@@ -29,7 +38,10 @@
     "hospitalCode":"HOSP-0044",
     "admissionDate":"2024-03-01",
     "dischargeDate":"2024-03-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":31,
+    "lengthOfStayDays":5,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00005",
@@ -37,7 +49,10 @@
     "hospitalCode":"HOSP-0039",
     "admissionDate":"2024-03-04",
     "dischargeDate":"2024-03-22",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00006",
@@ -45,7 +60,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2024-02-17",
     "dischargeDate":"2024-03-05",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":89,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00007",
@@ -53,7 +71,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2024-04-30",
     "dischargeDate":"2024-05-18",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":42,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00008",
@@ -61,7 +82,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2024-04-15",
     "dischargeDate":"2024-05-03",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":7,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00009",
@@ -69,7 +93,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2025-07-14",
     "dischargeDate":"2025-07-16",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":50,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00010",
@@ -77,7 +104,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2025-11-27",
     "dischargeDate":"2025-12-14",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":63,
+    "lengthOfStayDays":9,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00011",
@@ -85,7 +115,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-04-09",
     "dischargeDate":"2025-04-20",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00012",
@@ -93,7 +126,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2024-09-06",
     "dischargeDate":"2024-09-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":8,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00013",
@@ -101,7 +137,10 @@
     "hospitalCode":"HOSP-0016",
     "admissionDate":"2024-12-17",
     "dischargeDate":"2024-12-31",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":30,
+    "lengthOfStayDays":4,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00014",
@@ -109,7 +148,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2025-06-08",
     "dischargeDate":"2025-06-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":19,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00015",
@@ -117,7 +159,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-03-07",
     "dischargeDate":"2025-03-08",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":55,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00016",
@@ -125,7 +170,10 @@
     "hospitalCode":"HOSP-0019",
     "admissionDate":"2024-11-17",
     "dischargeDate":"2024-11-27",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":42,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00017",
@@ -133,7 +181,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2025-04-12",
     "dischargeDate":"2025-04-14",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":6,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00018",
@@ -141,7 +192,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-03-07",
     "dischargeDate":"2024-03-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":85,
+    "lengthOfStayDays":14,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00019",
@@ -149,7 +203,10 @@
     "hospitalCode":"HOSP-0016",
     "admissionDate":"2025-11-28",
     "dischargeDate":"2025-12-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":88,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00020",
@@ -157,7 +214,10 @@
     "hospitalCode":"HOSP-0017",
     "admissionDate":"2024-12-21",
     "dischargeDate":"2024-12-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00021",
@@ -165,7 +225,10 @@
     "hospitalCode":"HOSP-0015",
     "admissionDate":"2025-05-20",
     "dischargeDate":"2025-05-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":82,
+    "lengthOfStayDays":10,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00022",
@@ -173,7 +236,10 @@
     "hospitalCode":"HOSP-0045",
     "admissionDate":"2025-02-11",
     "dischargeDate":"2025-02-23",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":41,
+    "lengthOfStayDays":5,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00023",
@@ -181,7 +247,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2025-07-16",
     "dischargeDate":"2025-07-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":45,
+    "lengthOfStayDays":6,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00024",
@@ -189,7 +258,10 @@
     "hospitalCode":"HOSP-0041",
     "admissionDate":"2025-03-01",
     "dischargeDate":"2025-03-12",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":88,
+    "lengthOfStayDays":12,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00025",
@@ -197,7 +269,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-03-25",
     "dischargeDate":"2024-03-30",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":28,
+    "lengthOfStayDays":6,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00026",
@@ -205,7 +280,10 @@
     "hospitalCode":"HOSP-0028",
     "admissionDate":"2025-05-11",
     "dischargeDate":"2025-05-29",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":75,
+    "lengthOfStayDays":10,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00027",
@@ -213,7 +291,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2025-03-05",
     "dischargeDate":"2025-03-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":45,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00028",
@@ -221,7 +302,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2024-05-08",
     "dischargeDate":"2024-05-24",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":62,
+    "lengthOfStayDays":13,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00029",
@@ -229,7 +313,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2025-04-12",
     "dischargeDate":"2025-05-03",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":32,
+    "lengthOfStayDays":4,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00030",
@@ -237,7 +324,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2024-04-16",
     "dischargeDate":"2024-05-01",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":25,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00031",
@@ -245,7 +335,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-08-01",
     "dischargeDate":"2024-08-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":73,
+    "lengthOfStayDays":10,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00032",
@@ -253,7 +346,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2024-04-14",
     "dischargeDate":"2024-04-14",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":82,
+    "lengthOfStayDays":11,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00033",
@@ -261,7 +357,10 @@
     "hospitalCode":"HOSP-0011",
     "admissionDate":"2025-01-07",
     "dischargeDate":"2025-01-26",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":58,
+    "lengthOfStayDays":8,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00034",
@@ -269,7 +368,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2025-01-20",
     "dischargeDate":"2025-01-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":45,
+    "lengthOfStayDays":6,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00035",
@@ -277,7 +379,10 @@
     "hospitalCode":"HOSP-0044",
     "admissionDate":"2025-01-07",
     "dischargeDate":"2025-01-22",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00036",
@@ -285,7 +390,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-05-06",
     "dischargeDate":"2025-05-21",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":71,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00037",
@@ -293,7 +401,10 @@
     "hospitalCode":"HOSP-0038",
     "admissionDate":"2024-12-16",
     "dischargeDate":"2024-12-24",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":89,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00038",
@@ -301,7 +412,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-07-29",
     "dischargeDate":"2024-08-14",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":68,
+    "lengthOfStayDays":11,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00039",
@@ -309,7 +423,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2024-01-28",
     "dischargeDate":"2024-02-13",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":15,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00040",
@@ -317,7 +434,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-09-24",
     "dischargeDate":"2024-10-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":19,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00041",
@@ -325,7 +445,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2025-06-29",
     "dischargeDate":"2025-07-16",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":21,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00042",
@@ -333,7 +456,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2025-09-19",
     "dischargeDate":"2025-09-25",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":26,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00043",
@@ -341,7 +467,10 @@
     "hospitalCode":"HOSP-0045",
     "admissionDate":"2024-07-23",
     "dischargeDate":"2024-08-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":86,
+    "lengthOfStayDays":11,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00044",
@@ -349,7 +478,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-10-13",
     "dischargeDate":"2024-10-28",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":90,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00045",
@@ -357,7 +489,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-12-18",
     "dischargeDate":"2025-01-01",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":50,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00046",
@@ -365,7 +500,10 @@
     "hospitalCode":"HOSP-0005",
     "admissionDate":"2024-03-23",
     "dischargeDate":"2024-03-30",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":3,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00047",
@@ -373,7 +511,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2024-07-28",
     "dischargeDate":"2024-08-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":43,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00048",
@@ -381,7 +522,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2025-10-30",
     "dischargeDate":"2025-11-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00049",
@@ -389,7 +533,10 @@
     "hospitalCode":"HOSP-0038",
     "admissionDate":"2025-02-01",
     "dischargeDate":"2025-02-07",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":12,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00050",
@@ -397,7 +544,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-12-06",
     "dischargeDate":"2024-12-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00051",
@@ -405,7 +555,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-03-27",
     "dischargeDate":"2024-04-01",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":10,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00052",
@@ -413,7 +566,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2025-08-27",
     "dischargeDate":"2025-09-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":36,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00053",
@@ -421,7 +577,10 @@
     "hospitalCode":"HOSP-0020",
     "admissionDate":"2025-04-30",
     "dischargeDate":"2025-05-21",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":13,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00054",
@@ -429,7 +588,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-01-22",
     "dischargeDate":"2024-01-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":28,
+    "lengthOfStayDays":2,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00055",
@@ -437,7 +599,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-05-22",
     "dischargeDate":"2024-06-04",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":65,
+    "lengthOfStayDays":13,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00056",
@@ -445,7 +610,10 @@
     "hospitalCode":"HOSP-0036",
     "admissionDate":"2024-08-05",
     "dischargeDate":"2024-08-14",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":50,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00057",
@@ -453,7 +621,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2024-09-22",
     "dischargeDate":"2024-10-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":62,
+    "lengthOfStayDays":9,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00058",
@@ -461,7 +632,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2024-12-28",
     "dischargeDate":null,
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":58,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00059",
@@ -469,7 +643,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2025-03-06",
     "dischargeDate":"2025-03-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":26,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00060",
@@ -477,7 +654,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2024-01-20",
     "dischargeDate":"2024-02-03",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":86,
+    "lengthOfStayDays":12,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00061",
@@ -485,7 +665,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-06-02",
     "dischargeDate":"2024-06-07",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00062",
@@ -493,7 +676,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2025-07-23",
     "dischargeDate":"2025-07-24",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":19,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00063",
@@ -501,7 +687,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2025-05-09",
     "dischargeDate":"2025-05-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00064",
@@ -509,7 +698,10 @@
     "hospitalCode":"HOSP-0036",
     "admissionDate":"2024-02-13",
     "dischargeDate":"2024-02-16",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":90,
+    "lengthOfStayDays":15,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00065",
@@ -517,7 +709,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2024-03-05",
     "dischargeDate":"2024-03-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00066",
@@ -525,7 +720,10 @@
     "hospitalCode":"HOSP-0019",
     "admissionDate":"2025-06-08",
     "dischargeDate":"2025-06-14",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":68,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00067",
@@ -533,7 +731,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2025-05-04",
     "dischargeDate":null,
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":11,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00068",
@@ -541,7 +742,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-09-22",
     "dischargeDate":"2024-10-09",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":90,
+    "lengthOfStayDays":12,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00069",
@@ -549,7 +753,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2025-02-05",
     "dischargeDate":"2025-02-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00070",
@@ -557,7 +764,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2024-03-15",
     "dischargeDate":"2024-03-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":57,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00071",
@@ -565,7 +775,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2024-06-07",
     "dischargeDate":"2024-06-27",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00072",
@@ -573,7 +786,10 @@
     "hospitalCode":"HOSP-0031",
     "admissionDate":"2024-05-20",
     "dischargeDate":"2024-06-03",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":3,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00073",
@@ -581,7 +797,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-05-13",
     "dischargeDate":"2025-05-18",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00074",
@@ -589,7 +808,10 @@
     "hospitalCode":"HOSP-0029",
     "admissionDate":"2025-06-11",
     "dischargeDate":"2025-06-23",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":5,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00075",
@@ -597,7 +819,10 @@
     "hospitalCode":"HOSP-0011",
     "admissionDate":"2024-04-04",
     "dischargeDate":"2024-04-15",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":31,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00076",
@@ -605,7 +830,10 @@
     "hospitalCode":"HOSP-0029",
     "admissionDate":"2024-01-19",
     "dischargeDate":"2024-01-31",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":75,
+    "lengthOfStayDays":6,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00077",
@@ -613,7 +841,10 @@
     "hospitalCode":"HOSP-0031",
     "admissionDate":"2024-03-06",
     "dischargeDate":"2024-03-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00078",
@@ -621,7 +852,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2024-02-10",
     "dischargeDate":"2024-02-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":38,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00079",
@@ -629,7 +863,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2025-11-23",
     "dischargeDate":"2025-12-01",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00080",
@@ -637,7 +874,10 @@
     "hospitalCode":"HOSP-0019",
     "admissionDate":"2025-08-07",
     "dischargeDate":"2025-08-22",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":80,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00081",
@@ -645,7 +885,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-07-06",
     "dischargeDate":"2024-07-19",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00082",
@@ -653,7 +896,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2024-03-31",
     "dischargeDate":"2024-04-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":57,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00083",
@@ -661,7 +907,10 @@
     "hospitalCode":"HOSP-0017",
     "admissionDate":"2024-09-27",
     "dischargeDate":"2024-09-30",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":53,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00084",
@@ -669,7 +918,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2025-03-03",
     "dischargeDate":"2025-03-11",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":39,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00085",
@@ -677,7 +929,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-09-01",
     "dischargeDate":"2024-09-04",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":85,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00086",
@@ -685,7 +940,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2024-11-15",
     "dischargeDate":"2024-12-05",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":53,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00087",
@@ -693,7 +951,10 @@
     "hospitalCode":"HOSP-0041",
     "admissionDate":"2025-04-01",
     "dischargeDate":"2025-04-17",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":24,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00088",
@@ -701,7 +962,10 @@
     "hospitalCode":"HOSP-0050",
     "admissionDate":"2024-01-19",
     "dischargeDate":"2024-01-27",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00089",
@@ -709,7 +973,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2025-06-01",
     "dischargeDate":"2025-06-18",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":12,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00090",
@@ -717,7 +984,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-04-02",
     "dischargeDate":"2025-04-05",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":57,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00091",
@@ -725,7 +995,10 @@
     "hospitalCode":"HOSP-0036",
     "admissionDate":"2025-07-13",
     "dischargeDate":"2025-07-25",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":90,
+    "lengthOfStayDays":14,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00092",
@@ -733,7 +1006,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2024-12-16",
     "dischargeDate":"2024-12-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":3,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00093",
@@ -741,7 +1017,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2024-12-21",
     "dischargeDate":"2024-12-22",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":55,
+    "lengthOfStayDays":6,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00094",
@@ -749,7 +1028,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-09-18",
     "dischargeDate":"2024-10-01",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":68,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00095",
@@ -757,7 +1039,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-01-25",
     "dischargeDate":"2025-02-10",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":28,
+    "lengthOfStayDays":2,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00096",
@@ -765,7 +1050,10 @@
     "hospitalCode":"HOSP-0017",
     "admissionDate":"2024-10-27",
     "dischargeDate":"2024-10-28",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":82,
+    "lengthOfStayDays":14,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00097",
@@ -773,7 +1061,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-01-04",
     "dischargeDate":"2024-01-12",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":67,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00098",
@@ -781,7 +1072,10 @@
     "hospitalCode":"HOSP-0050",
     "admissionDate":"2024-11-27",
     "dischargeDate":"2024-12-04",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":6,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00099",
@@ -789,7 +1083,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2024-01-02",
     "dischargeDate":"2024-01-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":30,
+    "lengthOfStayDays":3,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00100",
@@ -797,7 +1094,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2025-11-02",
     "dischargeDate":"2025-11-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00101",
@@ -805,7 +1105,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-09-27",
     "dischargeDate":"2024-09-29",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00102",
@@ -813,7 +1116,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2024-01-24",
     "dischargeDate":"2024-02-02",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00103",
@@ -821,7 +1127,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-06-25",
     "dischargeDate":"2025-06-29",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":10,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00104",
@@ -829,7 +1138,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2025-02-02",
     "dischargeDate":"2025-02-12",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00105",
@@ -837,7 +1149,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2025-09-25",
     "dischargeDate":"2025-10-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00106",
@@ -845,7 +1160,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2025-06-09",
     "dischargeDate":"2025-06-29",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":62,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00107",
@@ -853,7 +1171,10 @@
     "hospitalCode":"HOSP-0025",
     "admissionDate":"2024-05-22",
     "dischargeDate":"2024-06-07",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":69,
+    "lengthOfStayDays":10,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00108",
@@ -861,7 +1182,10 @@
     "hospitalCode":"HOSP-0039",
     "admissionDate":"2024-01-17",
     "dischargeDate":"2024-02-07",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":53,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00109",
@@ -869,7 +1193,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2025-10-20",
     "dischargeDate":"2025-10-27",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":84,
+    "lengthOfStayDays":13,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00110",
@@ -877,7 +1204,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-01-04",
     "dischargeDate":"2025-01-07",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00111",
@@ -885,7 +1215,10 @@
     "hospitalCode":"HOSP-0022",
     "admissionDate":"2024-01-20",
     "dischargeDate":"2024-02-09",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":2,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00112",
@@ -893,7 +1226,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-01-04",
     "dischargeDate":"2024-01-18",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":5,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00113",
@@ -901,7 +1237,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-07-02",
     "dischargeDate":"2025-07-04",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":69,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00114",
@@ -909,7 +1248,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2025-04-30",
     "dischargeDate":"2025-05-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":33,
+    "lengthOfStayDays":6,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00115",
@@ -917,7 +1259,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2024-07-29",
     "dischargeDate":null,
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":50,
+    "lengthOfStayDays":6,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00116",
@@ -925,7 +1270,10 @@
     "hospitalCode":"HOSP-0038",
     "admissionDate":"2025-01-26",
     "dischargeDate":"2025-01-28",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":42,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00117",
@@ -933,7 +1281,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2025-09-23",
     "dischargeDate":"2025-10-13",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00118",
@@ -941,7 +1292,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2024-12-05",
     "dischargeDate":"2024-12-13",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00119",
@@ -949,7 +1303,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2025-08-04",
     "dischargeDate":"2025-08-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":68,
+    "lengthOfStayDays":10,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00120",
@@ -957,7 +1314,10 @@
     "hospitalCode":"HOSP-0019",
     "admissionDate":"2025-11-19",
     "dischargeDate":"2025-11-22",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":91,
+    "lengthOfStayDays":16,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00121",
@@ -965,7 +1325,10 @@
     "hospitalCode":"HOSP-0017",
     "admissionDate":"2025-06-12",
     "dischargeDate":"2025-06-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":25,
+    "lengthOfStayDays":0,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00122",
@@ -973,7 +1336,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-07-16",
     "dischargeDate":"2025-07-22",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":31,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00123",
@@ -981,7 +1347,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-10-23",
     "dischargeDate":"2024-11-06",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":5,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00124",
@@ -989,7 +1358,10 @@
     "hospitalCode":"HOSP-0015",
     "admissionDate":"2024-10-02",
     "dischargeDate":"2024-10-14",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":75,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00125",
@@ -997,7 +1369,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-05-25",
     "dischargeDate":"2024-06-10",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":60,
+    "lengthOfStayDays":7,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00126",
@@ -1005,7 +1380,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2025-10-08",
     "dischargeDate":"2025-10-24",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":60,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00127",
@@ -1013,7 +1391,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2025-05-24",
     "dischargeDate":"2025-06-08",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00128",
@@ -1021,7 +1402,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2025-05-18",
     "dischargeDate":"2025-06-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00129",
@@ -1029,7 +1413,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-03-02",
     "dischargeDate":"2025-03-13",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":10,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00130",
@@ -1037,7 +1424,10 @@
     "hospitalCode":"HOSP-0025",
     "admissionDate":"2024-01-02",
     "dischargeDate":"2024-01-12",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":74,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00131",
@@ -1045,7 +1435,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2024-07-19",
     "dischargeDate":"2024-07-19",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":9,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00132",
@@ -1053,7 +1446,10 @@
     "hospitalCode":"HOSP-0039",
     "admissionDate":"2025-02-06",
     "dischargeDate":"2025-02-18",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":19,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00133",
@@ -1061,7 +1457,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2024-10-08",
     "dischargeDate":"2024-10-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":48,
+    "lengthOfStayDays":6,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00134",
@@ -1069,7 +1468,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-10-19",
     "dischargeDate":"2024-11-08",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":8,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00135",
@@ -1077,7 +1479,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2025-06-07",
     "dischargeDate":"2025-06-17",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":48,
+    "lengthOfStayDays":9,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00136",
@@ -1085,7 +1490,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2024-01-30",
     "dischargeDate":"2024-02-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":91,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00137",
@@ -1093,7 +1501,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-03-23",
     "dischargeDate":"2024-03-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":64,
+    "lengthOfStayDays":2,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00138",
@@ -1101,7 +1512,10 @@
     "hospitalCode":"HOSP-0016",
     "admissionDate":"2024-05-21",
     "dischargeDate":"2024-06-10",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":65,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00139",
@@ -1109,7 +1523,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2025-07-17",
     "dischargeDate":"2025-07-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":10,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00140",
@@ -1117,7 +1534,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2024-10-31",
     "dischargeDate":"2024-11-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":75,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00141",
@@ -1125,7 +1545,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2025-02-19",
     "dischargeDate":"2025-03-11",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":45,
+    "lengthOfStayDays":6,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00142",
@@ -1133,7 +1556,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2025-02-07",
     "dischargeDate":"2025-02-10",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":6,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00143",
@@ -1141,7 +1567,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2025-05-27",
     "dischargeDate":"2025-06-11",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00144",
@@ -1149,7 +1578,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2025-04-05",
     "dischargeDate":"2025-04-18",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":10,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00145",
@@ -1157,7 +1589,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2024-06-27",
     "dischargeDate":"2024-07-07",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":60,
+    "lengthOfStayDays":6,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00146",
@@ -1165,7 +1600,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-09-21",
     "dischargeDate":"2024-10-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":18,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00147",
@@ -1173,7 +1611,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2025-01-27",
     "dischargeDate":"2025-02-09",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":25,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00148",
@@ -1181,7 +1622,10 @@
     "hospitalCode":"HOSP-0045",
     "admissionDate":"2024-12-12",
     "dischargeDate":"2024-12-13",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":12,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00149",
@@ -1189,7 +1633,10 @@
     "hospitalCode":"HOSP-0036",
     "admissionDate":"2024-05-08",
     "dischargeDate":"2024-05-29",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":12,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00150",
@@ -1197,7 +1644,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2024-08-09",
     "dischargeDate":"2024-08-11",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":67,
+    "lengthOfStayDays":12,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00151",
@@ -1205,7 +1655,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-04-01",
     "dischargeDate":null,
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":84,
+    "lengthOfStayDays":13,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00152",
@@ -1213,7 +1666,10 @@
     "hospitalCode":"HOSP-0045",
     "admissionDate":"2025-04-29",
     "dischargeDate":"2025-05-17",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":84,
+    "lengthOfStayDays":12,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00153",
@@ -1221,7 +1677,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2025-06-24",
     "dischargeDate":"2025-07-08",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":75,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00154",
@@ -1229,7 +1688,10 @@
     "hospitalCode":"HOSP-0021",
     "admissionDate":"2024-06-07",
     "dischargeDate":"2024-06-11",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":81,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00155",
@@ -1237,7 +1699,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2025-10-24",
     "dischargeDate":"2025-11-07",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":53,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00156",
@@ -1245,7 +1710,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2024-05-08",
     "dischargeDate":"2024-05-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00157",
@@ -1253,7 +1721,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-05-11",
     "dischargeDate":"2024-05-31",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":28,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00158",
@@ -1261,7 +1732,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-04-24",
     "dischargeDate":"2024-04-27",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00159",
@@ -1269,7 +1743,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-07-15",
     "dischargeDate":"2024-07-27",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00160",
@@ -1277,7 +1754,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2024-01-11",
     "dischargeDate":"2024-01-28",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":18,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00161",
@@ -1285,7 +1765,10 @@
     "hospitalCode":"HOSP-0038",
     "admissionDate":"2025-10-22",
     "dischargeDate":"2025-10-29",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":6,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00162",
@@ -1293,7 +1776,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2024-01-30",
     "dischargeDate":"2024-02-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":42,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00163",
@@ -1301,7 +1787,10 @@
     "hospitalCode":"HOSP-0041",
     "admissionDate":"2024-07-17",
     "dischargeDate":"2024-08-01",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":47,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00164",
@@ -1309,7 +1798,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2024-08-21",
     "dischargeDate":"2024-09-11",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":63,
+    "lengthOfStayDays":3,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00165",
@@ -1317,7 +1809,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-12-12",
     "dischargeDate":"2024-12-25",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":38,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00166",
@@ -1325,7 +1820,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-10-26",
     "dischargeDate":"2024-11-11",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":18,
+    "lengthOfStayDays":1,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00167",
@@ -1333,7 +1831,10 @@
     "hospitalCode":"HOSP-0031",
     "admissionDate":"2024-11-15",
     "dischargeDate":"2024-11-21",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00168",
@@ -1341,7 +1842,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2024-10-29",
     "dischargeDate":"2024-11-01",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":27,
+    "lengthOfStayDays":1,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00169",
@@ -1349,7 +1853,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2024-08-16",
     "dischargeDate":"2024-08-31",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":39,
+    "lengthOfStayDays":3,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00170",
@@ -1357,7 +1864,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2024-05-29",
     "dischargeDate":"2024-06-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00171",
@@ -1365,7 +1875,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2025-09-02",
     "dischargeDate":"2025-09-06",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00172",
@@ -1373,7 +1886,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2025-02-06",
     "dischargeDate":"2025-02-20",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":0,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00173",
@@ -1381,7 +1897,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-06-18",
     "dischargeDate":"2024-06-28",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":7,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00174",
@@ -1389,7 +1908,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-04-23",
     "dischargeDate":"2025-04-24",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":81,
+    "lengthOfStayDays":13,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00175",
@@ -1397,7 +1919,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2025-01-17",
     "dischargeDate":"2025-01-27",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":11,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00176",
@@ -1405,7 +1930,10 @@
     "hospitalCode":"HOSP-0020",
     "admissionDate":"2024-10-13",
     "dischargeDate":"2024-10-15",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":53,
+    "lengthOfStayDays":5,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00177",
@@ -1413,7 +1941,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-07-28",
     "dischargeDate":"2025-08-03",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":31,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00178",
@@ -1421,7 +1952,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2025-03-18",
     "dischargeDate":"2025-03-20",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":54,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00179",
@@ -1429,7 +1963,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2025-07-08",
     "dischargeDate":"2025-07-22",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":69,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00180",
@@ -1437,7 +1974,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2025-04-30",
     "dischargeDate":"2025-04-30",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":41,
+    "lengthOfStayDays":5,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00181",
@@ -1445,7 +1985,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-02-18",
     "dischargeDate":"2025-02-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00182",
@@ -1453,7 +1996,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-03-04",
     "dischargeDate":"2024-03-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":42,
+    "lengthOfStayDays":2,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00183",
@@ -1461,7 +2007,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2024-12-13",
     "dischargeDate":"2024-12-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":44,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00184",
@@ -1469,7 +2018,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2024-02-14",
     "dischargeDate":"2024-02-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":48,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00185",
@@ -1477,7 +2029,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2024-10-09",
     "dischargeDate":"2024-10-18",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":73,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00186",
@@ -1485,7 +2040,10 @@
     "hospitalCode":"HOSP-0011",
     "admissionDate":"2025-10-11",
     "dischargeDate":"2025-10-13",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":21,
+    "lengthOfStayDays":2,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00187",
@@ -1493,7 +2051,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2025-04-21",
     "dischargeDate":"2025-05-03",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":64,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00188",
@@ -1501,7 +2062,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2025-05-23",
     "dischargeDate":"2025-05-28",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":19,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00189",
@@ -1509,7 +2073,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2024-06-03",
     "dischargeDate":"2024-06-22",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":85,
+    "lengthOfStayDays":11,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00190",
@@ -1517,7 +2084,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2025-01-05",
     "dischargeDate":"2025-01-24",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":44,
+    "lengthOfStayDays":6,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00191",
@@ -1525,7 +2095,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2024-06-12",
     "dischargeDate":"2024-06-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00192",
@@ -1533,7 +2106,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2025-07-19",
     "dischargeDate":"2025-08-05",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00193",
@@ -1541,7 +2117,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-04-17",
     "dischargeDate":"2024-04-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":62,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00194",
@@ -1549,7 +2128,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2025-03-07",
     "dischargeDate":"2025-03-22",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":47,
+    "lengthOfStayDays":5,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00195",
@@ -1557,7 +2139,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2025-03-02",
     "dischargeDate":"2025-03-16",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00196",
@@ -1565,7 +2150,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2025-11-11",
     "dischargeDate":"2025-11-14",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":73,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00197",
@@ -1573,7 +2161,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-10-01",
     "dischargeDate":"2024-10-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":41,
+    "lengthOfStayDays":1,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00198",
@@ -1581,7 +2172,10 @@
     "hospitalCode":"HOSP-0030",
     "admissionDate":"2024-09-10",
     "dischargeDate":"2024-09-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":33,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00199",
@@ -1589,7 +2183,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2025-08-15",
     "dischargeDate":"2025-08-21",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":72,
+    "lengthOfStayDays":9,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00200",
@@ -1597,7 +2194,10 @@
     "hospitalCode":"HOSP-0031",
     "admissionDate":"2025-06-03",
     "dischargeDate":"2025-06-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00201",
@@ -1605,7 +2205,10 @@
     "hospitalCode":"HOSP-0005",
     "admissionDate":"2025-04-20",
     "dischargeDate":"2025-04-21",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":5,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00202",
@@ -1613,7 +2216,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-08-24",
     "dischargeDate":"2024-09-07",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":87,
+    "lengthOfStayDays":9,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00203",
@@ -1621,7 +2227,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2024-05-02",
     "dischargeDate":"2024-05-03",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":58,
+    "lengthOfStayDays":6,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00204",
@@ -1629,7 +2238,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2024-07-17",
     "dischargeDate":"2024-07-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":80,
+    "lengthOfStayDays":12,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00205",
@@ -1637,7 +2249,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2025-09-09",
     "dischargeDate":"2025-09-17",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":40,
+    "lengthOfStayDays":3,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00206",
@@ -1645,7 +2260,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2025-10-14",
     "dischargeDate":"2025-11-02",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":54,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00207",
@@ -1653,7 +2271,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2025-01-12",
     "dischargeDate":"2025-01-22",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":2,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00208",
@@ -1661,7 +2282,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-02-09",
     "dischargeDate":"2024-02-28",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":8,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00209",
@@ -1669,7 +2293,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2024-01-12",
     "dischargeDate":"2024-01-22",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":68,
+    "lengthOfStayDays":7,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00210",
@@ -1677,7 +2304,10 @@
     "hospitalCode":"HOSP-0015",
     "admissionDate":"2024-11-15",
     "dischargeDate":"2024-11-17",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":85,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00211",
@@ -1685,7 +2315,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2025-05-10",
     "dischargeDate":"2025-05-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":47,
+    "lengthOfStayDays":5,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00212",
@@ -1693,7 +2326,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2025-07-17",
     "dischargeDate":"2025-07-21",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":43,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00213",
@@ -1701,7 +2337,10 @@
     "hospitalCode":"HOSP-0010",
     "admissionDate":"2025-02-11",
     "dischargeDate":"2025-02-19",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":87,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00214",
@@ -1709,7 +2348,10 @@
     "hospitalCode":"HOSP-0040",
     "admissionDate":"2024-02-22",
     "dischargeDate":"2024-03-02",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":69,
+    "lengthOfStayDays":8,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00215",
@@ -1717,7 +2359,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2025-03-02",
     "dischargeDate":"2025-03-02",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":72,
+    "lengthOfStayDays":8,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00216",
@@ -1725,7 +2370,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2025-02-18",
     "dischargeDate":"2025-02-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":72,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00217",
@@ -1733,7 +2381,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2024-04-26",
     "dischargeDate":"2024-04-28",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00218",
@@ -1741,7 +2392,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2024-06-15",
     "dischargeDate":"2024-06-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":20,
+    "lengthOfStayDays":0,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00219",
@@ -1749,7 +2403,10 @@
     "hospitalCode":"HOSP-0012",
     "admissionDate":"2025-02-10",
     "dischargeDate":"2025-02-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":88,
+    "lengthOfStayDays":16,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00220",
@@ -1757,7 +2414,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2025-05-31",
     "dischargeDate":"2025-06-05",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":16,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00221",
@@ -1765,7 +2425,10 @@
     "hospitalCode":"HOSP-0005",
     "admissionDate":"2024-06-24",
     "dischargeDate":"2024-06-26",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":26,
+    "lengthOfStayDays":1,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00222",
@@ -1773,7 +2436,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2024-07-21",
     "dischargeDate":"2024-07-30",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":66,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00223",
@@ -1781,7 +2447,10 @@
     "hospitalCode":"HOSP-0001",
     "admissionDate":"2024-11-18",
     "dischargeDate":"2024-11-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":72,
+    "lengthOfStayDays":13,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00224",
@@ -1789,7 +2458,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2025-09-27",
     "dischargeDate":"2025-10-02",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":27,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00225",
@@ -1797,7 +2469,10 @@
     "hospitalCode":"HOSP-0028",
     "admissionDate":"2024-07-19",
     "dischargeDate":"2024-08-03",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":54,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00226",
@@ -1805,7 +2480,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-06-14",
     "dischargeDate":"2025-06-19",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":15,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00227",
@@ -1813,7 +2491,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2024-07-16",
     "dischargeDate":"2024-07-17",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":84,
+    "lengthOfStayDays":14,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00228",
@@ -1821,7 +2502,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2024-11-27",
     "dischargeDate":"2024-11-30",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":47,
+    "lengthOfStayDays":5,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00229",
@@ -1829,7 +2513,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2025-10-04",
     "dischargeDate":"2025-10-13",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00230",
@@ -1837,7 +2524,10 @@
     "hospitalCode":"HOSP-0004",
     "admissionDate":"2025-03-11",
     "dischargeDate":"2025-03-23",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00231",
@@ -1845,7 +2535,10 @@
     "hospitalCode":"HOSP-0014",
     "admissionDate":"2024-07-02",
     "dischargeDate":"2024-07-02",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":11,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00232",
@@ -1853,7 +2546,10 @@
     "hospitalCode":"HOSP-0025",
     "admissionDate":"2024-08-28",
     "dischargeDate":"2024-09-11",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":20,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00233",
@@ -1861,7 +2557,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2024-07-02",
     "dischargeDate":"2024-07-17",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":24,
+    "lengthOfStayDays":1,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00234",
@@ -1869,7 +2568,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2025-03-16",
     "dischargeDate":"2025-03-27",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":70,
+    "lengthOfStayDays":3,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00235",
@@ -1877,7 +2579,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2024-02-11",
     "dischargeDate":"2024-02-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00236",
@@ -1885,7 +2590,10 @@
     "hospitalCode":"HOSP-0033",
     "admissionDate":"2024-11-17",
     "dischargeDate":"2024-12-03",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":88,
+    "lengthOfStayDays":16,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00237",
@@ -1893,7 +2601,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2025-01-21",
     "dischargeDate":"2025-02-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00238",
@@ -1901,7 +2612,10 @@
     "hospitalCode":"HOSP-0047",
     "admissionDate":"2024-04-22",
     "dischargeDate":"2024-04-28",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":20,
+    "lengthOfStayDays":2,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00239",
@@ -1909,7 +2623,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2024-06-18",
     "dischargeDate":"2024-07-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00240",
@@ -1917,7 +2634,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2025-09-17",
     "dischargeDate":"2025-09-25",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":83,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00241",
@@ -1925,7 +2645,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2025-04-12",
     "dischargeDate":"2025-04-16",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00242",
@@ -1933,7 +2656,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-08-01",
     "dischargeDate":"2024-08-19",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":70,
+    "lengthOfStayDays":13,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00243",
@@ -1941,7 +2667,10 @@
     "hospitalCode":"HOSP-0024",
     "admissionDate":"2025-01-16",
     "dischargeDate":"2025-01-17",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":80,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00244",
@@ -1949,7 +2678,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2024-10-11",
     "dischargeDate":"2024-11-01",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":48,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00245",
@@ -1957,7 +2689,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2024-09-27",
     "dischargeDate":"2024-09-30",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":79,
+    "lengthOfStayDays":12,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00246",
@@ -1965,7 +2700,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2025-01-03",
     "dischargeDate":"2025-01-17",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":82,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00247",
@@ -1973,7 +2711,10 @@
     "hospitalCode":"HOSP-0022",
     "admissionDate":"2024-04-17",
     "dischargeDate":"2024-04-25",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":71,
+    "lengthOfStayDays":11,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00248",
@@ -1981,7 +2722,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-01-15",
     "dischargeDate":"2025-01-23",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":60,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00249",
@@ -1989,7 +2733,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2024-12-04",
     "dischargeDate":"2024-12-06",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":80,
+    "lengthOfStayDays":13,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00250",
@@ -1997,7 +2744,10 @@
     "hospitalCode":"HOSP-0021",
     "admissionDate":"2024-02-19",
     "dischargeDate":"2024-02-28",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":30,
+    "lengthOfStayDays":1,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00251",
@@ -2005,7 +2755,10 @@
     "hospitalCode":"HOSP-0009",
     "admissionDate":"2025-08-22",
     "dischargeDate":"2025-09-12",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":40,
+    "lengthOfStayDays":3,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00252",
@@ -2013,7 +2766,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-02-04",
     "dischargeDate":"2024-02-11",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":22,
+    "lengthOfStayDays":1,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00253",
@@ -2021,7 +2777,10 @@
     "hospitalCode":"HOSP-0006",
     "admissionDate":"2025-03-03",
     "dischargeDate":"2025-03-19",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":52,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00254",
@@ -2029,7 +2788,10 @@
     "hospitalCode":"HOSP-0050",
     "admissionDate":"2025-09-19",
     "dischargeDate":"2025-10-09",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":29,
+    "lengthOfStayDays":1,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00255",
@@ -2037,7 +2799,10 @@
     "hospitalCode":"HOSP-0005",
     "admissionDate":"2024-12-29",
     "dischargeDate":null,
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":67,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00256",
@@ -2045,7 +2810,10 @@
     "hospitalCode":"HOSP-0043",
     "admissionDate":"2025-02-27",
     "dischargeDate":"2025-03-17",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":62,
+    "lengthOfStayDays":7,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00257",
@@ -2053,7 +2821,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2025-09-30",
     "dischargeDate":"2025-10-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":44,
+    "lengthOfStayDays":4,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00258",
@@ -2061,7 +2832,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2024-09-06",
     "dischargeDate":"2024-09-10",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":7,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00259",
@@ -2069,7 +2843,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2025-11-12",
     "dischargeDate":"2025-11-20",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":50,
+    "lengthOfStayDays":1,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00260",
@@ -2077,7 +2854,10 @@
     "hospitalCode":"HOSP-0020",
     "admissionDate":"2025-10-22",
     "dischargeDate":"2025-11-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":37,
+    "lengthOfStayDays":4,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00261",
@@ -2085,7 +2865,10 @@
     "hospitalCode":"HOSP-0034",
     "admissionDate":"2025-09-08",
     "dischargeDate":"2025-09-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":4,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00262",
@@ -2093,7 +2876,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2024-01-01",
     "dischargeDate":"2024-01-02",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":86,
+    "lengthOfStayDays":13,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00263",
@@ -2101,7 +2887,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-07-09",
     "dischargeDate":"2024-07-16",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":24,
+    "lengthOfStayDays":4,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00264",
@@ -2109,7 +2898,10 @@
     "hospitalCode":"HOSP-0002",
     "admissionDate":"2024-01-13",
     "dischargeDate":"2024-02-01",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00265",
@@ -2117,7 +2909,10 @@
     "hospitalCode":"HOSP-0021",
     "admissionDate":"2025-02-27",
     "dischargeDate":"2025-03-05",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":51,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00266",
@@ -2125,7 +2920,10 @@
     "hospitalCode":"HOSP-0037",
     "admissionDate":"2025-10-18",
     "dischargeDate":"2025-10-31",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":63,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00267",
@@ -2133,7 +2931,10 @@
     "hospitalCode":"HOSP-0046",
     "admissionDate":"2024-11-03",
     "dischargeDate":"2024-11-23",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":61,
+    "lengthOfStayDays":6,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00268",
@@ -2141,7 +2942,10 @@
     "hospitalCode":"HOSP-0003",
     "admissionDate":"2025-07-05",
     "dischargeDate":"2025-07-05",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":34,
+    "lengthOfStayDays":1,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00269",
@@ -2149,7 +2953,10 @@
     "hospitalCode":"HOSP-0035",
     "admissionDate":"2024-03-23",
     "dischargeDate":"2024-04-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":59,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00270",
@@ -2157,7 +2964,10 @@
     "hospitalCode":"HOSP-0049",
     "admissionDate":"2024-09-24",
     "dischargeDate":"2024-10-01",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":86,
+    "lengthOfStayDays":13,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00271",
@@ -2165,7 +2975,10 @@
     "hospitalCode":"HOSP-0032",
     "admissionDate":"2024-09-26",
     "dischargeDate":"2024-09-27",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":55,
+    "lengthOfStayDays":8,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00272",
@@ -2173,7 +2986,10 @@
     "hospitalCode":"HOSP-0016",
     "admissionDate":"2025-06-19",
     "dischargeDate":"2025-06-27",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":73,
+    "lengthOfStayDays":11,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00273",
@@ -2181,7 +2997,10 @@
     "hospitalCode":"HOSP-0036",
     "admissionDate":"2024-08-10",
     "dischargeDate":"2024-08-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":56,
+    "lengthOfStayDays":7,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00274",
@@ -2189,7 +3008,10 @@
     "hospitalCode":"HOSP-0008",
     "admissionDate":"2024-08-29",
     "dischargeDate":"2024-09-04",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":72,
+    "lengthOfStayDays":11,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00275",
@@ -2197,7 +3019,10 @@
     "hospitalCode":"HOSP-0001",
     "admissionDate":"2025-02-02",
     "dischargeDate":"2025-02-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":7,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00276",
@@ -2205,7 +3030,10 @@
     "hospitalCode":"HOSP-0022",
     "admissionDate":"2025-10-07",
     "dischargeDate":"2025-10-28",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":79,
+    "lengthOfStayDays":11,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00277",
@@ -2213,7 +3041,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2024-01-07",
     "dischargeDate":"2024-01-07",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":35,
+    "lengthOfStayDays":2,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00278",
@@ -2221,7 +3052,10 @@
     "hospitalCode":"HOSP-0023",
     "admissionDate":"2024-11-11",
     "dischargeDate":"2024-11-17",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":46,
+    "lengthOfStayDays":5,
+    "referringUnit":"N\/A"
   },
   {
     "encounterId":"ENC-00279",
@@ -2229,7 +3063,10 @@
     "hospitalCode":"HOSP-0050",
     "admissionDate":"2024-06-24",
     "dischargeDate":"2024-06-28",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":30,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00280",
@@ -2237,7 +3074,10 @@
     "hospitalCode":"HOSP-0013",
     "admissionDate":"2024-06-14",
     "dischargeDate":"2024-06-25",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":89,
+    "lengthOfStayDays":9,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00281",
@@ -2245,7 +3085,10 @@
     "hospitalCode":"HOSP-0019",
     "admissionDate":"2024-02-12",
     "dischargeDate":null,
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":26,
+    "lengthOfStayDays":0,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00282",
@@ -2253,7 +3096,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2024-03-10",
     "dischargeDate":"2024-03-11",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":77,
+    "lengthOfStayDays":8,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00283",
@@ -2261,7 +3107,10 @@
     "hospitalCode":"HOSP-0048",
     "admissionDate":"2025-06-30",
     "dischargeDate":"2025-07-21",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":3,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00284",
@@ -2269,7 +3118,10 @@
     "hospitalCode":"HOSP-0015",
     "admissionDate":"2024-09-09",
     "dischargeDate":"2024-09-15",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":2,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00285",
@@ -2277,7 +3129,10 @@
     "hospitalCode":"HOSP-0025",
     "admissionDate":"2025-10-11",
     "dischargeDate":"2025-10-13",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":70,
+    "lengthOfStayDays":12,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00286",
@@ -2285,7 +3140,10 @@
     "hospitalCode":"HOSP-0005",
     "admissionDate":"2024-04-12",
     "dischargeDate":"2024-04-16",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":23,
+    "lengthOfStayDays":1,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00287",
@@ -2293,7 +3151,10 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-12-10",
     "dischargeDate":"2024-12-23",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":29,
+    "lengthOfStayDays":2,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00288",
@@ -2301,7 +3162,10 @@
     "hospitalCode":"HOSP-0042",
     "admissionDate":"2024-10-16",
     "dischargeDate":"2024-10-17",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":40,
+    "lengthOfStayDays":0,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00289",
@@ -2309,7 +3173,10 @@
     "hospitalCode":"HOSP-0038",
     "admissionDate":"2025-09-08",
     "dischargeDate":"2025-09-24",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":43,
+    "lengthOfStayDays":2,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00290",
@@ -2317,7 +3184,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2025-02-26",
     "dischargeDate":"2025-02-26",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":55,
+    "lengthOfStayDays":5,
+    "referringUnit":"Paediatrics"
   },
   {
     "encounterId":"ENC-00291",
@@ -2325,7 +3195,10 @@
     "hospitalCode":"HOSP-0022",
     "admissionDate":"2025-04-25",
     "dischargeDate":"2025-04-26",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":18,
+    "lengthOfStayDays":1,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00292",
@@ -2333,7 +3206,10 @@
     "hospitalCode":"HOSP-0016",
     "admissionDate":"2024-04-03",
     "dischargeDate":"2024-04-21",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":65,
+    "lengthOfStayDays":11,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00293",
@@ -2341,7 +3217,10 @@
     "hospitalCode":"HOSP-0025",
     "admissionDate":"2024-07-25",
     "dischargeDate":"2024-08-03",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":6,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00294",
@@ -2349,7 +3228,10 @@
     "hospitalCode":"HOSP-0045",
     "admissionDate":"2025-05-17",
     "dischargeDate":"2025-05-20",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":49,
+    "lengthOfStayDays":1,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00295",
@@ -2357,7 +3239,10 @@
     "hospitalCode":"HOSP-0020",
     "admissionDate":"2025-05-21",
     "dischargeDate":"2025-06-08",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":76,
+    "lengthOfStayDays":9,
+    "referringUnit":"Cardiology"
   },
   {
     "encounterId":"ENC-00296",
@@ -2365,7 +3250,10 @@
     "hospitalCode":"HOSP-0015",
     "admissionDate":"2024-06-11",
     "dischargeDate":"2024-06-20",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":90,
+    "lengthOfStayDays":13,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00297",
@@ -2373,7 +3261,10 @@
     "hospitalCode":"HOSP-0026",
     "admissionDate":"2024-04-22",
     "dischargeDate":"2024-05-12",
-    "encounterType":"inpatient"
+    "encounterType":"inpatient",
+    "ageAtAdmission":31,
+    "lengthOfStayDays":4,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00298",
@@ -2381,7 +3272,10 @@
     "hospitalCode":"HOSP-0018",
     "admissionDate":"2025-07-28",
     "dischargeDate":"2025-07-31",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":74,
+    "lengthOfStayDays":11,
+    "referringUnit":"Emergency"
   },
   {
     "encounterId":"ENC-00299",
@@ -2389,7 +3283,10 @@
     "hospitalCode":"HOSP-0027",
     "admissionDate":"2025-02-08",
     "dischargeDate":"2025-02-10",
-    "encounterType":"emergency"
+    "encounterType":"emergency",
+    "ageAtAdmission":81,
+    "lengthOfStayDays":9,
+    "referringUnit":"Oncology"
   },
   {
     "encounterId":"ENC-00300",
@@ -2397,6 +3294,9 @@
     "hospitalCode":"HOSP-0007",
     "admissionDate":"2024-07-30",
     "dischargeDate":"2024-08-08",
-    "encounterType":"outpatient"
+    "encounterType":"outpatient",
+    "ageAtAdmission":32,
+    "lengthOfStayDays":3,
+    "referringUnit":"Emergency"
   }
 ]

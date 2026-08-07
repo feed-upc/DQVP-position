@@ -404,3 +404,68 @@ dqvp:ReferentialIntegrity a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, s
     rdfs:comment     "Percentage of records whose target attribute value occurs in the reference asset."@en ;
     skos:definition  "Percentage of records, among those where dqvp:targetAttribute is non-null, whose value occurs in dqvp:referenceAttribute of dqvp:referenceAsset. In the range 0 to 100."@en ;
     skos:note        "Requires dqvp:referenceAsset and dqvp:referenceAttribute. Grounded in Consistency: coherence between data held in different places is exactly what ISO/IEC 25012 names there."@en .
+
+# =============================================================================
+# v0.8 — distribution-shaped requirements, reduced to scalars.
+#
+# These look like they need a measured value that is a vector, a ranked set or a
+# distribution. They do not. A constraint has to yield a verdict, and a verdict
+# is reached by summarising, so the summary belongs in the metric: a named
+# quantile, the share held by the most frequent value, the rate of disguised
+# nulls, the correlation between two attributes. Each is a scalar, and the
+# existing comparison machinery applies unchanged.
+# =============================================================================
+
+dqvp:quantile a rdf:Property, owl:DatatypeProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "quantile"@en ;
+    rdfs:comment     "Which quantile of the target attribute is measured, between 0 and 1."@en ;
+    skos:definition  "The quantile of the distribution of dqvp:targetAttribute that the constraint bounds; 0.5 is the median."@en .
+
+dqvp:missingEncoding a rdf:Property, owl:DatatypeProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "missing encoding"@en ;
+    rdfs:comment     "A literal used in place of a real null, which the requirement forbids."@en ;
+    skos:definition  "A value that stands in for absent data instead of a genuine null. MAY be repeated. The metric counts records NOT using any of them."@en ;
+    skos:note        "Absence should be represented once, as a null. A column carrying 'N/A', '-1' and an empty string alongside real nulls has four ways of saying nothing, and every downstream completeness measurement is wrong by however many it misses."@en .
+
+dqvp:Quantile a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Accuracy ;
+    rdfs:label       "Quantile"@en ;
+    rdfs:comment     "The value at a named quantile of the target attribute."@en ;
+    skos:definition  "The value below which the given fraction of non-null values of dqvp:targetAttribute falls. Reported in the attribute's own units, not as a percentage."@en ;
+    skos:note        "Requires dqvp:quantile. The distribution is summarised at the point the requirement is actually about, rather than compared wholesale."@en .
+
+dqvp:ModeShare a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Mode Share"@en ;
+    rdfs:comment     "Percentage of non-null records taking the most frequent value."@en ;
+    skos:definition  "The share of non-null records held by the most common value of dqvp:targetAttribute, in the range 0 to 100."@en ;
+    skos:note        "The usual reason to look at most-common values: a single value dominating a column signals a stuck feed, a default that was never overwritten, or a class imbalance."@en .
+
+dqvp:ExplicitNullRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Explicit Null Rate"@en ;
+    rdfs:comment     "Percentage of records that do not disguise absence behind a placeholder value."@en ;
+    skos:definition  "Percentage of records where dqvp:targetAttribute is either a genuine null or a value that is not among the declared dqvp:missingEncoding literals, in the range 0 to 100."@en ;
+    skos:note        "Requires at least one dqvp:missingEncoding."@en .
+
+dqvp:Correlation a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Correlation"@en ;
+    rdfs:comment     "Pearson correlation between the target attribute and the compared attribute."@en ;
+    skos:definition  "The Pearson product-moment correlation between dqvp:targetAttribute and dqvp:comparedAttribute over records where both are non-null. In the range -1 to 1."@en ;
+    skos:note        "A pairwise correlation is a scalar; only a correlation MATRIX over all attributes is not, and no requirement is stated over a whole matrix."@en .
+
+dqvp:Accuracy a dqv:Dimension, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Accuracy"@en ;
+    rdfs:comment     "ISO/IEC 25012 Accuracy dimension."@en ;
+    skos:definition  "ISO/IEC 25012: degree to which data has attributes that correctly represent the true value of the intended attribute of a concept or event in a specific context of use."@en ;
+    rdfs:seeAlso     iso25012: .

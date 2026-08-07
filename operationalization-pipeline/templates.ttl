@@ -183,3 +183,45 @@ tmpl:gx_refint tmpl:engine "gx" ; tmpl:metric dqvp:ReferentialIntegrity ;
   tmpl:body "# NOT EXPRESSIBLE: a Great Expectations suite validates one batch; it cannot read {{refTable}}.{{referenceColumn}} from inside a check ({{checkId}})" .
 tmpl:deequ_refint tmpl:engine "deequ" ; tmpl:metric dqvp:ReferentialIntegrity ;
   tmpl:body "    # NOT EXPRESSIBLE: PyDeequ constraints are scoped to one DataFrame; {{refTable}}.{{referenceColumn}} is outside it  # {{checkId}}" .
+
+# =============================================================================
+# v0.8 distribution summaries. Each engine has a native form for these, because
+# summarising a distribution to a bound is what a data quality check IS - the
+# apparent need for vector-valued measurements was a modelling error, not a gap
+# in the engines.
+# =============================================================================
+tmpl:gx_quantile tmpl:engine "gx" ; tmpl:metric dqvp:Quantile ;
+  tmpl:body "validator.expect_column_quantile_values_to_be_between(column=\"{{column}}\", quantile_ranges={\"quantiles\": [{{quantile}}], \"value_ranges\": [[None, {{threshold}}]]})" .
+tmpl:dbt_quantile tmpl:engine "dbt" ; tmpl:metric dqvp:Quantile ;
+  tmpl:body "-- {{checkId}}\nwith m as (select quantile_cont(\"{{column}}\", {{quantile}}) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_quantile tmpl:engine "sodacl" ; tmpl:metric dqvp:Quantile ;
+  tmpl:body "  - percentile({{column}}, {{quantile}}) {{sqlOp}} {{threshold}}:\n      name: {{checkId}}{{sodaFilter}}" .
+tmpl:deequ_quantile tmpl:engine "deequ" ; tmpl:metric dqvp:Quantile ;
+  tmpl:body "    .hasApproxQuantile(\"{{column}}\", {{quantile}}, lambda x: x {{pyOp}} {{threshold}})  # {{checkId}}{{deequNote}}" .
+
+tmpl:gx_mode tmpl:engine "gx" ; tmpl:metric dqvp:ModeShare ;
+  tmpl:body "validator.expect_column_most_common_value_to_be_in_set(column=\"{{column}}\", value_set=ALLOWED_MODE)  # {{checkId}}: GX bounds WHICH value is most common, not its share" .
+tmpl:dbt_mode tmpl:engine "dbt" ; tmpl:metric dqvp:ModeShare ;
+  tmpl:body "-- {{checkId}}\nwith f as (select count(*) as cnt from {{dbtSource}}{{sqlFilter}} group by \"{{column}}\"),\n     m as (select 100.0*max(cnt)/nullif(sum(cnt),0) as r from f)\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_mode tmpl:engine "sodacl" ; tmpl:metric dqvp:ModeShare ;
+  tmpl:body "  - mode_share_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      mode_share_{{checkId}} query: |\n        SELECT 100.0*MAX(cnt)/NULLIF(SUM(cnt),0) FROM (SELECT COUNT(*) AS cnt FROM {{sourceTable}} WHERE \"{{column}}\" IS NOT NULL GROUP BY \"{{column}}\") s" .
+tmpl:deequ_mode tmpl:engine "deequ" ; tmpl:metric dqvp:ModeShare ;
+  tmpl:body "    # NOT EXPRESSIBLE: PyDeequ reports most-common values through profiling, not as a constraint on the mode's share  # {{checkId}}" .
+
+tmpl:gx_expnull tmpl:engine "gx" ; tmpl:metric dqvp:ExplicitNullRate ;
+  tmpl:body "validator.expect_column_values_to_not_be_in_set(column=\"{{column}}\", value_set=MISSING_ENCODINGS, mostly={{mostly}}{{gxFilter}})" .
+tmpl:dbt_expnull tmpl:engine "dbt" ; tmpl:metric dqvp:ExplicitNullRate ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where \"{{column}}\" is null or \"{{column}}\" not in ({{sqlMissingList}}))/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_expnull tmpl:engine "sodacl" ; tmpl:metric dqvp:ExplicitNullRate ;
+  tmpl:body "  - invalid_percent({{column}}) <= {{complement}}:\n      name: {{checkId}}\n      invalid values: {{sodaMissingList}}{{sodaFilter}}" .
+tmpl:deequ_expnull tmpl:engine "deequ" ; tmpl:metric dqvp:ExplicitNullRate ;
+  tmpl:body "    .isContainedIn(\"{{column}}\", ALLOWED, lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}: complement of {{sodaMissingList}}{{deequNote}}" .
+
+tmpl:gx_corr tmpl:engine "gx" ; tmpl:metric dqvp:Correlation ;
+  tmpl:body "# NOT EXPRESSIBLE: Great Expectations has no column-pair correlation expectation ({{column}}, {{column2}}) — {{checkId}}" .
+tmpl:dbt_corr tmpl:engine "dbt" ; tmpl:metric dqvp:Correlation ;
+  tmpl:body "-- {{checkId}}\nwith m as (select corr(\"{{column}}\", \"{{column2}}\") as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_corr tmpl:engine "sodacl" ; tmpl:metric dqvp:Correlation ;
+  tmpl:body "  - corr_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      corr_{{checkId}} query: |\n        SELECT CORR(\"{{column}}\", \"{{column2}}\") FROM {{sourceTable}}" .
+tmpl:deequ_corr tmpl:engine "deequ" ; tmpl:metric dqvp:Correlation ;
+  tmpl:body "    .hasCorrelation(\"{{column}}\", \"{{column2}}\", lambda x: x {{pyOp}} {{threshold}})  # {{checkId}}{{deequNote}}" .

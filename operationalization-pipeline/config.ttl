@@ -51,3 +51,11 @@ dqvp:AttributeTypeConformance pc:shape pc:SchemaShape ; pc:isPercentage true .
 
 # ---- v0.7 cross-asset metric ------------------------------------------------
 dqvp:ReferentialIntegrity pc:shape pc:CrossAssetShape ; pc:isPercentage true .
+
+# ---- v0.8 distribution-shaped metrics, reduced to scalars -------------------
+# Quantile and Correlation report in their own units, not as percentages, so the
+# derived percentage render-values must not fire for them.
+dqvp:Quantile         pc:shape pc:ScalarColumnShape .
+dqvp:ModeShare        pc:shape pc:ScalarColumnShape ; pc:isPercentage true .
+dqvp:ExplicitNullRate pc:shape pc:ScalarColumnShape ; pc:isPercentage true .
+dqvp:Correlation      pc:shape pc:PairColumnShape .

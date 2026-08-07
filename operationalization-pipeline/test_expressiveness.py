@@ -194,6 +194,13 @@ def build_plan():
             if fo is not None:
                 param(g, flt, "filterOp", C.local(fo))
 
+        # distribution-summary parameters
+        q = g.value(c, DQVP.quantile)
+        if q is not None:
+            param(g, meas, "quantile", q)
+        for e in g.objects(c, DQVP.missingEncoding):
+            param(g, meas, "missingEncoding", e)
+
         # grouping
         gb = g.value(c, DQVP.groupBy)
         if gb is not None:
@@ -218,7 +225,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all fourteen constraints produced a branch", len(ids), 14)
+check("all eighteen constraints produced a branch", len(ids), 18)
 
 print()
 print("=" * 74)
@@ -261,6 +268,11 @@ for cid in ["c-uniqueness", "c-volume", "c-crossborder", "c-percountry"]:
               if body else f"    {e:7s}: (no template)")
 
 check("both assets got their own workflow", len(C.workflows(plan)), 2)
+check("a named quantile reduces the distribution to a scalar",
+      res["c-enc-los"][0], 6.0)
+check("mode share SATISFIED (26%, under a 40% cap)", res["c-enc-unit"][1], True)
+check("disguised nulls detected (95%, needs 100%)", res["c-enc-nulls"][1], False)
+check("pairwise correlation is a scalar", round(res["c-enc-corr"][0], 2), 0.83)
 check("referential integrity VIOLATED (96% of encounter IDs resolve, needs 99%)",
       res["c-enc-patient"][1], False)
 check("schema conformance SATISFIED (all expected attributes declared)",

@@ -255,6 +255,52 @@ check. **GX and PyDeequ both refuse**: a GX suite validates one batch and a PyDe
 constraint is scoped to one DataFrame, so neither can reach a second asset from inside
 a check.
 
+## Status: axis A — the design was wrong
+
+Axis A was specified as typed measurement outputs plus a polymorphic `Compare`:
+
+```
+pc:MeasureValue → pc:Scalar | pc:Vector | pc:Distribution | pc:Set | pc:Matrix
+```
+
+**That was a modelling error, and working through the six functionalities exposed it.**
+
+A constraint has to reach a verdict. Reaching a verdict from a distribution means
+*summarising* it. So the summarisation is part of the requirement, not part of the
+comparison — and it belongs in the metric, where the existing scalar machinery applies
+unchanged:
+
+| Looked like | Is actually |
+|---|---|
+| f-14 a quantile **vector** | a *named* quantile — `dqvp:quantile 0.5` — a scalar in the attribute's units |
+| f-18 a ranked **set** | the share the top value holds — `ModeShare`, a percentage |
+| f-20 a **set** of encodings | the rate of records not disguising absence — `ExplicitNullRate` |
+| f-21 a correlation **matrix** | pairwise correlation is a scalar; nobody states a requirement over a whole matrix |
+| f-22 a mutual-information **matrix** | same — pairwise, same shape as `Correlation` |
+
+No new artifact types, no `Compare` redesign, no engine-wide change. Four new metrics
+and a `PairColumnShape` that already existed.
+
+```
+implemented (a metric exists, rendered by >=1 engine) : 13 / 25
+shape-covered (config + templates, no new rule)       :  9 / 25
+reachable without structural change                   : 22 / 25
+```
+
+Executed against the encounter data: median length of stay **6** days (≤10, satisfied);
+mode share of referring unit **26%** (≤40, satisfied); explicit-null rate **95%** —
+violated, catching the 5% of records that write `"N/A"` instead of a null; correlation
+between age and length of stay **0.834** (≥0.7, satisfied).
+
+**What genuinely resists reduction is f-13.** Comparing a whole histogram against a
+reference distribution needs that reference *as a structured operand* — which is B2
+again, at a larger scale. One functionality out of twenty-five, and it is an operand
+problem rather than a measured-value problem.
+
+The lesson generalises past this project: **before adding a type system to an IR, check
+whether the values you think you need are ever actually consumed.** Here they never
+were — every one of them was on its way to a boolean.
+
 ## Proposed increment order
 
 Ordered by unlock per unit of work, not by ambition:
@@ -265,7 +311,7 @@ Ordered by unlock per unit of work, not by ambition:
 | ~~2~~ | ~~**D** schema subject~~ | **done** — 12/25 → 14/25 | | |
 | ~~3~~ | ~~**C** reference operands~~ | **done** — 14/25 → 16/25 | | |
 | ~~4~~ | ~~**E** join~~ | **done** — 16/25 → 17/25, and closes B6 | | |
-| 5 | **A** typed outputs | 6 | Compare dispatch across every engine | large |
+| ~~5~~ | ~~**A** typed outputs~~ | **dissolved** — 17/25 → 22/25 by summarising in the metric instead | | |
 
 Doing 1–4 takes coverage from 9/25 to **19/25**; B and D are done, so 14/25 today. Axis A is the long tail and the one where
 engine support genuinely diverges — which makes it the best source of `NOT EXPRESSIBLE`
