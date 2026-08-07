@@ -113,7 +113,14 @@ for name in ["targetAttribute", "referenceStandard", "filter",
           (DQVP[name], None, None) in prof)
 metrics = sorted(C.local(m) for m in prof.subjects(RDF.type, DQV.Metric))
 print(f"  metrics: {', '.join(metrics)}")
-check("six metrics defined", len(metrics), 6)
+# A metric with no shape can never be planned, so this is the invariant that
+# matters rather than a count that has to be edited every time one is added.
+cfg = Graph().parse(HERE / "config.ttl", format="turtle")
+shaped = {C.local(m) for m in cfg.subjects(C.PC.shape, None)}
+check("every metric declares a shape in config.ttl",
+      sorted(set(metrics) - shaped), [])
+check("the row-predicate constructs are defined",
+      all((DQVP[n], None, None) in prof for n in ["rowOperator", "rowExpression"]))
 
 
 # ------------------------------------------------------- 5. planning (reasoner)
@@ -303,7 +310,7 @@ else:
 
 # --------------------------------------------------------------- 12. the suites
 stage("Regression suites")
-for script in ["test_expressiveness.py"]:
+for script in ["test_expressiveness.py", "coverage_survey.py"]:
     p = subprocess.run([sys.executable, str(HERE / script)],
                        capture_output=True, text=True, cwd=HERE)
     tail = [l for l in p.stdout.splitlines() if "checks passed" in l]

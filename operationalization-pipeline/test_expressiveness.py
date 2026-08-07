@@ -122,6 +122,25 @@ def build_plan():
         if shape == PC.PairColumnShape:
             param(g, meas, "column2", C.local(g.value(c, DQVP.comparedAttribute)))
 
+        # row-predicate shape: the record-level test and its aggregation are
+        # separate operations, and the record operator is a parameter rather
+        # than something the metric froze in.
+        if shape == PC.RowPredicateShape:
+            g.add((meas, RDF.type, PC.Aggregate))
+            agg = g.value(metric, PC.aggregation)
+            param(g, meas, "aggregation", agg if agg is not None else "rate")
+            col2 = g.value(c, DQVP.comparedAttribute)
+            if col2 is not None:
+                param(g, meas, "column2", C.local(col2))
+            rop = g.value(c, DQVP.rowOperator)
+            if rop is not None:
+                param(g, meas, "rowOp", C.local(rop))
+                param(g, meas, "rowSqlOp", g.value(rop, PC.sqlSymbol))
+                param(g, meas, "rowPyOp", g.value(rop, PC.pySymbol))
+            rex = g.value(c, DQVP.rowExpression)
+            if rex is not None:
+                param(g, meas, "rowExpression", rex)
+
         # compare parameters
         param(g, cmp_, "threshold", thr)
         param(g, cmp_, "sqlOp", g.value(op_uri, PC.sqlSymbol))
@@ -167,7 +186,7 @@ print("Plan built (mirroring plan.n3)")
 print("=" * 74)
 ids = sorted(C.local(c) for c in C.checks(plan))
 print(f"  constraints: {', '.join(ids)}")
-check("all nine constraints produced a branch", len(ids), 9)
+check("all ten constraints produced a branch", len(ids), 10)
 
 print()
 print("=" * 74)
@@ -210,6 +229,10 @@ for cid in ["c-uniqueness", "c-volume", "c-crossborder", "c-percountry"]:
               if body else f"    {e:7s}: (no template)")
 
 check("both assets got their own workflow", len(C.workflows(plan)), 2)
+check("record-level comparison SATISFIED (dates ordered in 100% of encounters)",
+      res["c-enc-dates"][1], True)
+check("the record operator is distinct from the threshold operator",
+      ">=" in code["dbt"]["c-enc-dates"].split(" as r")[0], True)
 check("patient check routed to patient_summary",
       C.sql_table(C.asset_of_check(plan, EX["c-completeness"])), "patient_summary")
 check("encounter check routed to encounter_summary",

@@ -92,3 +92,36 @@ tmpl:soda_ag tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM {{sourceTable}}" .
 tmpl:deequ_ag tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "    .satisfies(\"{{column}} = {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+
+# =============================================================================
+# v0.4 row-predicate metrics. The record-level operator arrives as both a local
+# name ({{rowOp}}) and a symbol ({{rowSqlOp}}); engines that express only some
+# comparisons dispatch on the name and refuse the rest, rather than emitting a
+# check that looks right and tests something else.
+# =============================================================================
+
+#### RowComparison — target OP compared, per record, then a rate ####
+tmpl:dbt_rowcmp tmpl:engine "dbt" ; tmpl:metric dqvp:RowComparison ;
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" {{rowSqlOp}} \"{{column2}}\")/nullif(count(*) filter (where \"{{column}}\" is not null and \"{{column2}}\" is not null),0) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
+
+tmpl:soda_rowcmp tmpl:engine "sodacl" ; tmpl:metric dqvp:RowComparison ;
+  tmpl:body "  - rowcmp_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowcmp_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" {{rowSqlOp}} \"{{column2}}\")/NULLIF(COUNT(*) FILTER (WHERE \"{{column}}\" IS NOT NULL AND \"{{column2}}\" IS NOT NULL),0) FROM {{sourceTable}}" .
+
+tmpl:deequ_rowcmp tmpl:engine "deequ" ; tmpl:metric dqvp:RowComparison ;
+  tmpl:body "    .satisfies(\"{{column}} {{rowSqlOp}} {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+
+# Great Expectations has a pair expectation for equality and for A-greater-than-B
+# (with or_equal). Less-than is the same expectation with the columns swapped.
+# There is no pair inequality expectation, so neq is refused.
+tmpl:gx_rowcmp tmpl:engine "gx" ; tmpl:metric dqvp:RowComparison ;
+  tmpl:body "{% if rowOp == 'eq' %}validator.expect_column_pair_values_to_be_equal(column_A=\"{{column}}\", column_B=\"{{column2}}\", mostly={{mostly}}{{gxFilter}}){% elif rowOp in ['gt','gteq'] %}validator.expect_column_pair_values_a_to_be_greater_than_b(column_A=\"{{column}}\", column_B=\"{{column2}}\", or_equal={{ 'True' if rowOp == 'gteq' else 'False' }}, mostly={{mostly}}{{gxFilter}}){% elif rowOp in ['lt','lteq'] %}validator.expect_column_pair_values_a_to_be_greater_than_b(column_A=\"{{column2}}\", column_B=\"{{column}}\", or_equal={{ 'True' if rowOp == 'lteq' else 'False' }}, mostly={{mostly}}{{gxFilter}})  # columns swapped: a {{rowOp}} b is b gt a{% else %}# NOT EXPRESSIBLE: no Great Expectations column-pair expectation for '{{rowOp}}' ({{column}} {{rowSqlOp}} {{column2}}){% endif %}" .
+
+#### RowExpressionRate — an engine-syntax predicate per record ####
+tmpl:dbt_rowexpr tmpl:engine "dbt" ; tmpl:metric dqvp:RowExpressionRate ;
+  tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where {{rowExpression}})/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_rowexpr tmpl:engine "sodacl" ; tmpl:metric dqvp:RowExpressionRate ;
+  tmpl:body "  - rowexpr_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowexpr_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE {{rowExpression}})/NULLIF(COUNT(*),0) FROM {{sourceTable}}" .
+tmpl:deequ_rowexpr tmpl:engine "deequ" ; tmpl:metric dqvp:RowExpressionRate ;
+  tmpl:body "    .satisfies(\"{{rowExpression}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+tmpl:gx_rowexpr tmpl:engine "gx" ; tmpl:metric dqvp:RowExpressionRate ;
+  tmpl:body "# NOT EXPRESSIBLE: Great Expectations has no free-form row-expression expectation ({{rowExpression}})" .

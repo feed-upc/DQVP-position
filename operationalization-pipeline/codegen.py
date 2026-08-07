@@ -136,8 +136,14 @@ def checks(plan):
 
 
 def measure_op(plan, c):
+    """The operation carrying pc:metric.
+
+    Keyed on the property rather than the class: a scalar shape puts the metric
+    on its Measure, a row-predicate shape puts it on the Aggregate that reduces
+    the mask. Both are "the operation that produced the measured value".
+    """
     for op in plan.subjects(PC.forCheck, c):
-        if (op, RDF.type, PC.Measure) in plan:
+        if plan.value(op, PC.metric) is not None:
             return op
     return None
 
@@ -261,7 +267,37 @@ def _measure_expr(plan, c, ctx):
         return (f'100.0*count(*) filter (where "{col}" = "{col2}")'
                 f'/nullif(count(*) filter (where "{col}" is not null'
                 f' and "{col2}" is not null),0)')
+    if m == "RowComparison":
+        # A record-level predicate reduced by the declared aggregation. The
+        # comparison is a parameter, not frozen into the metric.
+        col2, rop = ctx.get("column2"), ctx.get("rowSqlOp")
+        pred = f'"{col}" {rop} "{col2}"'
+        defined = f'"{col}" is not null and "{col2}" is not null'
+        return _aggregate(ctx, pred, defined)
+    if m == "RowExpressionRate":
+        return _aggregate(ctx, ctx.get("rowExpression"), None)
     raise NotImplementedError(m)
+
+
+def _aggregate(ctx, predicate, defined):
+    """Reduce a record-level predicate to a scalar, per pc:aggregation.
+
+    'rate' counts over records where the predicate is defined, so nulls neither
+    pass nor fail; the other reductions are over all records in scope.
+    """
+    agg = ctx.get("aggregation", "rate")
+    over = f" filter (where {defined})" if defined else ""
+    if agg == "rate":
+        return (f"100.0*count(*) filter (where {predicate})"
+                f"/nullif(count(*){over},0)")
+    if agg == "count":
+        return f"count(*) filter (where {predicate})"
+    if agg == "all":
+        return f"(count(*){over} = count(*) filter (where {predicate}))"
+    if agg == "any":
+        return f"(count(*) filter (where {predicate}) > 0)"
+    raise NotImplementedError(
+        f"pc:aggregation '{agg}': expected one of rate, count, all, any")
 
 
 #  Universal quantification collapses to the worst partition: for a lower-bound

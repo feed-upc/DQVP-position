@@ -65,3 +65,17 @@ pc:hasRule  a owl:ObjectProperty ; rdfs:domain pc:PolicyChecker .  # policy -> a
 pc:ruleType a owl:ObjectProperty .                                 # rule -> odrl:Permission | odrl:Duty | odrl:Obligation
 pc:localName a owl:DatatypeProperty .                              # asset -> IRI local name, used to mint per-asset IRIs
 pc:unsupportedRuleType a owl:ObjectProperty .                      # constraint -> rule type the planner will not compile
+
+# v0.4: the row-predicate split. A record-level test and the aggregation that
+# consumes it are separate operations, so the aggregation stops being implied by
+# the metric's name and groupBy composes with it instead of collapsing it.
+pc:RowPredicate a owl:Class ; rdfs:subClassOf pc:Operation ;
+    rdfs:label "evaluates a boolean per record, producing a mask" .
+pc:Aggregate a owl:Class ; rdfs:subClassOf pc:Operation ;
+    rdfs:label "reduces a mask to a scalar" .
+pc:Mask a owl:Class ; rdfs:subClassOf pc:Artifact ;
+    rdfs:label "one boolean per record" .
+pc:RowPredicateShape a pc:Shape ;
+    rdfs:label "record-level predicate, then aggregation" .
+pc:aggregation a owl:DatatypeProperty ;
+    rdfs:label "how a mask reduces to a scalar: rate | all | any | count" .

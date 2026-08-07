@@ -106,13 +106,53 @@ f-11 and B6 are the same requirement. A workflow gains a second Load and a `pc:J
 takes two Table inputs. This is the only axis that changes the **plan skeleton** rather than
 adding a parameter, which is why it has been deferred so far.
 
+## Status: axis B is done
+
+`dqvp:rowOperator` splits the record-level comparison from the threshold comparison,
+and the plan gained a `RowPredicate -> Aggregate` skeleton (P5). Measured by
+`coverage_survey.py`:
+
+```
+implemented (a metric exists, rendered by >=1 engine) :  5 / 25
+shape-covered (config + templates, no new rule)       :  7 / 25
+reachable without structural change                   : 12 / 25
+```
+
+f-05 and f-06 moved from unreachable to implemented. `dqvp:AttributeAgreementRate`
+is now the special case it always was — `RowComparison` with the record operator
+fixed to `odrl:eq`.
+
+**Splitting the two operators surfaced a barrier the earlier constructs had hidden.**
+*"The discharge date must not precede the admission date in at least 99% of records"*
+needs two comparisons — `>=` within each record, `>= 99` on the resulting rate — and
+`odrl:Constraint` provides one `odrl:operator` slot. Every pairwise metric before this
+had frozen its record-level comparison into the metric name, which is why equality was
+the only one available. Call it **B7, predicate-threshold conflation**.
+
+Engine support, computed rather than asserted:
+
+| record operator | dbt | Soda | Deequ | GX |
+|---|---|---|---|---|
+| eq, gt, gteq | yes | yes | yes | direct |
+| lt, lteq | yes | yes | yes | columns swapped |
+| neq | yes | yes | yes | **refused** |
+
+GX has no column-pair inequality expectation, so the template emits
+`NOT EXPRESSIBLE` rather than a check that looks right and tests something else.
+
+Two type assumptions leaked out while doing this, both now fixed: `measure_op()` and
+the derived render-value rules were keyed on the `pc:Measure` *class* rather than on
+`pc:metric`, so every row-predicate check was silently starved of `mostly` and
+`complement`. Shapes multiply; keying on the property rather than the class is what
+keeps them from having to.
+
 ## Proposed increment order
 
 Ordered by unlock per unit of work, not by ambition:
 
 | # | Axis | Unlocks | Touches | Rough size |
 |---|---|---|---|---|
-| 1 | **B** row predicate + aggregate | 5 (+ simplifies B4) | 1 skeleton rule, 2 operators, 4 template sets | medium |
+| ~~1~~ | ~~**B** row predicate + aggregate~~ | **done** — 9/25 → 12/25 | | |
 | 2 | **D** schema subject | 2 | 1 rule, 1 artifact type, 4 templates | small |
 | 3 | **C** reference operands | 2 | vocabulary + Resolve generalization + executor reads back measurements | medium |
 | 4 | **E** join | 1 (and B6) | plan skeleton, executor multi-table | medium-large |

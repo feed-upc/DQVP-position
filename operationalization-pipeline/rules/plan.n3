@@ -111,13 +111,16 @@
 #  which is only meaningful for a metric whose value space IS a percentage. An
 #  absolute metric such as dqvp:RowCount would otherwise acquire mostly = 4.0
 #  from a threshold of 400.
-{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:operator odrl:gteq ; odrl:rightOperand ?thr ;
-    odrl:leftOperand ?m . ?m pc:isPercentage true .
-  ( ?thr 100 ) math:quotient ?mm . }
-=> { ?meas pc:parameter [ pc:name "mostly" ; pc:value ?mm ] } .
-{ ?meas a pc:Measure ; pc:forCheck ?c . ?c odrl:rightOperand ?thr ; odrl:leftOperand ?m .
+#  Keyed on pc:metric rather than on the pc:Measure class: a scalar shape carries
+#  the metric on its Measure, a row-predicate shape on the Aggregate that reduces
+#  the mask. Typing these on Measure silently starved every row-predicate check
+#  of its render-values.
+{ ?op pc:metric ?m ; pc:forCheck ?c . ?c odrl:operator odrl:gteq ; odrl:rightOperand ?thr .
+  ?m pc:isPercentage true . ( ?thr 100 ) math:quotient ?mm . }
+=> { ?op pc:parameter [ pc:name "mostly" ; pc:value ?mm ] } .
+{ ?op pc:metric ?m ; pc:forCheck ?c . ?c odrl:rightOperand ?thr .
   ?m pc:isPercentage true . ( 100 ?thr ) math:difference ?d . }
-=> { ?meas pc:parameter [ pc:name "complement" ; pc:value ?d ] } .
+=> { ?op pc:parameter [ pc:name "complement" ; pc:value ?d ] } .
 
 # ---- Reference resolution: Resolve -> CodeList feeds Measure ----------------
 #   keyed on the typed contractual qualifier dqvp:referenceStandard.
@@ -198,3 +201,61 @@
 #  Universal quantification over the partitions induced by dqvp:groupBy.
 { ?meas a pc:Measure ; pc:forCheck ?c . ?c pc:gcol ?gc . }
 => { ?meas pc:parameter [ pc:name "groupColumn" ; pc:value ?gc ] } .
+
+# ---- Record-level operator, projected to its local name ---------------------
+{ ?c dqvp:rowOperator ?o . ?o log:uri ?ou . ( ?ou "^.*[/#]([^/#]+)$" ) string:scrape ?ol . }
+=> { ?c pc:rowOp ?ol } .
+
+# ---- P5  ROW-PREDICATE branch ----------------------------------------------
+#   Filter -> RowPredicate -> Aggregate -> Compare -> Report
+#
+#   The record-level test and the aggregation that consumes it are separate
+#   operations. Folding them together, as the earlier pairwise metric did, has
+#   three costs: the record-level comparison can only be whatever the metric
+#   froze in, the aggregation is implied by the metric's name rather than stated,
+#   and dqvp:groupBy has to collapse to a worst-case trick instead of simply
+#   aggregating twice.
+{ ?pol a dqvp:QualityPolicy ; pc:hasRule ?r . ?r odrl:target ?asset ; odrl:constraint ?c .
+  ?asset pc:localName ?al .
+  ?c a dqvp:DQConstraint ; odrl:leftOperand ?m ; pc:col ?col .
+  ?m pc:shape pc:RowPredicateShape ; pc:aggregation ?agg .
+  ?pol log:uri ?ps .
+  ( ?ps "/checker/wf/" ?al ) string:concatenation ?wfs . ?wf  log:uri ?wfs .
+  ( ?wfs "/table" )          string:concatenation ?tbs . ?tbl log:uri ?tbs .
+  ?c log:uri ?cu .
+  ( ?cu "/filter" )    string:concatenation ?fs  . ?flt  log:uri ?fs  .
+  ( ?cu "/ftable" )    string:concatenation ?fts . ?ftbl log:uri ?fts .
+  ( ?cu "/predicate" ) string:concatenation ?rps . ?rp   log:uri ?rps .
+  ( ?cu "/mask" )      string:concatenation ?mks . ?mask log:uri ?mks .
+  ( ?cu "/aggregate" ) string:concatenation ?ags . ?ag   log:uri ?ags .
+  ( ?cu "/mval" )      string:concatenation ?mvs . ?mval log:uri ?mvs .
+  ( ?cu "/compare" )   string:concatenation ?cs  . ?cmp  log:uri ?cs  .
+  ( ?cu "/verdict" )   string:concatenation ?vs  . ?vd   log:uri ?vs  .
+  ( ?cu "/report" )    string:concatenation ?rs  . ?rep  log:uri ?rs  .
+  ( ?cu "/reportdoc" ) string:concatenation ?rds . ?rdoc log:uri ?rds . }
+=> { ?wf pc:hasOp ?flt, ?rp, ?ag, ?cmp, ?rep .
+     ?flt a pc:Filter ; pc:order 2 ; pc:forCheck ?c ; pc:input ?tbl ; pc:output ?ftbl .
+     ?ftbl a pc:Table .
+     ?rp  a pc:RowPredicate ; pc:order 3 ; pc:forCheck ?c ; pc:input ?ftbl ; pc:output ?mask ;
+          pc:parameter [ pc:name "column" ; pc:value ?col ] . ?mask a pc:Mask .
+     ?ag  a pc:Aggregate ; pc:order 4 ; pc:forCheck ?c ; pc:metric ?m ;
+          pc:input ?mask ; pc:output ?mval ;
+          pc:parameter [ pc:name "aggregation" ; pc:value ?agg ] . ?mval a pc:MeasureValue .
+     ?cmp a pc:Compare ; pc:order 5 ; pc:forCheck ?c ; pc:input ?mval ; pc:output ?vd .
+     ?vd a pc:Verdict .
+     ?rep a pc:Report ; pc:order 6 ; pc:forCheck ?c ; pc:input ?vd ; pc:output ?rdoc .
+     ?rdoc a pc:ReportDoc . } .
+
+# ---- RowPredicate parameters: the compared attribute and the record operator -
+{ ?rp a pc:RowPredicate ; pc:forCheck ?c . ?c pc:col2 ?col2 . }
+=> { ?rp pc:parameter [ pc:name "column2" ; pc:value ?col2 ] } .
+{ ?rp a pc:RowPredicate ; pc:forCheck ?c . ?c pc:rowOp ?ro . }
+=> { ?rp pc:parameter [ pc:name "rowOp" ; pc:value ?ro ] } .
+{ ?rp a pc:RowPredicate ; pc:forCheck ?c . ?c dqvp:rowExpression ?ex . }
+=> { ?rp pc:parameter [ pc:name "rowExpression" ; pc:value ?ex ] } .
+
+# ---- Record-level operator symbols, from the same table as the threshold's ---
+{ ?rp a pc:RowPredicate ; pc:forCheck ?c . ?c dqvp:rowOperator ?o .
+  ?o pc:sqlSymbol ?s ; pc:pySymbol ?p . }
+=> { ?rp pc:parameter [ pc:name "rowSqlOp" ; pc:value ?s ] ,
+                      [ pc:name "rowPyOp"  ; pc:value ?p ] } .

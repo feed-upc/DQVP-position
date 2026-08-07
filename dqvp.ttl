@@ -255,3 +255,40 @@ dqvp:Uniqueness a dqv:Dimension, skos:Concept ;
     rdfs:comment     "DAMA-DMBOK Uniqueness dimension."@en ;
     skos:definition  "DAMA-DMBOK: no entity instance is recorded more than once, and each real-world entity is represented by exactly one record."@en ;
     skos:note        "Sourced from DAMA-DMBOK rather than ISO/IEC 25012, which has no distinct uniqueness dimension. The catalogue already grounds Validity in DAMA-DMBOK, so metrics are not restricted to a single reference framework."@en .
+
+# =============================================================================
+# v0.4 — the row predicate. Splitting the per-row test from the aggregation it
+# feeds surfaced a barrier the earlier constructs had hidden.
+# =============================================================================
+
+dqvp:rowOperator a rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "row operator"@en ;
+    rdfs:comment     "The comparison applied within each record, as distinct from the comparison applied to the aggregated measurement."@en ;
+    skos:definition  "An ODRL operator evaluated per record between dqvp:targetAttribute and dqvp:comparedAttribute. The record-level result is aggregated, and odrl:operator then compares that aggregate against odrl:rightOperand."@en ;
+    skos:note        "Resolves the predicate-threshold conflation barrier. A constraint such as 'the discharge date must not precede the admission date in at least 99% of records' needs two operators - one per record, one on the resulting rate - and odrl:Constraint provides a single odrl:operator slot. Without this property the per-record comparison has to be frozen into the metric, which is why an equality-only metric was needed for each pairwise test."@en .
+
+dqvp:rowExpression a rdf:Property, owl:DatatypeProperty, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:domain      dqvp:DQConstraint ;
+    rdfs:label       "row expression"@en ;
+    rdfs:comment     "A boolean expression evaluated per record."@en ;
+    skos:definition  "A boolean expression over the attributes of a single record, expressed in the surface syntax of the executing engine."@en ;
+    skos:note        "An escape hatch for record-level tests that no operator captures. It is deliberately NOT portable - the expression is engine syntax - so a constraint using it is weaker than one using dqvp:rowOperator and should be preferred only where the latter cannot express the test."@en .
+
+dqvp:RowComparison a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Row Comparison Rate"@en ;
+    rdfs:comment     "Percentage of records in which the target attribute stands in the given relation to the compared attribute."@en ;
+    skos:definition  "Percentage of records, among those where both attributes are non-null, for which dqvp:targetAttribute dqvp:rowOperator dqvp:comparedAttribute holds. In the range 0 to 100."@en ;
+    skos:note        "Generalises dqvp:AttributeAgreementRate, which is this metric with dqvp:rowOperator fixed to odrl:eq."@en .
+
+dqvp:RowExpressionRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Consistency ;
+    rdfs:label       "Row Expression Rate"@en ;
+    rdfs:comment     "Percentage of records satisfying a boolean expression."@en ;
+    skos:definition  "Percentage of records for which dqvp:rowExpression evaluates true, in the range 0 to 100."@en ;
+    skos:note        "Requires dqvp:rowExpression, whose contents are engine syntax and therefore not portable across engines."@en .

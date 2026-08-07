@@ -33,3 +33,12 @@ dqvp:NullRate               pc:isPercentage true .
 dqvp:ReferenceConformance   pc:isPercentage true .
 dqvp:UniqueRate             pc:isPercentage true .
 dqvp:AttributeAgreementRate pc:isPercentage true .
+
+# ---- v0.4 row-predicate metrics ---------------------------------------------
+# The aggregation is declared here rather than implied by the metric's name, so
+# a new record-level test is a config row plus templates, not a new rule.
+dqvp:RowComparison    pc:shape pc:RowPredicateShape ; pc:aggregation "rate" ; pc:isPercentage true .
+dqvp:RowExpressionRate pc:shape pc:RowPredicateShape ; pc:aggregation "rate" ; pc:isPercentage true .
+
+# Record-level operators. Reusing the same symbol table as the threshold
+# comparison: an operator is an operator, whichever level it is applied at.

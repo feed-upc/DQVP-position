@@ -34,7 +34,7 @@ ex:ps-dq-offer-01
         a            odrl:Duty ;
         odrl:target  dp:EncounterSummary ;
         odrl:action  odrl:use ;
-        odrl:constraint ex:c-enc-discharge, ex:c-enc-id
+        odrl:constraint ex:c-enc-discharge, ex:c-enc-id, ex:c-enc-dates
     ] .
 
 ex:c-completeness a dqvp:DQConstraint ; rdfs:label "c-completeness" ;
@@ -113,3 +113,15 @@ ex:c-enc-id a dqvp:DQConstraint ; rdfs:label "c-enc-id" ;
     dqvp:targetAttribute enc:encounterId ;
     odrl:operator        odrl:gteq ;
     odrl:rightOperand    "100"^^xsd:decimal .
+
+# L5 — a record-level comparison. Needs dqvp:rowOperator: the test applied
+# within each record (dischargeDate >= admissionDate) is a different comparison
+# from the one applied to the resulting rate (>= 99), and odrl:Constraint offers
+# only one odrl:operator slot.
+ex:c-enc-dates a dqvp:DQConstraint ; rdfs:label "c-enc-dates" ;
+    odrl:leftOperand       dqvp:RowComparison ;
+    dqvp:targetAttribute   enc:dischargeDate ;
+    dqvp:comparedAttribute enc:admissionDate ;
+    dqvp:rowOperator       odrl:gteq ;
+    odrl:operator          odrl:gteq ;
+    odrl:rightOperand      "99"^^xsd:decimal .
