@@ -1,0 +1,38 @@
+{
+  "id": "DQR3HL",
+  "goal": "Enforces semantic consistency between attribute values by restricting admissible values based on the value of another attribute",
+  "description": "Values of an attribute must be compatible with values of another attribute.",
+  "qualityDimension": {
+    "dimension": "Consistency",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {
+      "dimension": "Consistency",
+      "source": "ISO/IEC 25012",
+      "primary": true
+    },
+    {
+      "dimension": "Compliance",
+      "source": "ISO/IEC 25012"
+    }
+  ],
+  "pattern": {
+    "id": "DQRP4",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName1": "BiodiversityObservation",
+    "datasetName": "Observation",
+    "attributeName1": "BiodiversityObservation.detectionStatus",
+    "ValueSet1": "{notDetected}",
+    "attributeName2": "BiodiversityObservation.breedingEvidence",
+    "entityName2": "BiodiversityObservation",
+    "operator": "not contain",
+    "ValueSet2": "{courtship, nesting, chicks}"
+  },
+  "statement": "In the BiodiversityObservation entity, when the detectionStatus attribute has the values {notDetected}, the breedingEvidence attribute of BiodiversityObservation entity must not contain values from the set {courtship, nesting, chicks}.",
+  "sourceEntity": "HELEADE Governance Authority",
+  "supportingMaterials": "HELEADE use case, IST revision (Section 6.2); illustrative requirement",
+  "history": "Created 14/10/2026"
+}

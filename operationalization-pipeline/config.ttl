@@ -57,5 +57,6 @@ dqvp:ReferentialIntegrity pc:shape pc:CrossAssetShape ; pc:isPercentage true .
 # derived percentage render-values must not fire for them.
 dqvp:Quantile         pc:shape pc:ScalarColumnShape .
 dqvp:ModeShare        pc:shape pc:ScalarColumnShape ; pc:isPercentage true .
+dqvp:ShareImbalance   pc:shape pc:ScalarColumnShape ; pc:isPercentage true .
 dqvp:ExplicitNullRate pc:shape pc:ScalarColumnShape ; pc:isPercentage true .
 dqvp:Correlation      pc:shape pc:PairColumnShape .

@@ -1,0 +1,8 @@
+@prefix dp: <https://w3id.org/heleade/asset/> .
+@prefix pc: <https://feed-upc.github.io/DQVP-position/pc#> .
+# HELEADE data-product descriptors (deployment metadata, not the contract): format +
+# locator, plus the attributes a format check must see as written (pc:textAttribute).
+dp:Wetland        pc:format "csv" ; pc:locator "../data/heleade/wetland.csv" ;         pc:dbtSource "heleade" .
+dp:MonitoringSite pc:format "csv" ; pc:locator "../data/heleade/monitoring_site.csv" ; pc:dbtSource "heleade" .
+dp:Observation    pc:format "csv" ; pc:locator "../data/heleade/observation.csv" ;     pc:dbtSource "heleade" ;
+                  pc:textAttribute "observedAt" .

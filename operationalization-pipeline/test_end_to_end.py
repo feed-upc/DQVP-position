@@ -73,7 +73,7 @@ print(f"  {len(reqs)} requirements")
 for r in reqs:
     print(f"    {r['id']:8s} pattern {r['pattern']['id']:6s} "
           f"{r['qualityDimension']['dimension']:14s} {r['statement'][:58]}...")
-check("all requirements parse", len(reqs), 3)
+check("all requirements parse", len(reqs), 6)
 check("every requirement names a pattern",
       all(r.get("pattern", {}).get("id") for r in reqs))
 check("every requirement names its source entity",
@@ -349,9 +349,69 @@ else:
         note("namespace, and it compiles. Settle on one IRI to close this.")
 
 
+# ------------------------------------------------- 11b. the mapped EHDS DQRs
+stage("Mapped DQRs — all six EHDS requirements run, against an oracle from the CSVs")
+if not HAVE_EYE:
+    note("SKIPPED - eye not on PATH")
+else:
+    import csv as _csv
+    from collections import Counter as _Counter
+    import duckdb as _duckdb
+    import pycountry as _pycountry
+
+    def _rows(name):
+        with open(REPO / "data" / name, newline="") as f:
+            return list(_csv.DictReader(f))
+    ps, iso = _rows("Patient_Summary.csv"), _rows("AMR_Isolates.csv")
+    codes = {c.alpha_2 for c in _pycountry.countries}
+    pct = lambda n, d: round(100.0 * n / d, 4)
+    countries = [r["countryOfAffiliation"] for r in ps if r["countryOfAffiliation"]]
+    hospitals = [r["hospitalCountry"] for r in ps if r["hospitalCountry"]]
+    males = [r for r in ps if r["gender"] == "male"]
+    sexes = _Counter(r["gender"] for r in iso if r["gender"])
+    oracle = {
+        "c-completeness": pct(sum(bool(r["nationalHealthcarePatientID"]) for r in ps), len(ps)),
+        "c-compliance":   pct(sum(c in codes for c in countries), len(countries)),
+        "c-consistency":  pct(sum(not r["pregnancyHistory"] for r in males), len(males)),
+        "c-dqr4eh":       float(len(iso)),
+        "c-dqr5eh":       pct(max(sexes.values()) - min(sexes.values()), sum(sexes.values())),
+        "c-dqr6eh":       pct(sum(c in codes for c in hospitals), len(hospitals)),
+    }
+    mplan = C.build_plan("dataset_csv.ttl", policy=mapped)
+    got = C.execute(mplan)
+    for cid in sorted(oracle):
+        v, ok = got[cid]
+        print(f"    {cid:15s} pipeline {v:10.4f} {'SAT' if ok else 'VIOLATED':8s} oracle {oracle[cid]:10.4f}")
+    check("every mapped DQR executes", sorted(got), sorted(oracle))
+    check("measured values equal the oracle", {k: v for k, (v, _) in got.items()}, oracle)
+    check("verdicts: DQR3EH and DQR4EH satisfied, the other four violated",
+          {k: ok for k, (_, ok) in got.items()},
+          {"c-completeness": False, "c-compliance": False, "c-consistency": True,
+           "c-dqr4eh": True, "c-dqr5eh": False, "c-dqr6eh": False})
+    check("the policy has one permission per asset (PatientSummary, AMRIsolates)",
+          sorted(C.local(a) for _, a in C.workflows(mplan)), ["AMRIsolates", "PatientSummary"])
+    mcode = C.generate(mplan)
+    db = _duckdb.connect()
+    for w, a in C.workflows(mplan):
+        db.execute(f'create table "{C.sql_table(a)}" as select * from {C.load_code(mplan, "duckdb", w, a)}')
+    agree = {}
+    for cid in oracle:
+        sql = mcode["dbt"][cid]
+        if "codes" in sql:          # reference-standard checks read a seeded code table
+            continue
+        for w, a in C.workflows(mplan):
+            t = C.sql_table(a)
+            sql = sql.replace("{{ source('ehds','" + t + "') }}", f'"{t}"')
+        agree[cid] = (len(db.execute(sql).fetchall()) > 0) == (not got[cid][1])
+    check("generated dbt tests agree with the reference executor", agree,
+          {k: True for k in agree})
+    check("GX and Deequ flag the share imbalance as not expressible",
+          all("NOT EXPRESSIBLE" in mcode[e]["c-dqr5eh"] for e in ("gx", "deequ")))
+
+
 # --------------------------------------------------------------- 12. the suites
 stage("Regression suites")
-for script in ["test_expressiveness.py", "coverage_survey.py"]:
+for script in ["test_expressiveness.py", "coverage_survey.py", "test_heleade.py"]:
     p = subprocess.run([sys.executable, str(HERE / script)],
                        capture_output=True, text=True, cwd=HERE)
     tail = [l for l in p.stdout.splitlines() if "checks passed" in l]

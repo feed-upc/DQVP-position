@@ -1,0 +1,35 @@
+{
+  "id": "DQR5EH",
+  "goal": "Ensure that all relevant groups are adequately represented in an entity, preventing systematic under-representation.",
+  "description": "An entity composition includes groups in appropriate proportions for the task and context.",
+  "qualityDimension": {
+    "dimension": "Fairness",
+    "source": "Biessmann, F., Golebiowski, J., Rukat, T., Lange, D., Schmidt, P.: Automated data validation in machine learning systems. IEEE Data Eng. Bull. 44, 51–65 (2021)"
+  },
+  "qualityDimensions": [
+    {
+      "dimension": "Fairness",
+      "source": "Biessmann, F., Golebiowski, J., Rukat, T., Lange, D., Schmidt, P.: Automated data validation in machine learning systems. IEEE Data Eng. Bull. 44, 51–65 (2021)",
+      "primary": true
+    },
+    {
+      "dimension": "Completeness",
+      "source": "ISO/IEC 25012"
+    }
+  ],
+  "pattern": {
+    "id": "DQRP6",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "AMRStudy.isolates",
+    "attributeName": "PatientSummary.PatientSummaryHeader.PatientIdentification.gender",
+    "operator": "not exceed",
+    "percValue": "5",
+    "datasetName": "AMRIsolates"
+  },
+  "statement": "In the AMRStudy.isolates entity, the distribution imbalance of the gender attribute should not exceed 5%",
+  "sourceEntity": "EHDS Governance Authority",
+  "supportingMaterials": "Dataspace Rulebook (page 50); executable version: datasetName names the synthetic table the requirement is checked on",
+  "history": "Created 28/01/2026"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "DQR4HL",
+  "goal": "Ensures sufficient sample size for statistically valid estimates",
+  "description": "Validates the number of instances of an entity to achieve adequate statistical power.",
+  "qualityDimension": {
+    "dimension": "Completeness",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {
+      "dimension": "Completeness",
+      "source": "ISO/IEC 25012",
+      "primary": true
+    }
+  ],
+  "measurementConcept": "Volume",
+  "pattern": {
+    "id": "DQRP5",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "Wetland.monitoringSite",
+    "operator": "at least",
+    "value": "5"
+  },
+  "statement": "In the Wetland.monitoringSite entity, the number of instances must be at least 5",
+  "sourceEntity": "HELEADE Governance Authority",
+  "supportingMaterials": "HELEADE use case, IST revision (Section 6.2); illustrative requirement",
+  "history": "Created 14/10/2026"
+}

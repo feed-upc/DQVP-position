@@ -447,6 +447,21 @@ dqvp:ModeShare a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept
     skos:definition  "The share of non-null records held by the most common value of dqvp:targetAttribute, in the range 0 to 100."@en ;
     skos:note        "The usual reason to look at most-common values: a single value dominating a column signals a stuck feed, a default that was never overwritten, or a class imbalance."@en .
 
+dqvp:ShareImbalance a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    dqv:inDimension  dqvp:Fairness ;
+    rdfs:label       "Share Imbalance"@en ;
+    rdfs:comment     "Gap between the most and the least frequent values of an attribute."@en ;
+    skos:definition  "The difference, in percentage points, between the shares of non-null records held by the most and by the least common value of dqvp:targetAttribute, in the range 0 to 100."@en ;
+    skos:note        "For a two-valued attribute this is the absolute difference between the two shares, the usual reading of a balance requirement such as a 1:1 sex ratio. Only values that occur are counted, so a category with no records at all is not seen."@en .
+
+dqvp:Fairness a dqv:Dimension, skos:Concept ;
+    rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
+    rdfs:label       "Fairness"@en ;
+    rdfs:comment     "Representation of groups in the data, as used for data validation in machine learning systems."@en ;
+    skos:definition  "Degree to which the groups that an attribute distinguishes are represented in the proportions a use requires."@en ;
+    rdfs:seeAlso     <https://sites.computer.org/debull/A21june/p51.pdf> .
+
 dqvp:ExplicitNullRate a odrl:LeftOperand, dqv:Metric, owl:NamedIndividual, skos:Concept ;
     rdfs:isDefinedBy <https://feed-upc.github.io/DQVP-position/dqvp.ttl> ;
     dqv:inDimension  dqvp:Consistency ;

@@ -26,6 +26,7 @@ ODRL = Namespace("http://www.w3.org/ns/odrl/2/")
 VOCAB_INPUTS  = [HERE.parent / "dqvp.ttl", HERE / "pc-vocab.ttl", HERE / "config.ttl"]
 DEFAULT_POLICY = HERE / "policy.ttl"
 JINJA = Environment()
+JINJA.filters["pystr"] = repr      # a Python string literal, whatever quotes it holds
 
 # operator local name -> (sql symbol, python symbol)
 OPSYM = {"gteq": (">=", ">="), "lteq": ("<=", "<="), "eq": ("=", "=="),
@@ -147,13 +148,27 @@ def _load_templates():
             str(g.value(t, TMPL.loadBody)) for t in g.subjects(TMPL.loadBody, None)}
 
 
+def text_attributes(plan, asset):
+    """Attributes the data-product descriptor asks to be read as written
+    (pc:textAttribute). A format check needs the original text: type inference
+    would turn '2026-04-01T08:00:00+02:00' into a timestamp and hide the offset."""
+    return sorted(str(v) for v in plan.objects(asset, PC.textAttribute))
+
+
+def dbt_source(plan, asset):
+    """The dbt source an asset is declared under (pc:dbtSource), 'ehds' by default."""
+    return str(plan.value(asset, PC.dbtSource) or "ehds")
+
+
 def load_code(plan, engine, wf, asset=None):
     """Format-specific data-access code for one of a workflow's assets."""
     fmt, loc = dataset_of(plan, wf, asset)
     body = _load_templates().get((engine, fmt))
     if body is None:
         raise NotImplementedError(f"no load template for engine={engine} format={fmt}")
-    return JINJA.from_string(body).render(locator=loc, format=fmt)
+    subject = asset if asset is not None else plan.value(wf, PC.onAsset)
+    return JINJA.from_string(body).render(locator=loc, format=fmt,
+                                          textColumns=text_attributes(plan, subject))
 
 
 # ---- workflow accessors ----------------------------------------------------
@@ -256,7 +271,8 @@ def generate(plan):
         ctx["sourceTable"] = sql_table(asset)
         # dbt's own {{ source() }} is built here rather than guarded with
         # {% raw %} in every template, so the relation follows the asset.
-        ctx["dbtSource"] = "{{ source('ehds','" + ctx["sourceTable"] + "') }}"
+        ctx["dbtSource"] = ("{{ source('" + dbt_source(plan, asset) + "','"
+                            + ctx["sourceTable"] + "') }}")
         want = _expected(ctx)
         if want:
             ctx["gxColumnSet"] = "[" + ", ".join(f'"{a}"' for a in want) + "]"
@@ -270,7 +286,8 @@ def generate(plan):
             ctx["sodaMissingList"] = "[" + ", ".join(enc) + "]"
         if ctx.get("referenceTable"):
             ctx["refTable"] = sql_table(ctx["referenceTable"])
-            ctx["dbtRefSource"] = "{{ source('ehds','" + ctx["refTable"] + "') }}"
+            ctx["dbtRefSource"] = ("{{ source('" + dbt_source(plan, ctx["referenceTable"])
+                                   + "','" + ctx["refTable"] + "') }}")
         if ctx.get("expectedDatatype"):
             ctx["sqlType"] = XSD_TO_SQL.get(ctx["expectedDatatype"], "")
         m = plan.value(measure_op(plan, c), PC.metric)
@@ -356,7 +373,7 @@ def _measure_expr(plan, c, ctx):
     if m == "Quantile":
         q = float(ctx.get("quantile", 0.5))
         return f'quantile_cont("{col}", {q})'
-    if m == "ModeShare":
+    if m in ("ModeShare", "ShareImbalance"):
         raise _NeedsOwnQuery                      # see _measure_sql
     if m == "ExplicitNullRate":
         enc = ctx.get("missingEncoding")
@@ -418,17 +435,14 @@ _GROUP_AGG = {"gteq": "min", "gt": "min", "lteq": "max", "lt": "max"}
 def _measure_sql(plan, c, ctx, table):
     src = _measure_source(plan, c, table)
     metric = local(plan.value(measure_op(plan, c), PC.metric))
-    if metric == "ModeShare":
-        # A group-then-take-the-largest, which is a nested query rather than an
-        # aggregate over the source relation.
+    if metric in ("ModeShare", "ShareImbalance"):
+        # Group by value, then compare the group sizes: a nested query rather
+        # than an aggregate over the source relation.
         col, where = ctx.get("column"), filter_clause("sql", ctx)
-        return (f'select 100.0*max(cnt)/nullif(sum(cnt),0) from '
+        top = "max(cnt)" if metric == "ModeShare" else "(max(cnt)-min(cnt))"
+        return (f'select 100.0*{top}/nullif(sum(cnt),0) from '
                 f'(select count(*) as cnt from {src}{where} '
-                f'where "{col}" is not null group by "{col}")'
-                if not where else
-                f'select 100.0*max(cnt)/nullif(sum(cnt),0) from '
-                f'(select count(*) as cnt from {src}{where} '
-                f'and "{col}" is not null group by "{col}")')
+                f'{"and" if where else "where"} "{col}" is not null group by "{col}")')
     # A row filter over a schema is meaningless, so it is not applied there.
     where = "" if src.startswith("(describe") else filter_clause("sql", ctx)
     expr = _measure_expr(plan, c, ctx)
@@ -611,13 +625,21 @@ def run_gx(code_gx, plan):
             validators[wf] = (ctxt.sources.add_pandas(local(asset))
                                   .read_dataframe(df, asset_name=local(asset)))
         for cid, expr in code_gx.items():
+            if expr.lstrip().startswith("#"):   # an explicit refusal: nothing to run
+                continue
             c = id2c[cid]
             wf = workflow_of_check(plan, c)
             if wf is None:
                 continue
+            # A ModeShare constraint bounds the share of the most common value and
+            # names no value, so the set this approximation needs does not exist.
+            if "ALLOWED_MODE" in expr:
+                continue
             std = ref_standard(plan, c)
+            enc = context_of(plan, c).get("missingEncoding")
             ns = {"validator": validators[wf],
-                  "CODE_LIST": list(resolve_codes(std)) if std else []}
+                  "CODE_LIST": list(resolve_codes(std)) if std else [],
+                  "MISSING_ENCODINGS": [] if enc is None else (enc if isinstance(enc, list) else [enc])}
             out[cid] = bool(eval(expr, ns).success)
     return out
 

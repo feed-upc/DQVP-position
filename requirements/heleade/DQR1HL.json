@@ -1,0 +1,39 @@
+{
+  "id": "DQR1HL",
+  "goal": "Supporting a required percentage of non-empty values of an attribute in an entity",
+  "description": "Values of an attribute must be mandatory",
+  "qualityDimension": {
+    "dimension": "Completeness",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {
+      "dimension": "Completeness",
+      "source": "ISO/IEC 25012",
+      "primary": true
+    },
+    {
+      "dimension": "Accuracy",
+      "source": "ISO/IEC 25012"
+    },
+    {
+      "dimension": "Consistency",
+      "source": "ISO/IEC 25012"
+    }
+  ],
+  "pattern": {
+    "id": "DQRP2",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "MonitoringSite",
+    "datasetName": "MonitoringSite",
+    "attributeName": "MonitoringSite.location",
+    "operator": "at least",
+    "percentageValue": "100"
+  },
+  "statement": "In the MonitoringSite entity, the location attribute must contain at least 100 percent non-empty values",
+  "sourceEntity": "HELEADE Governance Authority",
+  "supportingMaterials": "HELEADE use case, IST revision (Section 6.2); illustrative requirement",
+  "history": "Created 14/10/2026"
+}

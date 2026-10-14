@@ -51,6 +51,8 @@ pc:shape       a owl:ObjectProperty .                                  # dqv:Met
 pc:ofAsset     a owl:ObjectProperty .                                  # Dataset -> odrl asset
 pc:format      a owl:DatatypeProperty .                                # csv | json | parquet
 pc:locator     a owl:DatatypeProperty .                                # where to read the data
+pc:textAttribute a owl:DatatypeProperty .                              # attribute to read as written (CSV), e.g. for a format check
+pc:dbtSource   a owl:DatatypeProperty .                                # dbt source the asset is declared under (default ehds)
 
 # v0.3: a metric relating two columns of the same record.
 pc:PairColumnShape a pc:Shape ; rdfs:label "scalar metric over a pair of columns" .

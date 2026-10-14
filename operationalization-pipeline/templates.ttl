@@ -44,15 +44,15 @@ tmpl:deequ_nr tmpl:engine "deequ" ; tmpl:metric dqvp:NullRate ;
 # only the Load operation's code depends on the data format; the check code above
 # is format-agnostic because it runs over the loaded table.
 # =============================================================================
-tmpl:load_gx_csv     tmpl:loadEngine "gx"     ; tmpl:loadFormat "csv"     ; tmpl:loadBody "pd.read_csv('{{locator}}')" .
+tmpl:load_gx_csv     tmpl:loadEngine "gx"     ; tmpl:loadFormat "csv"     ; tmpl:loadBody "pd.read_csv('{{locator}}'{% if textColumns %}, dtype={ {% for c in textColumns %}'{{c}}': str{% if not loop.last %}, {% endif %}{% endfor %} }{% endif %})" .
 tmpl:load_gx_json    tmpl:loadEngine "gx"     ; tmpl:loadFormat "json"    ; tmpl:loadBody "pd.read_json('{{locator}}')" .
 tmpl:load_gx_parquet tmpl:loadEngine "gx"     ; tmpl:loadFormat "parquet" ; tmpl:loadBody "pd.read_parquet('{{locator}}')" .
 
-tmpl:load_duck_csv     tmpl:loadEngine "duckdb" ; tmpl:loadFormat "csv"     ; tmpl:loadBody "read_csv_auto('{{locator}}')" .
+tmpl:load_duck_csv     tmpl:loadEngine "duckdb" ; tmpl:loadFormat "csv"     ; tmpl:loadBody "read_csv_auto('{{locator}}'{% if textColumns %}, types={ {% for c in textColumns %}'{{c}}': 'VARCHAR'{% if not loop.last %}, {% endif %}{% endfor %} }{% endif %})" .
 tmpl:load_duck_json    tmpl:loadEngine "duckdb" ; tmpl:loadFormat "json"    ; tmpl:loadBody "read_json_auto('{{locator}}')" .
 tmpl:load_duck_parquet tmpl:loadEngine "duckdb" ; tmpl:loadFormat "parquet" ; tmpl:loadBody "read_parquet('{{locator}}')" .
 
-tmpl:load_dbt_csv  tmpl:loadEngine "dbt" ; tmpl:loadFormat "csv"  ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_csv_auto('{{locator}}')" .
+tmpl:load_dbt_csv  tmpl:loadEngine "dbt" ; tmpl:loadFormat "csv"  ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_csv_auto('{{locator}}'{% if textColumns %}, types={ {% for c in textColumns %}'{{c}}': 'VARCHAR'{% if not loop.last %}, {% endif %}{% endfor %} }{% endif %})" .
 tmpl:load_dbt_json tmpl:loadEngine "dbt" ; tmpl:loadFormat "json" ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_json_auto('{{locator}}')" .
 tmpl:load_dbt_parquet tmpl:loadEngine "dbt" ; tmpl:loadFormat "parquet" ; tmpl:loadBody "# dbt source (dbt-duckdb): external_location: read_parquet('{{locator}}')" .
 
@@ -75,13 +75,13 @@ tmpl:deequ_uq tmpl:engine "deequ" ; tmpl:metric dqvp:UniqueRate ;
 
 #### RowCount — table level, absolute threshold (no column, no percentage) ####
 tmpl:gx_rc2 tmpl:engine "gx" ; tmpl:metric dqvp:RowCount ;
-  tmpl:body "validator.expect_table_row_count_to_be_between(min_value={{threshold}})" .
+  tmpl:body "validator.expect_table_row_count_to_be_between(min_value={{threshold}}){% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 tmpl:dbt_rc2 tmpl:engine "dbt" ; tmpl:metric dqvp:RowCount ;
-  tmpl:body "-- {{checkId}}\nwith m as (select count(*) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}count(*) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_rc2 tmpl:engine "sodacl" ; tmpl:metric dqvp:RowCount ;
-  tmpl:body "  - row_count {{sqlOp}} {{threshold}}:\n      name: {{checkId}}{{sodaFilter}}" .
+  tmpl:body "  - row_count {{sqlOp}} {{threshold}}:\n      name: {{checkId}}{{sodaFilter}}{% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 tmpl:deequ_rc2 tmpl:engine "deequ" ; tmpl:metric dqvp:RowCount ;
-  tmpl:body "    .hasSize(lambda x: x {{pyOp}} {{threshold}})  # {{checkId}}{{deequNote}}" .
+  tmpl:body "    .hasSize(lambda x: x {{pyOp}} {{threshold}})  # {{checkId}}{{deequNote}}{% if groupColumn %}  # NOT EXPRESSIBLE: per-group evaluation over {{groupColumn}}; this checks the aggregate{% endif %}" .
 
 #### AttributeAgreementRate — relates two columns of the same record ####
 tmpl:gx_ag tmpl:engine "gx" ; tmpl:metric dqvp:AttributeAgreementRate ;
@@ -89,7 +89,7 @@ tmpl:gx_ag tmpl:engine "gx" ; tmpl:metric dqvp:AttributeAgreementRate ;
 tmpl:dbt_ag tmpl:engine "dbt" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" = \"{{column2}}\")/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_ag tmpl:engine "sodacl" ; tmpl:metric dqvp:AttributeAgreementRate ;
-  tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM {{sourceTable}}" .
+  tmpl:body "  - agreement_{{checkId}} >= {{threshold}}:\n      name: {{checkId}}\n      agreement_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" = \"{{column2}}\")/NULLIF(COUNT(*),0) FROM {{sourceTable}}{{sqlFilter}}" .
 tmpl:deequ_ag tmpl:engine "deequ" ; tmpl:metric dqvp:AttributeAgreementRate ;
   tmpl:body "    .satisfies(\"{{column}} = {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
 
@@ -105,7 +105,7 @@ tmpl:dbt_rowcmp tmpl:engine "dbt" ; tmpl:metric dqvp:RowComparison ;
   tmpl:body "-- {{checkId}}\nwith m as (select {% if groupColumn %}\"{{groupColumn}}\" as g, {% endif %}100.0*count(*) filter (where \"{{column}}\" {{rowSqlOp}} \"{{column2}}\")/nullif(count(*) filter (where \"{{column}}\" is not null and \"{{column2}}\" is not null),0) as r from {{dbtSource}}{{sqlFilter}}{% if groupColumn %} group by \"{{groupColumn}}\"{% endif %})\nselect {% if groupColumn %}g, {% endif %}r from m where not (r {{sqlOp}} {{threshold}})" .
 
 tmpl:soda_rowcmp tmpl:engine "sodacl" ; tmpl:metric dqvp:RowComparison ;
-  tmpl:body "  - rowcmp_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowcmp_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" {{rowSqlOp}} \"{{column2}}\")/NULLIF(COUNT(*) FILTER (WHERE \"{{column}}\" IS NOT NULL AND \"{{column2}}\" IS NOT NULL),0) FROM {{sourceTable}}" .
+  tmpl:body "  - rowcmp_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowcmp_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE \"{{column}}\" {{rowSqlOp}} \"{{column2}}\")/NULLIF(COUNT(*) FILTER (WHERE \"{{column}}\" IS NOT NULL AND \"{{column2}}\" IS NOT NULL),0) FROM {{sourceTable}}{{sqlFilter}}" .
 
 tmpl:deequ_rowcmp tmpl:engine "deequ" ; tmpl:metric dqvp:RowComparison ;
   tmpl:body "    .satisfies(\"{{column}} {{rowSqlOp}} {{column2}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
@@ -120,9 +120,9 @@ tmpl:gx_rowcmp tmpl:engine "gx" ; tmpl:metric dqvp:RowComparison ;
 tmpl:dbt_rowexpr tmpl:engine "dbt" ; tmpl:metric dqvp:RowExpressionRate ;
   tmpl:body "-- {{checkId}}\nwith m as (select 100.0*count(*) filter (where {{rowExpression}})/nullif(count(*),0) as r from {{dbtSource}}{{sqlFilter}})\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_rowexpr tmpl:engine "sodacl" ; tmpl:metric dqvp:RowExpressionRate ;
-  tmpl:body "  - rowexpr_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowexpr_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE {{rowExpression}})/NULLIF(COUNT(*),0) FROM {{sourceTable}}" .
+  tmpl:body "  - rowexpr_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      rowexpr_{{checkId}} query: |\n        SELECT 100.0*COUNT(*) FILTER (WHERE {{rowExpression}})/NULLIF(COUNT(*),0) FROM {{sourceTable}}{{sqlFilter}}" .
 tmpl:deequ_rowexpr tmpl:engine "deequ" ; tmpl:metric dqvp:RowExpressionRate ;
-  tmpl:body "    .satisfies(\"{{rowExpression}}\", \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}" .
+  tmpl:body "    .satisfies({{rowExpression|pystr}}, \"{{checkId}}\", lambda x: x {{pyOp}} {{mostly}})  # {{checkId}}{{deequNote}}  -- NOTE: the expression is DuckDB SQL; Spark SQL quotes identifiers with backticks" .
 tmpl:gx_rowexpr tmpl:engine "gx" ; tmpl:metric dqvp:RowExpressionRate ;
   tmpl:body "# NOT EXPRESSIBLE: Great Expectations has no free-form row-expression expectation ({{rowExpression}})" .
 
@@ -202,11 +202,21 @@ tmpl:deequ_quantile tmpl:engine "deequ" ; tmpl:metric dqvp:Quantile ;
 tmpl:gx_mode tmpl:engine "gx" ; tmpl:metric dqvp:ModeShare ;
   tmpl:body "validator.expect_column_most_common_value_to_be_in_set(column=\"{{column}}\", value_set=ALLOWED_MODE)  # {{checkId}}: GX bounds WHICH value is most common, not its share" .
 tmpl:dbt_mode tmpl:engine "dbt" ; tmpl:metric dqvp:ModeShare ;
-  tmpl:body "-- {{checkId}}\nwith f as (select count(*) as cnt from {{dbtSource}}{{sqlFilter}} group by \"{{column}}\"),\n     m as (select 100.0*max(cnt)/nullif(sum(cnt),0) as r from f)\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+  tmpl:body "-- {{checkId}}\nwith f as (select count(*) as cnt from {{dbtSource}}{% if sqlFilter %}{{sqlFilter}} and{% else %} where{% endif %} \"{{column}}\" is not null group by \"{{column}}\"),\n     m as (select 100.0*max(cnt)/nullif(sum(cnt),0) as r from f)\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
 tmpl:soda_mode tmpl:engine "sodacl" ; tmpl:metric dqvp:ModeShare ;
-  tmpl:body "  - mode_share_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      mode_share_{{checkId}} query: |\n        SELECT 100.0*MAX(cnt)/NULLIF(SUM(cnt),0) FROM (SELECT COUNT(*) AS cnt FROM {{sourceTable}} WHERE \"{{column}}\" IS NOT NULL GROUP BY \"{{column}}\") s" .
+  tmpl:body "  - mode_share_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      mode_share_{{checkId}} query: |\n        SELECT 100.0*MAX(cnt)/NULLIF(SUM(cnt),0) FROM (SELECT COUNT(*) AS cnt FROM {{sourceTable}}{% if sqlFilter %}{{sqlFilter}} AND{% else %} WHERE{% endif %} \"{{column}}\" IS NOT NULL GROUP BY \"{{column}}\") s" .
 tmpl:deequ_mode tmpl:engine "deequ" ; tmpl:metric dqvp:ModeShare ;
   tmpl:body "    # NOT EXPRESSIBLE: PyDeequ reports most-common values through profiling, not as a constraint on the mode's share  # {{checkId}}" .
+
+#### ShareImbalance — gap between the most and least frequent values (DQRP6, fairness) ####
+tmpl:gx_imb tmpl:engine "gx" ; tmpl:metric dqvp:ShareImbalance ;
+  tmpl:body "# NOT EXPRESSIBLE: Great Expectations has no expectation on the gap between value shares ({{checkId}})" .
+tmpl:dbt_imb tmpl:engine "dbt" ; tmpl:metric dqvp:ShareImbalance ;
+  tmpl:body "-- {{checkId}}\nwith f as (select count(*) as cnt from {{dbtSource}}{% if sqlFilter %}{{sqlFilter}} and{% else %} where{% endif %} \"{{column}}\" is not null group by \"{{column}}\"),\n     m as (select 100.0*(max(cnt)-min(cnt))/nullif(sum(cnt),0) as r from f)\nselect r from m where not (r {{sqlOp}} {{threshold}})" .
+tmpl:soda_imb tmpl:engine "sodacl" ; tmpl:metric dqvp:ShareImbalance ;
+  tmpl:body "  - share_imbalance_{{checkId}} {{sqlOp}} {{threshold}}:\n      name: {{checkId}}\n      share_imbalance_{{checkId}} query: |\n        SELECT 100.0*(MAX(cnt)-MIN(cnt))/NULLIF(SUM(cnt),0) FROM (SELECT COUNT(*) AS cnt FROM {{sourceTable}}{% if sqlFilter %}{{sqlFilter}} AND{% else %} WHERE{% endif %} \"{{column}}\" IS NOT NULL GROUP BY \"{{column}}\") s" .
+tmpl:deequ_imb tmpl:engine "deequ" ; tmpl:metric dqvp:ShareImbalance ;
+  tmpl:body "    # NOT EXPRESSIBLE: PyDeequ reports value distributions through profiling, not as a constraint on the gap between shares  # {{checkId}}" .
 
 tmpl:gx_expnull tmpl:engine "gx" ; tmpl:metric dqvp:ExplicitNullRate ;
   tmpl:body "validator.expect_column_values_to_not_be_in_set(column=\"{{column}}\", value_set=MISSING_ENCODINGS, mostly={{mostly}}{{gxFilter}})" .

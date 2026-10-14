@@ -1,0 +1,34 @@
+{
+  "id": "DQR2HL",
+  "goal": "Ensures data adheres to required formats",
+  "description": "Values of an attribute must follow a specific format",
+  "qualityDimension": {
+    "dimension": "Compliance",
+    "source": "ISO/IEC 25012"
+  },
+  "qualityDimensions": [
+    {
+      "dimension": "Compliance",
+      "source": "ISO/IEC 25012",
+      "primary": true
+    },
+    {
+      "dimension": "Accuracy",
+      "source": "ISO/IEC 25012"
+    }
+  ],
+  "pattern": {
+    "id": "DQRP3",
+    "version": "1.0"
+  },
+  "parameters": {
+    "entityName": "Observation",
+    "datasetName": "Observation",
+    "attributeName": "Observation.observedAt",
+    "standardName": "UTC"
+  },
+  "statement": "In the Observation entity, the observedAt attribute must follow the UTC standard",
+  "sourceEntity": "HELEADE Governance Authority",
+  "supportingMaterials": "HELEADE use case, IST revision (Section 6.2); illustrative requirement",
+  "history": "Created 14/10/2026"
+}

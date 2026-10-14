@@ -1,0 +1,511 @@
+observationId,siteId,observedAt,observationType,waterLevel,detectionStatus,breedingEvidence,taxon
+OBS-00001,WL-HONDO-S1,2026-04-01T06:00:00Z,waterLevel,0.27,,,
+OBS-00002,WL-HONDO-S1,2026-04-02T07:00:00Z,weather,,,,
+OBS-00003,WL-HONDO-S1,2026-04-03T08:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00004,WL-HONDO-S1,2026-04-04T09:00:00Z,waterLevel,0.84,,,
+OBS-00005,WL-HONDO-S1,2026-04-05T10:00:00Z,weather,,,,
+OBS-00006,WL-HONDO-S1,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00007,WL-HONDO-S1,2026-04-07T12:00:00Z,waterLevel,0.90,,,
+OBS-00008,WL-HONDO-S1,2026-04-08T13:00:00Z,weather,,,,
+OBS-00009,WL-HONDO-S1,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00010,WL-HONDO-S1,2026-04-10T15:00:00Z,waterLevel,0.56,,,
+OBS-00011,WL-HONDO-S1,2026-04-11T16:00:00+02:00,weather,,,,
+OBS-00012,WL-HONDO-S1,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00013,WL-HONDO-S1,2026-04-13T18:00:00Z,waterLevel,0.89,,,
+OBS-00014,WL-HONDO-S1,2026-04-14T19:00:00Z,weather,,,,
+OBS-00015,WL-HONDO-S1,2026-04-15T20:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00016,WL-HONDO-S1,2026-04-16T21:00:00Z,waterLevel,1.08,,,
+OBS-00017,WL-HONDO-S1,2026-04-17T22:00:00Z,weather,,,,
+OBS-00018,WL-HONDO-S1,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00019,WL-HONDO-S1,2026-04-19T00:00:00Z,waterLevel,1.38,,,
+OBS-00020,WL-HONDO-S1,2026-04-20T01:00:00Z,weather,,,,
+OBS-00021,WL-HONDO-S1,2026-04-21T02:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00022,WL-HONDO-S1,2026-04-22T03:00:00Z,waterLevel,1.11,,,
+OBS-00023,WL-HONDO-S1,2026-04-23T04:00:00Z,weather,,,,
+OBS-00024,WL-HONDO-S1,2026-04-24T05:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00025,WL-HONDO-S1,2026-04-25T06:00:00Z,waterLevel,0.25,,,
+OBS-00026,WL-HONDO-S1,2026-04-26T07:00:00Z,weather,,,,
+OBS-00027,WL-HONDO-S1,2026-04-27T08:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00028,WL-HONDO-S1,2026-04-28T09:00:00Z,waterLevel,1.03,,,
+OBS-00029,WL-HONDO-S1,2026-04-01T10:00:00Z,weather,,,,
+OBS-00030,WL-HONDO-S1,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00031,WL-HONDO-S2,2026-04-01T06:00:00Z,waterLevel,1.16,,,
+OBS-00032,WL-HONDO-S2,2026-04-02T07:00:00Z,weather,,,,
+OBS-00033,WL-HONDO-S2,2026-04-03T08:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00034,WL-HONDO-S2,2026-04-04T09:00:00Z,waterLevel,0.77,,,
+OBS-00035,WL-HONDO-S2,2026-04-05T10:00:00Z,weather,,,,
+OBS-00036,WL-HONDO-S2,2026-04-06T11:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00037,WL-HONDO-S2,2026-04-07T12:00:00Z,waterLevel,1.04,,,
+OBS-00038,WL-HONDO-S2,2026-04-08T13:00:00Z,weather,,,,
+OBS-00039,WL-HONDO-S2,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00040,WL-HONDO-S2,2026-04-10T15:00:00Z,waterLevel,1.06,,,
+OBS-00041,WL-HONDO-S2,2026-04-11T16:00:00Z,weather,,,,
+OBS-00042,WL-HONDO-S2,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00043,WL-HONDO-S2,2026-04-13T18:00:00Z,waterLevel,1.33,,,
+OBS-00044,WL-HONDO-S2,2026-04-14T19:00:00Z,weather,,,,
+OBS-00045,WL-HONDO-S2,2026-04-15T20:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00046,WL-HONDO-S2,2026-04-16T21:00:00Z,waterLevel,0.93,,,
+OBS-00047,WL-HONDO-S2,2026-04-17T22:00:00Z,weather,,,,
+OBS-00048,WL-HONDO-S2,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00049,WL-HONDO-S2,2026-04-19T00:00:00Z,waterLevel,0.46,,,
+OBS-00050,WL-HONDO-S2,2026-04-20T01:00:00Z,weather,,,,
+OBS-00051,WL-HONDO-S2,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00052,WL-HONDO-S2,2026-04-22T03:00:00Z,waterLevel,1.09,,,
+OBS-00053,WL-HONDO-S2,2026-04-23T04:00:00Z,weather,,,,
+OBS-00054,WL-HONDO-S2,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00055,WL-HONDO-S2,2026-04-25T06:00:00Z,waterLevel,1.30,,,
+OBS-00056,WL-HONDO-S2,2026-04-26T07:00:00Z,weather,,,,
+OBS-00057,WL-HONDO-S2,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00058,WL-HONDO-S2,2026-04-28T09:00:00Z,waterLevel,0.40,,,
+OBS-00059,WL-HONDO-S2,2026-04-01T10:00:00Z,weather,,,,
+OBS-00060,WL-HONDO-S2,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00061,WL-HONDO-S3,2026-04-01T06:00:00Z,waterLevel,0.53,,,
+OBS-00062,WL-HONDO-S3,2026-04-02T07:00:00Z,weather,,,,
+OBS-00063,WL-HONDO-S3,2026-04-03T08:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00064,WL-HONDO-S3,2026-04-04T09:00:00Z,waterLevel,0.53,,,
+OBS-00065,WL-HONDO-S3,2026-04-05T10:00:00Z,weather,,,,
+OBS-00066,WL-HONDO-S3,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00067,WL-HONDO-S3,2026-04-07T12:00:00Z,waterLevel,1.02,,,
+OBS-00068,WL-HONDO-S3,2026-04-08T13:00:00Z,weather,,,,
+OBS-00069,WL-HONDO-S3,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00070,WL-HONDO-S3,2026-04-10T15:00:00Z,waterLevel,0.38,,,
+OBS-00071,WL-HONDO-S3,2026-04-11T16:00:00Z,weather,,,,
+OBS-00072,WL-HONDO-S3,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00073,WL-HONDO-S3,2026-04-13T18:00:00Z,waterLevel,0.99,,,
+OBS-00074,WL-HONDO-S3,2026-04-14T19:00:00Z,weather,,,,
+OBS-00075,WL-HONDO-S3,2026-04-15T20:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00076,WL-HONDO-S3,2026-04-16T21:00:00Z,waterLevel,0.42,,,
+OBS-00077,WL-HONDO-S3,2026-04-17T22:00:00Z,weather,,,,
+OBS-00078,WL-HONDO-S3,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00079,WL-HONDO-S3,2026-04-19T00:00:00Z,waterLevel,0.37,,,
+OBS-00080,WL-HONDO-S3,2026-04-20T01:00:00Z,weather,,,,
+OBS-00081,WL-HONDO-S3,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00082,WL-HONDO-S3,2026-04-22T03:00:00Z,waterLevel,0.88,,,
+OBS-00083,WL-HONDO-S3,2026-04-23T04:00:00Z,weather,,,,
+OBS-00084,WL-HONDO-S3,2026-04-24T05:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00085,WL-HONDO-S3,2026-04-25T06:00:00Z,waterLevel,1.28,,,
+OBS-00086,WL-HONDO-S3,2026-04-26T07:00:00Z,weather,,,,
+OBS-00087,WL-HONDO-S3,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00088,WL-HONDO-S3,2026-04-28T09:00:00Z,waterLevel,0.68,,,
+OBS-00089,WL-HONDO-S3,2026-04-01T10:00:00Z,weather,,,,
+OBS-00090,WL-HONDO-S3,2026-04-02T11:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00091,WL-HONDO-S4,2026-04-01T06:00:00Z,waterLevel,0.68,,,
+OBS-00092,WL-HONDO-S4,2026-04-02T07:00:00Z,weather,,,,
+OBS-00093,WL-HONDO-S4,2026-04-03T08:00:00Z,biodiversity,,detected,courtship,Marmaronetta angustirostris
+OBS-00094,WL-HONDO-S4,2026-04-04T09:00:00Z,waterLevel,0.73,,,
+OBS-00095,WL-HONDO-S4,2026-04-05T10:00:00Z,weather,,,,
+OBS-00096,WL-HONDO-S4,2026-04-06T11:00:00Z,biodiversity,,detected,chicks,Himantopus himantopus
+OBS-00097,WL-HONDO-S4,2026-04-07T12:00:00Z,waterLevel,0.26,,,
+OBS-00098,WL-HONDO-S4,2026-04-08T13:00:00Z,weather,,,,
+OBS-00099,WL-HONDO-S4,2026-04-09T14:00:00Z,biodiversity,,detected,nesting,Himantopus himantopus
+OBS-00100,WL-HONDO-S4,2026-04-10T15:00:00Z,waterLevel,0.32,,,
+OBS-00101,WL-HONDO-S4,2026-04-11T16:00:00Z,weather,,,,
+OBS-00102,WL-HONDO-S4,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00103,WL-HONDO-S4,2026-04-13T18:00:00Z,waterLevel,0.23,,,
+OBS-00104,WL-HONDO-S4,2026-04-14T19:00:00Z,weather,,,,
+OBS-00105,WL-HONDO-S4,2026-04-15T20:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00106,WL-HONDO-S4,2026-04-16T21:00:00Z,waterLevel,0.96,,,
+OBS-00107,WL-HONDO-S4,2026-04-17T22:00:00Z,weather,,,,
+OBS-00108,WL-HONDO-S4,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00109,WL-HONDO-S4,2026-04-19T00:00:00Z,waterLevel,0.64,,,
+OBS-00110,WL-HONDO-S4,2026-04-20T01:00:00Z,weather,,,,
+OBS-00111,WL-HONDO-S4,2026-04-21T02:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00112,WL-HONDO-S4,2026-04-22T03:00:00Z,waterLevel,1.39,,,
+OBS-00113,WL-HONDO-S4,2026-04-23T04:00:00Z,weather,,,,
+OBS-00114,WL-HONDO-S4,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00115,WL-HONDO-S4,2026-04-25T06:00:00Z,waterLevel,0.78,,,
+OBS-00116,WL-HONDO-S4,2026-04-26T07:00:00Z,weather,,,,
+OBS-00117,WL-HONDO-S4,2026-04-27T08:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00118,WL-HONDO-S4,2026-04-28T09:00:00Z,waterLevel,1.10,,,
+OBS-00119,WL-HONDO-S4,2026-04-01T10:00:00Z,weather,,,,
+OBS-00120,WL-HONDO-S4,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00121,WL-HONDO-S5,2026-04-01T06:00:00Z,waterLevel,1.19,,,
+OBS-00122,WL-HONDO-S5,2026-04-02T07:00:00Z,weather,,,,
+OBS-00123,WL-HONDO-S5,2026-04-03T08:00:00Z,biodiversity,,detected,courtship,Marmaronetta angustirostris
+OBS-00124,WL-HONDO-S5,2026-04-04T09:00:00Z,waterLevel,1.34,,,
+OBS-00125,WL-HONDO-S5,2026-04-05T10:00:00Z,weather,,,,
+OBS-00126,WL-HONDO-S5,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00127,WL-HONDO-S5,2026-04-07T12:00:00Z,waterLevel,1.03,,,
+OBS-00128,WL-HONDO-S5,2026-04-08T13:00:00Z,weather,,,,
+OBS-00129,WL-HONDO-S5,2026-04-09T14:00:00Z,biodiversity,,detected,chicks,Himantopus himantopus
+OBS-00130,WL-HONDO-S5,2026-04-10T15:00:00Z,waterLevel,1.24,,,
+OBS-00131,WL-HONDO-S5,2026-04-11T16:00:00Z,weather,,,,
+OBS-00132,WL-HONDO-S5,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00133,WL-HONDO-S5,2026-04-13T18:00:00Z,waterLevel,0.64,,,
+OBS-00134,WL-HONDO-S5,2026-04-14T19:00:00Z,weather,,,,
+OBS-00135,WL-HONDO-S5,2026-04-15T20:00:00Z,biodiversity,,detected,chicks,Marmaronetta angustirostris
+OBS-00136,WL-HONDO-S5,2026-04-16T21:00:00Z,waterLevel,0.84,,,
+OBS-00137,WL-HONDO-S5,2026-04-17T22:00:00Z,weather,,,,
+OBS-00138,WL-HONDO-S5,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00139,WL-HONDO-S5,2026-04-19T00:00:00Z,waterLevel,0.47,,,
+OBS-00140,WL-HONDO-S5,2026-04-20T01:00:00Z,weather,,,,
+OBS-00141,WL-HONDO-S5,2026-04-21T02:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00142,WL-HONDO-S5,2026-04-22T03:00:00Z,waterLevel,1.09,,,
+OBS-00143,WL-HONDO-S5,2026-04-23T04:00:00Z,weather,,,,
+OBS-00144,WL-HONDO-S5,2026-04-24T05:00:00Z,biodiversity,,detected,nesting,Himantopus himantopus
+OBS-00145,WL-HONDO-S5,2026-04-25T06:00:00Z,waterLevel,0.79,,,
+OBS-00146,WL-HONDO-S5,2026-04-26T07:00:00Z,weather,,,,
+OBS-00147,WL-HONDO-S5,2026-04-27T08:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00148,WL-HONDO-S5,2026-04-28T09:00:00Z,waterLevel,0.77,,,
+OBS-00149,WL-HONDO-S5,2026-04-01T10:00:00Z,weather,,,,
+OBS-00150,WL-HONDO-S5,2026-04-02T11:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00151,WL-HONDO-S6,2026-04-01T06:00:00Z,waterLevel,1.17,,,
+OBS-00152,WL-HONDO-S6,2026-04-02T07:00:00Z,weather,,,,
+OBS-00153,WL-HONDO-S6,2026-04-03T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00154,WL-HONDO-S6,2026-04-04T09:00:00Z,waterLevel,0.30,,,
+OBS-00155,WL-HONDO-S6,2026-04-05T10:00:00Z,weather,,,,
+OBS-00156,WL-HONDO-S6,2026-04-06T11:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00157,WL-HONDO-S6,2026-04-07T12:00:00Z,waterLevel,0.44,,,
+OBS-00158,WL-HONDO-S6,2026-04-08T13:00:00Z,weather,,,,
+OBS-00159,WL-HONDO-S6,2026-04-09T14:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00160,WL-HONDO-S6,2026-04-10T15:00:00Z,waterLevel,1.38,,,
+OBS-00161,WL-HONDO-S6,2026-04-11T16:00:00Z,weather,,,,
+OBS-00162,WL-HONDO-S6,2026-04-12T17:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00163,WL-HONDO-S6,2026-04-13T18:00:00Z,waterLevel,0.61,,,
+OBS-00164,WL-HONDO-S6,2026-04-14T19:00:00Z,weather,,,,
+OBS-00165,WL-HONDO-S6,2026-04-15T20:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00166,WL-HONDO-S6,2026-04-16T21:00:00Z,waterLevel,1.14,,,
+OBS-00167,WL-HONDO-S6,2026-04-17T22:00:00Z,weather,,,,
+OBS-00168,WL-HONDO-S6,2026-04-18T23:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00169,WL-HONDO-S6,2026-04-19T00:00:00Z,waterLevel,0.72,,,
+OBS-00170,WL-HONDO-S6,2026-04-20T01:00:00Z,weather,,,,
+OBS-00171,WL-HONDO-S6,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00172,WL-HONDO-S6,2026-04-22T03:00:00Z,waterLevel,1.16,,,
+OBS-00173,WL-HONDO-S6,2026-04-23T04:00:00Z,weather,,,,
+OBS-00174,WL-HONDO-S6,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00175,WL-HONDO-S6,2026-04-25T06:00:00Z,waterLevel,0.68,,,
+OBS-00176,WL-HONDO-S6,2026-04-26T07:00:00Z,weather,,,,
+OBS-00177,WL-HONDO-S6,2026-04-27T08:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00178,WL-HONDO-S6,2026-04-28T09:00:00Z,waterLevel,1.39,,,
+OBS-00179,WL-HONDO-S6,2026-04-01T10:00:00Z,weather,,,,
+OBS-00180,WL-HONDO-S6,2026-04-02T11:00:00Z,biodiversity,,detected,nesting,Himantopus himantopus
+OBS-00181,WL-HONDO-S7,2026-04-01T06:00:00Z,waterLevel,1.29,,,
+OBS-00182,WL-HONDO-S7,2026-04-02T07:00:00Z,weather,,,,
+OBS-00183,WL-HONDO-S7,2026-04-03T08:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00184,WL-HONDO-S7,2026-04-04T09:00:00Z,waterLevel,1.32,,,
+OBS-00185,WL-HONDO-S7,2026-04-05T10:00:00Z,weather,,,,
+OBS-00186,WL-HONDO-S7,2026-04-06T11:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00187,WL-HONDO-S7,2026-04-07T12:00:00Z,waterLevel,0.22,,,
+OBS-00188,WL-HONDO-S7,2026-04-08T13:00:00Z,weather,,,,
+OBS-00189,WL-HONDO-S7,2026-04-09T14:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00190,WL-HONDO-S7,2026-04-10T15:00:00Z,waterLevel,1.38,,,
+OBS-00191,WL-HONDO-S7,2026-04-11T16:00:00Z,weather,,,,
+OBS-00192,WL-HONDO-S7,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00193,WL-HONDO-S7,2026-04-13T18:00:00Z,waterLevel,0.50,,,
+OBS-00194,WL-HONDO-S7,2026-04-14T19:00:00Z,weather,,,,
+OBS-00195,WL-HONDO-S7,2026-04-15T20:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00196,WL-HONDO-S7,2026-04-16T21:00:00Z,waterLevel,0.49,,,
+OBS-00197,WL-HONDO-S7,2026-04-17T22:00:00Z,weather,,,,
+OBS-00198,WL-HONDO-S7,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00199,WL-HONDO-S7,2026-04-19T00:00:00Z,waterLevel,0.85,,,
+OBS-00200,WL-HONDO-S7,2026-04-20T01:00:00Z,weather,,,,
+OBS-00201,WL-HONDO-S7,2026-04-21T02:00:00+02:00,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00202,WL-HONDO-S7,2026-04-22T03:00:00Z,waterLevel,0.62,,,
+OBS-00203,WL-HONDO-S7,2026-04-23T04:00:00Z,weather,,,,
+OBS-00204,WL-HONDO-S7,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00205,WL-HONDO-S7,2026-04-25T06:00:00Z,waterLevel,0.90,,,
+OBS-00206,WL-HONDO-S7,2026-04-26T07:00:00Z,weather,,,,
+OBS-00207,WL-HONDO-S7,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00208,WL-HONDO-S7,2026-04-28T09:00:00Z,waterLevel,0.36,,,
+OBS-00209,WL-HONDO-S7,2026-04-01T10:00:00Z,weather,,,,
+OBS-00210,WL-HONDO-S7,2026-04-02T11:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00211,WL-SPOLA-S1,2026-04-01T06:00:00Z,waterLevel,1.13,,,
+OBS-00212,WL-SPOLA-S1,2026-04-02T07:00:00Z,weather,,,,
+OBS-00213,WL-SPOLA-S1,2026-04-03T08:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00214,WL-SPOLA-S1,2026-04-04T09:00:00Z,waterLevel,0.37,,,
+OBS-00215,WL-SPOLA-S1,2026-04-05T10:00:00Z,weather,,,,
+OBS-00216,WL-SPOLA-S1,2026-04-06T11:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00217,WL-SPOLA-S1,2026-04-07T12:00:00Z,waterLevel,1.02,,,
+OBS-00218,WL-SPOLA-S1,2026-04-08T13:00:00Z,weather,,,,
+OBS-00219,WL-SPOLA-S1,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00220,WL-SPOLA-S1,2026-04-10T15:00:00Z,waterLevel,1.26,,,
+OBS-00221,WL-SPOLA-S1,2026-04-11T16:00:00Z,weather,,,,
+OBS-00222,WL-SPOLA-S1,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00223,WL-SPOLA-S1,2026-04-13T18:00:00Z,waterLevel,0.53,,,
+OBS-00224,WL-SPOLA-S1,2026-04-14T19:00:00Z,weather,,,,
+OBS-00225,WL-SPOLA-S1,2026-04-15T20:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00226,WL-SPOLA-S1,2026-04-16T21:00:00Z,waterLevel,0.23,,,
+OBS-00227,WL-SPOLA-S1,2026-04-17T22:00:00Z,weather,,,,
+OBS-00228,WL-SPOLA-S1,2026-04-18T23:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00229,WL-SPOLA-S1,2026-04-19T00:00:00Z,waterLevel,0.94,,,
+OBS-00230,WL-SPOLA-S1,2026-04-20T01:00:00Z,weather,,,,
+OBS-00231,WL-SPOLA-S1,2026-04-21T02:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00232,WL-SPOLA-S1,2026-04-22T03:00:00Z,waterLevel,0.81,,,
+OBS-00233,WL-SPOLA-S1,2026-04-23T04:00:00Z,weather,,,,
+OBS-00234,WL-SPOLA-S1,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00235,WL-SPOLA-S1,2026-04-25T06:00:00Z,waterLevel,1.33,,,
+OBS-00236,WL-SPOLA-S1,2026-04-26T07:00:00Z,weather,,,,
+OBS-00237,WL-SPOLA-S1,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00238,WL-SPOLA-S1,2026-04-28T09:00:00Z,waterLevel,1.27,,,
+OBS-00239,WL-SPOLA-S1,2026-04-01T10:00:00Z,weather,,,,
+OBS-00240,WL-SPOLA-S1,2026-04-02T11:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00241,WL-SPOLA-S2,2026-04-01T06:00:00Z,waterLevel,0.70,,,
+OBS-00242,WL-SPOLA-S2,2026-04-02T07:00:00Z,weather,,,,
+OBS-00243,WL-SPOLA-S2,2026-04-03T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00244,WL-SPOLA-S2,2026-04-04T09:00:00Z,waterLevel,0.58,,,
+OBS-00245,WL-SPOLA-S2,2026-04-05T10:00:00Z,weather,,,,
+OBS-00246,WL-SPOLA-S2,2026-04-06T11:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00247,WL-SPOLA-S2,2026-04-07T12:00:00Z,waterLevel,0.46,,,
+OBS-00248,WL-SPOLA-S2,2026-04-08T13:00:00Z,weather,,,,
+OBS-00249,WL-SPOLA-S2,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00250,WL-SPOLA-S2,2026-04-10T15:00:00Z,waterLevel,1.28,,,
+OBS-00251,WL-SPOLA-S2,2026-04-11T16:00:00Z,weather,,,,
+OBS-00252,WL-SPOLA-S2,2026-04-12T17:00:00Z,biodiversity,,detected,chicks,Marmaronetta angustirostris
+OBS-00253,WL-SPOLA-S2,2026-04-13T18:00:00Z,waterLevel,0.50,,,
+OBS-00254,WL-SPOLA-S2,2026-04-14T19:00:00Z,weather,,,,
+OBS-00255,WL-SPOLA-S2,2026-04-15T20:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00256,WL-SPOLA-S2,2026-04-16T21:00:00Z,waterLevel,1.10,,,
+OBS-00257,WL-SPOLA-S2,2026-04-17T22:00:00Z,weather,,,,
+OBS-00258,WL-SPOLA-S2,2026-04-18T23:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00259,WL-SPOLA-S2,2026-04-19T00:00:00Z,waterLevel,0.40,,,
+OBS-00260,WL-SPOLA-S2,2026-04-20T01:00:00Z,weather,,,,
+OBS-00261,WL-SPOLA-S2,2026-04-21T02:00:00Z,biodiversity,,detected,nesting,Himantopus himantopus
+OBS-00262,WL-SPOLA-S2,2026-04-22T03:00:00Z,waterLevel,0.72,,,
+OBS-00263,WL-SPOLA-S2,2026-04-23T04:00:00Z,weather,,,,
+OBS-00264,WL-SPOLA-S2,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00265,WL-SPOLA-S2,2026-04-25T06:00:00Z,waterLevel,0.71,,,
+OBS-00266,WL-SPOLA-S2,2026-04-26T07:00:00Z,weather,,,,
+OBS-00267,WL-SPOLA-S2,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00268,WL-SPOLA-S2,2026-04-28T09:00:00Z,waterLevel,0.31,,,
+OBS-00269,WL-SPOLA-S2,2026-04-01T10:00:00Z,weather,,,,
+OBS-00270,WL-SPOLA-S2,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00271,WL-SPOLA-S3,2026-04-01T06:00:00Z,waterLevel,0.61,,,
+OBS-00272,WL-SPOLA-S3,2026-04-02T07:00:00Z,weather,,,,
+OBS-00273,WL-SPOLA-S3,2026-04-03T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00274,WL-SPOLA-S3,2026-04-04T09:00:00Z,waterLevel,1.04,,,
+OBS-00275,WL-SPOLA-S3,2026-04-05T10:00:00Z,weather,,,,
+OBS-00276,WL-SPOLA-S3,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00277,WL-SPOLA-S3,2026-04-07T12:00:00Z,waterLevel,0.82,,,
+OBS-00278,WL-SPOLA-S3,2026-04-08T13:00:00Z,weather,,,,
+OBS-00279,WL-SPOLA-S3,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00280,WL-SPOLA-S3,2026-04-10T15:00:00Z,waterLevel,1.35,,,
+OBS-00281,WL-SPOLA-S3,2026-04-11T16:00:00Z,weather,,,,
+OBS-00282,WL-SPOLA-S3,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00283,WL-SPOLA-S3,2026-04-13T18:00:00Z,waterLevel,0.30,,,
+OBS-00284,WL-SPOLA-S3,2026-04-14T19:00:00Z,weather,,,,
+OBS-00285,WL-SPOLA-S3,2026-04-15T20:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00286,WL-SPOLA-S3,2026-04-16T21:00:00Z,waterLevel,1.29,,,
+OBS-00287,WL-SPOLA-S3,2026-04-17T22:00:00Z,weather,,,,
+OBS-00288,WL-SPOLA-S3,2026-04-18T23:00:00Z,biodiversity,,detected,chicks,Marmaronetta angustirostris
+OBS-00289,WL-SPOLA-S3,2026-04-19T00:00:00Z,waterLevel,1.18,,,
+OBS-00290,WL-SPOLA-S3,2026-04-20T01:00:00Z,weather,,,,
+OBS-00291,WL-SPOLA-S3,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00292,WL-SPOLA-S3,2026-04-22T03:00:00Z,waterLevel,0.38,,,
+OBS-00293,WL-SPOLA-S3,2026-04-23T04:00:00Z,weather,,,,
+OBS-00294,WL-SPOLA-S3,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00295,WL-SPOLA-S3,2026-04-25T06:00:00Z,waterLevel,0.59,,,
+OBS-00296,WL-SPOLA-S3,2026-04-26T07:00:00Z,weather,,,,
+OBS-00297,WL-SPOLA-S3,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00298,WL-SPOLA-S3,2026-04-28T09:00:00Z,waterLevel,1.16,,,
+OBS-00299,WL-SPOLA-S3,2026-04-01T10:00:00Z,weather,,,,
+OBS-00300,WL-SPOLA-S3,2026-04-02T11:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00301,WL-SPOLA-S4,2026-04-01T06:00:00Z,waterLevel,0.52,,,
+OBS-00302,WL-SPOLA-S4,2026-04-02T07:00:00Z,weather,,,,
+OBS-00303,WL-SPOLA-S4,2026-04-03T08:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00304,WL-SPOLA-S4,2026-04-04T09:00:00Z,waterLevel,0.30,,,
+OBS-00305,WL-SPOLA-S4,2026-04-05T10:00:00Z,weather,,,,
+OBS-00306,WL-SPOLA-S4,2026-04-06T11:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00307,WL-SPOLA-S4,2026-04-07T12:00:00Z,waterLevel,1.24,,,
+OBS-00308,WL-SPOLA-S4,2026-04-08T13:00:00Z,weather,,,,
+OBS-00309,WL-SPOLA-S4,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00310,WL-SPOLA-S4,2026-04-10T15:00:00Z,waterLevel,0.61,,,
+OBS-00311,WL-SPOLA-S4,2026-04-11T16:00:00Z,weather,,,,
+OBS-00312,WL-SPOLA-S4,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00313,WL-SPOLA-S4,2026-04-13T18:00:00Z,waterLevel,0.95,,,
+OBS-00314,WL-SPOLA-S4,2026-04-14T19:00:00Z,weather,,,,
+OBS-00315,WL-SPOLA-S4,2026-04-15T20:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00316,WL-SPOLA-S4,2026-04-16T21:00:00Z,waterLevel,1.36,,,
+OBS-00317,WL-SPOLA-S4,2026-04-17T22:00:00Z,weather,,,,
+OBS-00318,WL-SPOLA-S4,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00319,WL-SPOLA-S4,2026-04-19T00:00:00Z,waterLevel,0.42,,,
+OBS-00320,WL-SPOLA-S4,2026-04-20T01:00:00Z,weather,,,,
+OBS-00321,WL-SPOLA-S4,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00322,WL-SPOLA-S4,2026-04-22T03:00:00Z,waterLevel,0.57,,,
+OBS-00323,WL-SPOLA-S4,2026-04-23T04:00:00Z,weather,,,,
+OBS-00324,WL-SPOLA-S4,2026-04-24T05:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00325,WL-SPOLA-S4,2026-04-25T06:00:00Z,waterLevel,0.80,,,
+OBS-00326,WL-SPOLA-S4,2026-04-26T07:00:00Z,weather,,,,
+OBS-00327,WL-SPOLA-S4,2026-04-27T08:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00328,WL-SPOLA-S4,2026-04-28T09:00:00Z,waterLevel,1.16,,,
+OBS-00329,WL-SPOLA-S4,2026-04-01T10:00:00Z,weather,,,,
+OBS-00330,WL-SPOLA-S4,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00331,WL-SPOLA-S5,2026-04-01T06:00:00Z,waterLevel,0.22,,,
+OBS-00332,WL-SPOLA-S5,2026-04-02T07:00:00Z,weather,,,,
+OBS-00333,WL-SPOLA-S5,2026-04-03T08:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00334,WL-SPOLA-S5,2026-04-04T09:00:00+02:00,waterLevel,1.32,,,
+OBS-00335,WL-SPOLA-S5,2026-04-05T10:00:00Z,weather,,,,
+OBS-00336,WL-SPOLA-S5,2026-04-06T11:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00337,WL-SPOLA-S5,2026-04-07T12:00:00Z,waterLevel,0.79,,,
+OBS-00338,WL-SPOLA-S5,2026-04-08T13:00:00Z,weather,,,,
+OBS-00339,WL-SPOLA-S5,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00340,WL-SPOLA-S5,2026-04-10T15:00:00Z,waterLevel,0.57,,,
+OBS-00341,WL-SPOLA-S5,2026-04-11T16:00:00Z,weather,,,,
+OBS-00342,WL-SPOLA-S5,2026-04-12T17:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00343,WL-SPOLA-S5,2026-04-13T18:00:00Z,waterLevel,0.44,,,
+OBS-00344,WL-SPOLA-S5,2026-04-14T19:00:00Z,weather,,,,
+OBS-00345,WL-SPOLA-S5,2026-04-15T20:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00346,WL-SPOLA-S5,2026-04-16T21:00:00Z,waterLevel,1.38,,,
+OBS-00347,WL-SPOLA-S5,2026-04-17T22:00:00Z,weather,,,,
+OBS-00348,WL-SPOLA-S5,2026-04-18T23:00:00Z,biodiversity,,detected,courtship,Marmaronetta angustirostris
+OBS-00349,WL-SPOLA-S5,2026-04-19T00:00:00Z,waterLevel,0.95,,,
+OBS-00350,WL-SPOLA-S5,2026-04-20T01:00:00Z,weather,,,,
+OBS-00351,WL-SPOLA-S5,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00352,WL-SPOLA-S5,2026-04-22T03:00:00Z,waterLevel,0.40,,,
+OBS-00353,WL-SPOLA-S5,2026-04-23T04:00:00Z,weather,,,,
+OBS-00354,WL-SPOLA-S5,2026-04-24T05:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00355,WL-SPOLA-S5,2026-04-25T06:00:00Z,waterLevel,1.00,,,
+OBS-00356,WL-SPOLA-S5,2026-04-26T07:00:00Z,weather,,,,
+OBS-00357,WL-SPOLA-S5,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00358,WL-SPOLA-S5,2026-04-28T09:00:00Z,waterLevel,0.49,,,
+OBS-00359,WL-SPOLA-S5,2026-04-01T10:00:00Z,weather,,,,
+OBS-00360,WL-SPOLA-S5,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00361,WL-SPOLA-S6,2026-04-01T06:00:00Z,waterLevel,0.75,,,
+OBS-00362,WL-SPOLA-S6,2026-04-02T07:00:00Z,weather,,,,
+OBS-00363,WL-SPOLA-S6,2026-04-03T08:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00364,WL-SPOLA-S6,2026-04-04T09:00:00Z,waterLevel,0.20,,,
+OBS-00365,WL-SPOLA-S6,2026-04-05T10:00:00Z,weather,,,,
+OBS-00366,WL-SPOLA-S6,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00367,WL-SPOLA-S6,2026-04-07T12:00:00Z,waterLevel,1.37,,,
+OBS-00368,WL-SPOLA-S6,2026-04-08T13:00:00Z,weather,,,,
+OBS-00369,WL-SPOLA-S6,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00370,WL-SPOLA-S6,2026-04-10T15:00:00Z,waterLevel,0.24,,,
+OBS-00371,WL-SPOLA-S6,2026-04-11T16:00:00Z,weather,,,,
+OBS-00372,WL-SPOLA-S6,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00373,WL-SPOLA-S6,2026-04-13T18:00:00Z,waterLevel,0.63,,,
+OBS-00374,WL-SPOLA-S6,2026-04-14T19:00:00Z,weather,,,,
+OBS-00375,WL-SPOLA-S6,2026-04-15T20:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00376,WL-SPOLA-S6,2026-04-16T21:00:00Z,waterLevel,0.30,,,
+OBS-00377,WL-SPOLA-S6,2026-04-17T22:00:00Z,weather,,,,
+OBS-00378,WL-SPOLA-S6,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00379,WL-SPOLA-S6,2026-04-19T00:00:00Z,waterLevel,0.99,,,
+OBS-00380,WL-SPOLA-S6,2026-04-20T01:00:00Z,weather,,,,
+OBS-00381,WL-SPOLA-S6,2026-04-21T02:00:00Z,biodiversity,,detected,courtship,Marmaronetta angustirostris
+OBS-00382,WL-SPOLA-S6,2026-04-22T03:00:00Z,waterLevel,0.52,,,
+OBS-00383,WL-SPOLA-S6,2026-04-23T04:00:00Z,weather,,,,
+OBS-00384,WL-SPOLA-S6,2026-04-24T05:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00385,WL-SPOLA-S6,2026-04-25T06:00:00Z,waterLevel,0.90,,,
+OBS-00386,WL-SPOLA-S6,2026-04-26T07:00:00Z,weather,,,,
+OBS-00387,WL-SPOLA-S6,2026-04-27T08:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00388,WL-SPOLA-S6,2026-04-28T09:00:00Z,waterLevel,0.56,,,
+OBS-00389,WL-SPOLA-S6,2026-04-01T10:00:00Z,weather,,,,
+OBS-00390,WL-SPOLA-S6,2026-04-02T11:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00391,WL-MATA-S1,2026-04-01T06:00:00Z,waterLevel,1.35,,,
+OBS-00392,WL-MATA-S1,2026-04-02T07:00:00Z,weather,,,,
+OBS-00393,WL-MATA-S1,2026-04-03T08:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00394,WL-MATA-S1,2026-04-04T09:00:00Z,waterLevel,1.06,,,
+OBS-00395,WL-MATA-S1,2026-04-05T10:00:00Z,weather,,,,
+OBS-00396,WL-MATA-S1,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00397,WL-MATA-S1,2026-04-07T12:00:00Z,waterLevel,0.54,,,
+OBS-00398,WL-MATA-S1,2026-04-08T13:00:00Z,weather,,,,
+OBS-00399,WL-MATA-S1,2026-04-09T14:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00400,WL-MATA-S1,2026-04-10T15:00:00Z,waterLevel,1.27,,,
+OBS-00401,WL-MATA-S1,2026-04-11T16:00:00Z,weather,,,,
+OBS-00402,WL-MATA-S1,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00403,WL-MATA-S1,2026-04-13T18:00:00Z,waterLevel,1.04,,,
+OBS-00404,WL-MATA-S1,2026-04-14T19:00:00Z,weather,,,,
+OBS-00405,WL-MATA-S1,2026-04-15T20:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00406,WL-MATA-S1,2026-04-16T21:00:00Z,waterLevel,0.90,,,
+OBS-00407,WL-MATA-S1,2026-04-17T22:00:00Z,weather,,,,
+OBS-00408,WL-MATA-S1,2026-04-18T23:00:00Z,biodiversity,,detected,courtship,Marmaronetta angustirostris
+OBS-00409,WL-MATA-S1,2026-04-19T00:00:00Z,waterLevel,0.25,,,
+OBS-00410,WL-MATA-S1,2026-04-20T01:00:00Z,weather,,,,
+OBS-00411,WL-MATA-S1,2026-04-21T02:00:00+02:00,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00412,WL-MATA-S1,2026-04-22T03:00:00Z,waterLevel,0.65,,,
+OBS-00413,WL-MATA-S1,2026-04-23T04:00:00Z,weather,,,,
+OBS-00414,WL-MATA-S1,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00415,WL-MATA-S1,2026-04-25T06:00:00Z,waterLevel,0.26,,,
+OBS-00416,WL-MATA-S1,2026-04-26T07:00:00Z,weather,,,,
+OBS-00417,WL-MATA-S1,2026-04-27T08:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00418,WL-MATA-S1,2026-04-28T09:00:00Z,waterLevel,0.52,,,
+OBS-00419,WL-MATA-S1,2026-04-01T10:00:00Z,weather,,,,
+OBS-00420,WL-MATA-S1,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00421,WL-MATA-S2,2026-04-01T06:00:00Z,waterLevel,1.10,,,
+OBS-00422,WL-MATA-S2,2026-04-02T07:00:00Z,weather,,,,
+OBS-00423,WL-MATA-S2,2026-04-03T08:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00424,WL-MATA-S2,2026-04-04T09:00:00Z,waterLevel,1.08,,,
+OBS-00425,WL-MATA-S2,2026-04-05T10:00:00Z,weather,,,,
+OBS-00426,WL-MATA-S2,2026-04-06T11:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00427,WL-MATA-S2,2026-04-07T12:00:00Z,waterLevel,1.22,,,
+OBS-00428,WL-MATA-S2,2026-04-08T13:00:00Z,weather,,,,
+OBS-00429,WL-MATA-S2,2026-04-09T14:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00430,WL-MATA-S2,2026-04-10T15:00:00Z,waterLevel,1.09,,,
+OBS-00431,WL-MATA-S2,2026-04-11T16:00:00Z,weather,,,,
+OBS-00432,WL-MATA-S2,2026-04-12T17:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00433,WL-MATA-S2,2026-04-13T18:00:00Z,waterLevel,1.21,,,
+OBS-00434,WL-MATA-S2,2026-04-14T19:00:00Z,weather,,,,
+OBS-00435,WL-MATA-S2,2026-04-15T20:00:00Z,biodiversity,,detected,,Himantopus himantopus
+OBS-00436,WL-MATA-S2,2026-04-16T21:00:00Z,waterLevel,0.54,,,
+OBS-00437,WL-MATA-S2,2026-04-17T22:00:00Z,weather,,,,
+OBS-00438,WL-MATA-S2,2026-04-18T23:00:00Z,biodiversity,,detected,nesting,Marmaronetta angustirostris
+OBS-00439,WL-MATA-S2,2026-04-19T00:00:00Z,waterLevel,0.92,,,
+OBS-00440,WL-MATA-S2,2026-04-20T01:00:00Z,weather,,,,
+OBS-00441,WL-MATA-S2,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00442,WL-MATA-S2,2026-04-22T03:00:00Z,waterLevel,0.98,,,
+OBS-00443,WL-MATA-S2,2026-04-23T04:00:00Z,weather,,,,
+OBS-00444,WL-MATA-S2,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00445,WL-MATA-S2,2026-04-25T06:00:00Z,waterLevel,0.88,,,
+OBS-00446,WL-MATA-S2,2026-04-26T07:00:00Z,weather,,,,
+OBS-00447,WL-MATA-S2,2026-04-27T08:00:00Z,biodiversity,,detected,,Marmaronetta angustirostris
+OBS-00448,WL-MATA-S2,2026-04-28T09:00:00Z,waterLevel,0.78,,,
+OBS-00449,WL-MATA-S2,2026-04-01T10:00:00Z,weather,,,,
+OBS-00450,WL-MATA-S2,2026-04-02T11:00:00Z,biodiversity,,detected,nesting,Himantopus himantopus
+OBS-00451,WL-MATA-S3,2026-04-01T06:00:00Z,waterLevel,0.79,,,
+OBS-00452,WL-MATA-S3,2026-04-02T07:00:00Z,weather,,,,
+OBS-00453,WL-MATA-S3,2026-04-03T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00454,WL-MATA-S3,2026-04-04T09:00:00Z,waterLevel,0.76,,,
+OBS-00455,WL-MATA-S3,2026-04-05T10:00:00Z,weather,,,,
+OBS-00456,WL-MATA-S3,2026-04-06T11:00:00Z,biodiversity,,detected,nesting,Phoenicopterus roseus
+OBS-00457,WL-MATA-S3,2026-04-07T12:00:00Z,waterLevel,1.37,,,
+OBS-00458,WL-MATA-S3,2026-04-08T13:00:00Z,weather,,,,
+OBS-00459,WL-MATA-S3,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00460,WL-MATA-S3,2026-04-10T15:00:00Z,waterLevel,0.55,,,
+OBS-00461,WL-MATA-S3,2026-04-11T16:00:00Z,weather,,,,
+OBS-00462,WL-MATA-S3,2026-04-12T17:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00463,WL-MATA-S3,2026-04-13T18:00:00Z,waterLevel,0.66,,,
+OBS-00464,WL-MATA-S3,2026-04-14T19:00:00Z,weather,,,,
+OBS-00465,WL-MATA-S3,2026-04-15T20:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00466,WL-MATA-S3,2026-04-16T21:00:00Z,waterLevel,0.31,,,
+OBS-00467,WL-MATA-S3,2026-04-17T22:00:00Z,weather,,,,
+OBS-00468,WL-MATA-S3,2026-04-18T23:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00469,WL-MATA-S3,2026-04-19T00:00:00Z,waterLevel,0.36,,,
+OBS-00470,WL-MATA-S3,2026-04-20T01:00:00Z,weather,,,,
+OBS-00471,WL-MATA-S3,2026-04-21T02:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00472,WL-MATA-S3,2026-04-22T03:00:00Z,waterLevel,1.04,,,
+OBS-00473,WL-MATA-S3,2026-04-23T04:00:00Z,weather,,,,
+OBS-00474,WL-MATA-S3,2026-04-24T05:00:00Z,biodiversity,,detected,,Phoenicopterus roseus
+OBS-00475,WL-MATA-S3,2026-04-25T06:00:00Z,waterLevel,0.67,,,
+OBS-00476,WL-MATA-S3,2026-04-26T07:00:00Z,weather,,,,
+OBS-00477,WL-MATA-S3,2026-04-27T08:00:00Z,biodiversity,,detected,courtship,Phoenicopterus roseus
+OBS-00478,WL-MATA-S3,2026-04-28T09:00:00Z,waterLevel,1.02,,,
+OBS-00479,WL-MATA-S3,2026-04-01T10:00:00Z,weather,,,,
+OBS-00480,WL-MATA-S3,2026-04-02T11:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00481,WL-MATA-S4,2026-04-01T06:00:00Z,waterLevel,1.07,,,
+OBS-00482,WL-MATA-S4,2026-04-02T07:00:00Z,weather,,,,
+OBS-00483,WL-MATA-S4,2026-04-03T08:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00484,WL-MATA-S4,2026-04-04T09:00:00Z,waterLevel,0.65,,,
+OBS-00485,WL-MATA-S4,2026-04-05T10:00:00Z,weather,,,,
+OBS-00486,WL-MATA-S4,2026-04-06T11:00:00Z,biodiversity,,detected,chicks,Marmaronetta angustirostris
+OBS-00487,WL-MATA-S4,2026-04-07T12:00:00Z,waterLevel,0.59,,,
+OBS-00488,WL-MATA-S4,2026-04-08T13:00:00Z,weather,,,,
+OBS-00489,WL-MATA-S4,2026-04-09T14:00:00Z,biodiversity,,notDetected,,Phoenicopterus roseus
+OBS-00490,WL-MATA-S4,2026-04-10T15:00:00Z,waterLevel,0.34,,,
+OBS-00491,WL-MATA-S4,2026-04-11T16:00:00Z,weather,,,,
+OBS-00492,WL-MATA-S4,2026-04-12T17:00:00Z,biodiversity,,detected,courtship,Himantopus himantopus
+OBS-00493,WL-MATA-S4,2026-04-13T18:00:00Z,waterLevel,0.55,,,
+OBS-00494,WL-MATA-S4,2026-04-14T19:00:00Z,weather,,,,
+OBS-00495,WL-MATA-S4,2026-04-15T20:00:00Z,biodiversity,,notDetected,,Marmaronetta angustirostris
+OBS-00496,WL-MATA-S4,2026-04-16T21:00:00Z,waterLevel,0.67,,,
+OBS-00497,WL-MATA-S4,2026-04-17T22:00:00Z,weather,,,,
+OBS-00498,WL-MATA-S4,2026-04-18T23:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00499,WL-MATA-S4,2026-04-19T00:00:00Z,waterLevel,1.11,,,
+OBS-00500,WL-MATA-S4,2026-04-20T01:00:00Z,weather,,,,
+OBS-00501,WL-MATA-S4,2026-04-21 02:00:00,biodiversity,,detected,chicks,Marmaronetta angustirostris
+OBS-00502,WL-MATA-S4,2026-04-22T03:00:00Z,waterLevel,0.26,,,
+OBS-00503,WL-MATA-S4,2026-04-23T04:00:00Z,weather,,,,
+OBS-00504,WL-MATA-S4,2026-04-24T05:00:00Z,biodiversity,,notDetected,,Himantopus himantopus
+OBS-00505,WL-MATA-S4,2026-04-25T06:00:00Z,waterLevel,1.32,,,
+OBS-00506,WL-MATA-S4,2026-04-26T07:00:00Z,weather,,,,
+OBS-00507,WL-MATA-S4,2026-04-27T08:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
+OBS-00508,WL-MATA-S4,2026-04-28T09:00:00Z,waterLevel,0.81,,,
+OBS-00509,WL-MATA-S4,2026-04-01T10:00:00Z,weather,,,,
+OBS-00510,WL-MATA-S4,2026-04-02T11:00:00Z,biodiversity,,detected,chicks,Phoenicopterus roseus
