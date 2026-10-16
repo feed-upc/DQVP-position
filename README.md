@@ -26,7 +26,10 @@ cd operationalization-pipeline
 python dqr_to_dqvp.py
 ```
 
-This reads `requirements/DQR1EH.json` through `DQR6EH.json`, maps them to a DQVP
+The DQRs come from the DQR catalogue, [DS-DataQualityRequirements](https://github.com/feed-upc/DS-DataQualityRequirements),
+which includes this repository as its `tools/dqvp` submodule. The command reads the catalogue's
+`prototype/requirements/DQR1EH.json` through `DQR6EH.json` (set `DQVP_REQUIREMENTS` to use another
+folder), binds each one to a data product through `prototype/requirements/dataspace.json`, maps them to a DQVP
 policy, and executes the resulting checks against the Patient Summary and AMR isolates CSVs using
 DuckDB. The measurements and verdicts are printed to the terminal, and the mapped
 policy is written to `operationalization-pipeline/artifacts/policy_from_dqr.ttl`.
@@ -37,11 +40,11 @@ The second data space of the paper (HELEADE, Section 6.2) runs through the same 
 
 ```
 cd operationalization-pipeline
-python dqr_to_dqvp.py ../requirements/heleade
+python dqr_to_dqvp.py ../../../prototype/requirements/heleade
 ```
 
-This reads `requirements/heleade/DQR1HL.json` through `DQR4HL.json`, which instantiate
-patterns DQRP2 to DQRP5. `requirements/heleade/dataspace.json` gives the data space's
+This reads the catalogue's `prototype/requirements/heleade/DQR1HL.json` through `DQR4HL.json`, which
+instantiate patterns DQRP2 to DQRP5. Its `dataspace.json` gives the data space's
 namespaces and binds its entities to assets; for example, `Wetland.monitoringSite` is
 counted per `wetlandId`. The command maps the DQRs to a DQVP policy with one permission
 per asset (`artifacts/policy_from_dqr_heleade.ttl`) and executes it with DuckDB against

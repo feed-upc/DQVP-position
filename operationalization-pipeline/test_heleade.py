@@ -30,7 +30,7 @@ import codegen as C
 import dqr_to_dqvp as D
 
 REPO    = HERE.parent
-REQS    = REPO / "requirements" / "heleade"
+REQS    = D.REQ_DIR / "heleade"           # in the DQR catalogue
 DATA    = REPO / "data" / "heleade"
 ART     = HERE / "artifacts"
 VARIANT = ART / "heleade_variants"

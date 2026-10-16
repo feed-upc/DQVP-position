@@ -29,7 +29,7 @@ import codegen as C
 import dqr_to_dqvp as D
 
 REPO      = HERE.parent                       # the DQVP repo
-CATALOGUE = REPO.parent / "ComputationalCatalogues"
+CATALOGUE = D.CATALOGUE                       # DS-DataQualityRequirements
 DQV       = Namespace("http://www.w3.org/ns/dqv#")
 
 results, stage_no = [], [0]
@@ -58,12 +58,14 @@ HAVE_EYE = shutil.which("eye") is not None
 
 # ---------------------------------------------------------------- 1. catalogue
 stage("Elicitation — the pattern catalogue the requirements instantiate")
-if CATALOGUE.exists():
-    pats = sorted(p.name for p in (CATALOGUE / "media").iterdir() if p.name.startswith("DQRP"))
+if (CATALOGUE / "prototype" / "patterns").is_dir():
+    pats = sorted(p.stem for p in (CATALOGUE / "prototype" / "patterns").glob("DQRP*.json"))
     print(f"  patterns: {', '.join(pats)}")
-    check("catalogue exposes DQRP1-4", pats, ["DQRP1", "DQRP2", "DQRP3", "DQRP4"])
+    check("catalogue exposes DQRP1-6", pats, [f"DQRP{i}" for i in range(1, 7)])
+    mapped = sorted({r["pattern"]["id"] for r in D.read_requirements()} & set(D.PATTERN_SPEC))
+    note(f"patterns with a DQVP mapping among the catalogue's DQRs: {', '.join(mapped)}")
 else:
-    check("ComputationalCatalogues submodule checked out", False)
+    check("run inside DS-DataQualityRequirements (tools/dqvp)", False)
 
 
 # ------------------------------------------------------------- 2. requirements
@@ -306,10 +308,14 @@ else:
 
 # ------------------------------------------------- 11. cross-repo integration
 stage("Cross-repo — can the validation workflow consume this profile?")
-VF = REPO.parent.parent / "Connector" / "ValidationFramework"
+# the engine is this repo's sibling inside the catalogue (tools/validation-engine),
+# or the superproject's Connector/ValidationFramework
+VF = next((d for d in (REPO.parent / "validation-engine",
+                       REPO.parent.parent / "Connector" / "ValidationFramework")
+           if (d / "planner").is_dir()), REPO.parent / "validation-engine")
 vf_rule = VF / "planner" / "rules_n3_dqvp" / "NonNullRate.n3"
 if not HAVE_EYE or not vf_rule.exists():
-    note("SKIPPED - needs eye and the ValidationFramework submodule")
+    note("SKIPPED - needs eye and the validation engine (tools/validation-engine)")
 else:
     import re as _re
     import tempfile
