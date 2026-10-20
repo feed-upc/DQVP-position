@@ -66,15 +66,30 @@ except NotImplementedError as e:      # e.g. an incompatible great_expectations
 hdr = f"  {'check':16s} {'measured':>10s}  {'verdict':8s}"
 print(hdr + (f" {'GX':6s} agree?" if gx_res else ""))
 print("  " + "-" * (len(hdr) + (14 if gx_res else 0)))
+DECLARED = ("NOT EXPRESSIBLE", "NOTE", "not applied")   # the GX code says it checks only part
+differs = []
 for cid in sorted(results):
     v, ok = results[cid]
     verd = "—" if ok is None else ("SAT" if ok else "VIOL")
     mv = "—" if v is None else f"{v:10.4f}"
     tail = ""
-    if gx_res:
+    if gx_res and cid in gx_res:
         g = "PASS" if gx_res[cid] else "FAIL"
-        tail = f" {g:6s} " + ("yes" if (ok is None or ok == gx_res[cid]) else "NO!")
+        if ok is None or ok == gx_res[cid]:
+            agree = "yes"
+        elif any(m in code["gx"].get(cid, "") for m in DECLARED):
+            agree = "partial"
+        else:
+            agree = "differs"; differs.append(cid)
+        tail = f" {g:6s} {agree}"
+    elif gx_res:                      # GX refused this check (e.g. a drift bound): nothing to compare
+        tail = f" {'—':6s} n/a"
     print(f"  {cid:16s} {mv}  {verd:8s}{tail}")
+if differs:
+    print(f"\n  GX differs without a declared limitation on: {', '.join(differs)}. The GX harness reads the"
+          "\n  data with pandas defaults, which treat types and missing values differently from the reference"
+          "\n  executor: dates stay text, encodings such as 'N/A' become nulls, and a column-pair expectation"
+          "\n  counts a row with a missing value as a failure.")
 print("\n  measurements -> artifacts/measurements.ttl")
 print("  artifacts:", ", ".join(p.name for p in sorted(ART.iterdir())))
 print("done.")
