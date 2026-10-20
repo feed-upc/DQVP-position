@@ -61,9 +61,12 @@ stage("Elicitation — the pattern catalogue the requirements instantiate")
 if CATALOGUE.exists():
     pats = sorted(p.name for p in (CATALOGUE / "media").iterdir() if p.name.startswith("DQRP"))
     print(f"  patterns: {', '.join(pats)}")
-    check("catalogue exposes DQRP1-4", pats, ["DQRP1", "DQRP2", "DQRP3", "DQRP4"])
+    used = sorted({r["pattern"]["id"] for r in D.load_requirements()}
+                  | {r["pattern"]["id"] for r in D.load_requirements(D.REQ_DIR / "heleade")})
+    print(f"  instantiated by the requirements: {', '.join(used)}")
+    check("catalogue exposes every pattern the requirements instantiate", set(used) <= set(pats))
 else:
-    check("ComputationalCatalogues submodule checked out", False)
+    note("SKIPPED - needs the pattern catalogue (ComputationalCatalogues) next to this repository")
 
 
 # ------------------------------------------------------------- 2. requirements

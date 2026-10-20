@@ -8,8 +8,10 @@ validation code.
 
 [`dqvp.ttl`](dqvp.ttl) — namespace `https://feed-upc.github.io/DQVP-position/dqvp.ttl#`.
 
-Needs Python 3 with `rdflib jinja2 great_expectations pandas duckdb pycountry jupyter`, plus
-the [EYE reasoner](https://github.com/eyereasoner/eye) on `PATH` (used for the N3 rules).
+Needs Python 3 (tested with 3.12) and the packages in [`requirements.txt`](requirements.txt),
+installed with `pip install -r requirements.txt` (add `jupyter` for `operationalization.ipynb`),
+plus the [EYE reasoner](https://github.com/eyereasoner/eye) on `PATH` (used for the N3 rules;
+tested with EYE v11.24.4). The generated Great Expectations code targets its 0.18 API.
 
 ## Data
 
@@ -59,7 +61,17 @@ From `operationalization-pipeline`:
 
 - `python bench_planning.py 256` times planning and code generation for growing policies.
 - `python bench_execution.py 5000000 5` times execution as the data and the number of checks grow.
+  It replicates the Patient Summary with distinct patient identifiers per copy, and it
+  overwrites `artifacts/policy_from_dqr.ttl`; run `python dqr_to_dqvp.py` again afterwards.
 - `python automation_report.py` counts, for each DQR, what is authored and what is generated.
+
+## Tests
+
+From `operationalization-pipeline`, `python test_end_to_end.py` checks every stage of the
+chain, from the requirement records to the recorded measurements, and runs
+`test_expressiveness.py` and `test_heleade.py`. Two of its stages use the pattern catalogue
+and the ValidationFramework when they sit next to this repository, as in the FeeD
+superproject; on their own, those two stages are skipped.
 
 ## Generate the saved measurement artifact
 

@@ -7,8 +7,12 @@ loading and checking separately: first for the three mapped EHDS DQRs at
 increasing row counts, then for synthetic policies with more checks at the
 largest size. Every figure is the median of several runs.
 
-Replication keeps every proportion intact, so the verdicts must not change with
-size; the script asserts that as it goes.
+Each copy of a record gets its own patient identifier (a missing one stays
+missing), so a uniqueness check sees as many distinct values as a real table of
+that size would, rather than the 500 of the source. Replication keeps every other
+proportion intact, so the verdicts must not change with size; the script asserts
+that as it goes. It overwrites artifacts/policy_from_dqr.ttl with the three-DQR
+policy; run dqr_to_dqvp.py again afterwards.
 
 Run:  python bench_execution.py [max_rows] [repeats]
 """
@@ -32,11 +36,12 @@ BASE_ROWS = 500
 
 
 def make_csv(n):
-    """The source CSV repeated n / 500 times."""
-    out = BENCH / f"patient_summary_{n}.csv"
+    """The source CSV repeated n / 500 times, each copy with its own patient identifiers."""
+    out = BENCH / f"patient_summary_unique_{n}.csv"
     if not out.exists():
-        duckdb.sql(f"COPY (SELECT s.* FROM read_csv('{SOURCE}') s, range({n // BASE_ROWS})) "
-                   f"TO '{out}' (HEADER)")
+        duckdb.sql(f"COPY (SELECT s.* REPLACE (s.nationalHealthcarePatientID || '-' || r.range "
+                   f"AS nationalHealthcarePatientID) "
+                   f"FROM read_csv('{SOURCE}') s, range({n // BASE_ROWS}) r) TO '{out}' (HEADER)")
     return out
 
 
