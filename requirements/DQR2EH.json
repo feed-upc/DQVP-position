@@ -19,8 +19,7 @@
     "entityName": "PatientIdentification",
     "datasetName": "PatientSummary",
     "attributeName": "PatientSummary.PatientSummaryHeader.PatientIdentification.countryOfAffiliation",
-    "standardName": "ISO 3166",
-    "percentageValue": "100"
+    "standardName": "ISO 3166"
   },
   "statement": "In the PatientIdentification entity, the countryOfAffiliation attribute must follow the ISO 3166 standard",
   "sourceEntity": "EHDS Governance Authority",
